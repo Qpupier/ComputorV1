@@ -1,0 +1,1645 @@
+#!/usr/bin/env python3
+import sys
+import re
+from math import sqrt
+
+def	error(err):
+	print(err)
+	exit()
+
+def	regex(enter):
+	num = "(-?[0-9]+([.,][0-9]+)?)"
+	unk = "([a-zA-Z])(\^"+num+")?"
+	op = "( \* )"
+	part = "("+num+"("+op+"?"+unk+")?|"+unk+op+num+"|(-)?"+unk+")"
+	side = part+"( [-+] "+part+")*"
+	equation = "^("+side+") ?= ?("+side+")$"
+	parsing = re.findall(equation, enter)
+	if not parsing :
+		error("The equation isn't good formatted.")
+	return parsing, "( [-+] )?"+part
+
+def	parse(side):
+	new = []
+	for match in side :
+		sign = 1
+		if match[0] and match[0][1] == '-' :
+			sign *= -1
+		if match[17] and match[17][0] == '-' :
+			sign *= -1
+		number = float(re.sub(",", ".", match[2] if match[2] else match[15] if match[15] else "1")) * sign
+		if not number :
+			continue
+		var = match[6] if match[6] else match[10] if match[10] else match[18] if match[18] else None
+		n = float(re.sub(",", ".", match[8] if match[8] else match[12] if match[12] else match[20] if match[20] else "1"))
+		if not (var and n) :
+			var, n = None, 0
+		part = []
+		part.append(number)
+		part.append(var)
+		part.append(n)
+		new.append(part)
+	return new
+
+def	string_reduced(equation):
+	string = ""
+	first = True
+	for p in equation :
+		if p and p[0] :
+			sign = 1
+			if not first :
+				if p[0] < 0 :
+					string += " - "
+					sign = -1
+				else :
+					string += " + "
+			first = False
+			if p[0] * sign != 1 or not p[1] :
+				if p[0] * sign == -1 :
+					string += "-" if p[1] else "-1"
+				elif p[0] * sign == int(p[0] * sign) :
+					string += str(int(p[0] * sign))
+				else :
+					string += str(p[0] * sign)
+			if p[1] :
+				string += str(p[1])
+				if p[2] != 1 :
+					if int(p[2]) == p[2] :
+						string += "^"+str(int(p[2]))
+					else :
+						string += "^"+str(p[2])
+	return string if string else "0"
+
+def	print_step(left, right, nb, side) :
+	left = string_reduced(left)
+	right = string_reduced(right)
+	side = string_reduced(side)
+	if not left :
+		left = "0"
+	if not right :
+		right = "0"
+	if not side :
+		side = "0"
+	if not nb :
+		print(side+" = "+right)
+	else :
+		print(left+" = "+side)
+
+def	nb_float(n):
+	nb = 0
+	while n != int(n) :
+		n *= 10
+		nb += 1
+	return nb
+
+def	max_float(n1, n2):
+	return n1 if n1 >= n2 else n2
+
+def	reduct_part(left, right, nb, dis):
+	side = left if not nb else right
+	size = len(side)
+	for i in range(size) :
+		if side[i] :
+			for j in range(i + 1, size) :
+				if side[j] and (side[j][1] == side[i][1] or not side[j][1] or not side[i][1]) and side[j][2] == side[i][2] :
+					if side[j][0]:
+						n = max_float(nb_float(side[i][0]), nb_float(side[j][0]))
+						side[i][0] = float(format(side[i][0] + side[j][0], "."+str(n)+"f")) if nb else int(side[i][0] + side[j][0])
+						side[j] = None
+						if dis :
+							print_step(left, right, nb, side)
+					side[j] = None
+	while None in side :
+		side.remove(None)
+	return side
+
+def	reduct(left, right):
+	size_l = len(left)
+	size_r = len(right)
+	for l in range(size_l) :
+		if left[l] :
+			for r in range(size_r) :
+				if right[r] and right[r][1] == left[l][1] and right[r][2] == left[l][2] :
+					if right[r][0] :
+						left[l][0] -= right[r][0]
+						right[r] = None
+						if left[l][0] :
+							print_step(left, right, 0, left)
+					right[r] = None
+			if not left[l][0] :
+				left[l] = None
+				print_step(left, right, 0, left)
+	for r in range(size_r) :
+		if right[r] :
+			if right[r][0] :
+				right[r][0] *= -1
+				left.append(right[r])
+				right[r] = None
+				print_step(left, right, 0, left)
+	while None in left :
+		left.remove(None)
+	return left
+
+def	print_error(nb, string):
+	if not nb :
+		reg = "[a-zA-Z]( |\^)"
+	elif nb == 1 :
+		reg = "[a-zA-Z]\^(-?[0-9]+[.,][0-9]+|-[0-9]+)"
+	else :
+		reg = "[a-zA-Z]\^([3-9]|[1-9][0-9]+)"
+	print("\033[31mErrors : \033[0m\t", end="")
+	var = True
+	end = 0
+	while var :
+		string = string[end:]
+		size = len(string)
+		error = re.search(reg, string)
+		if error :
+			start = error.start()
+			end = error.end()
+			if not nb :
+				end -= 1
+			for i in range(end) :
+				if i == start :
+					print("\033[31m", end="")
+				print(string[i], end="")
+			print("\033[0m", end="")
+		else :
+			for i in range(size) :
+				print(string[i], end="")
+			var = False
+	print(" = 0")
+
+def	verif(equation, string):
+	var = None
+	for part in equation :
+		if part[1] :
+			if not var :
+				var = part[1]
+			elif part[1] != var :
+				print_error(0, string)
+				error("The equation must be contain only one variable, I can't solve.")
+			if int(part[2]) != part[2] or part[2] < 0 :
+				print_error(1, string)
+				error("The powers are not natural numbers, I can't solve.")
+			if part[2] > 2 :
+				print_error(2, string)
+				print("Equation polynomial degree : "+str(int(part[2])))
+				error("The polynomial degree is stricly greater than 2, I can't solve.")
+			part[2] = int(part[2])
+	return equation, var
+
+def	polynomial(equation):
+	size = len(equation)
+	for i in range(size) :
+		if i + 1 < size and equation[i][2] < equation[i + 1][2] :
+			return False
+	return True
+
+def	order(equation):
+	size = len(equation)
+	while not polynomial(equation) :
+		for i in range(size) :
+			if i + 1 < size and equation[i][2] < equation[i + 1][2] :
+				tmp = equation[i]
+				equation[i] = equation[i + 1]
+				equation[i + 1] = tmp
+	return equation
+
+def	primes(number):
+	primes = []
+	if not number :
+		return 0, primes
+	for i in range(2, int(abs(number))) :
+		while number / i == int(number / i) and abs(number) > 1 :
+			primes.append(i)
+			number /= i
+	if not primes :
+		return int(number / abs(number)), [int(abs(number))]
+	return int(number), primes
+
+def	fraction(n, d):
+	if not n or not d :
+		return 0, 1
+	while n != int(n) or d != int(d) :
+		n *= 10
+		d *= 10
+	sn, n1 = primes(n)
+	sn, n2 = primes(n)
+	sd, d1 = primes(d)
+	for i in n1 :
+		if d1.count(i) :
+			n2.remove(i)
+			d1.remove(i)
+	n = sn * sd
+	for i in n2 :
+		n *= i
+	d = 1
+	for i in d1 :
+		d *= i
+	return int(n), int(d)
+
+def	root(n, nb):
+	d = 1
+	while n != int(n) and nb :
+		n *= 10
+		d *= 10
+		nb -= 1
+	n = int(float(format(n, "."+str(nb)+"f"))) * d
+	f = 1
+	while n > 1 :
+		l = []
+		i = 2
+		while n / (i ** 2) >= 1 :
+			tmp = n / (i * i)
+			if tmp == int(tmp) :
+				n = tmp
+				f *= i
+				l.append(i)
+			else :
+				i += 1
+		else :
+			break
+	return int(f), int(d), int(n), l
+
+def	float_to_fraction(nb, f):
+	d = 1
+	while nb != int(nb) and f :
+		nb = float(format(nb * 10, "."+str(f)+"f"))
+		d *= 10
+		f -= 1
+	return int(nb), d
+
+def	print_delta_neg_step(str_b_1, sign_1, sign_2, str_delta):
+	print()
+	print(var+" = "+str_b_1+sign_1+str_delta)
+	print("or")
+	print(var+" = "+str_b_1+sign_2+str_delta)
+
+def	print_delta_neg_reduce_1(f_s, f_l, d_l, str_delta, sign_1, sign_2, cp1, cp2):
+	str_b = ""
+	if f_l and f_s < 0 :
+		f_l[0] *= -1
+	if f_l :
+		str_b = str(f_l[0]) if f_l[0] > 0 else str(-f_l[0])
+		if int(abs(f_l[0])) in cp1 and int(abs(f_l[0])) != 1 :
+			str_b = "\033[35m"+str_b+"\033[32m"
+			cp1.remove(int(abs(f_l[0])))
+		if f_l[0] < 0 :
+			str_b = "-"+str_b
+	else :
+		str_b = str(f_s) if f_s > 0 else str(-f_s)
+		if int(abs(f_s)) in cp1 and int((abs(f_s))) != 1 :
+			str_b = "\033[35m"+str_b+"\033[32m"
+			cp1.remove(int(abs(f_s)))
+		if f_s < 0 :
+			str_b = "-"+str_b
+	for i in f_l[1:] :
+		if i in cp1 and i != 1 :
+			str_b += " * \033[35m"+str(i)+"\033[32m"
+			cp1.remove(i)
+		else :
+			str_b += " * "+str(i)
+	if f_l and f_s < 0 :
+		f_l[0] *= -1
+	if d_l :
+		str_b += " / "
+		if d_l[1:] :
+			str_b += "("
+		if d_l[0] in cp2 and d_l[0] != 1 :
+			str_b += "\033[35m"+str(d_l[0])+"\033[32m"
+			cp2.remove(d_l[0])
+		else :
+			str_b += str(d_l[0])
+		for i in d_l[1:] :
+			if i in cp2 and i != 1 :
+				str_b += " * \033[35m"+str(i)+"\033[32m"
+				cp2.remove(i)
+			else :
+				str_b += " * "+str(i)
+		if d_l[1:] :
+			str_b += ")"
+	print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+	return str_b
+
+def	print_delta_neg_reduce_2(n, f_s, f_l, d_l, str_b_1, sign_1, sign_2, cp1, cp2):
+	str_delta = "i"
+	if f_l and f_s < 0 :
+		f_l[0] *= -1
+	for i in f_l :
+		if f_s < 0 and -i in cp1 :
+			str_delta += " * -\033[35m"+str(-i)+"\033[32m"
+			cp1.remove(-i)
+		elif i in cp1 :
+			str_delta += " * \033[35m"+str(i)+"\033[32m"
+			cp1.remove(i)
+		else :
+			str_delta += " * "+str(i)
+	if not f_l :
+		if n == 1 :
+			str_delta += " * "+str(f_s)
+		elif f_s < 0 :
+			str_delta += " * -"
+	if f_l and f_s < 0 :
+		f_l[0] *= -1
+	if n != 1 :
+		str_delta += "√"+str(n)
+	if d_l :
+		str_delta += " / "
+		if d_l[1:] :
+			str_delta += "("
+		if d_l[0] in cp2 :
+			str_delta += "\033[35m"+str(d_l[0])+"\033[32m"
+			cp2.remove(d_l[0])
+		else :
+			str_delta += str(d_l[0])
+		for i in d_l[1:] :
+			if i in cp2 :
+				str_delta += " * \033[35m"+str(i)+"\033[32m"
+				cp2.remove(i)
+			else :
+				str_delta += " * "+str(i)
+		if d_l[1:] :
+			str_delta += ")"
+	print_delta_neg_step(str_b_1, sign_1, sign_2, str_delta)
+	return str_delta
+
+def	print_delta_neg(var, a, b, delta, nb):
+	print("\033[32m")
+	str_b = "("+str(b)+")" if b < 0 else str(b)
+	print(var+" = (-"+str_b+" - i√-Δ) / (2 * "+str(a)+")")
+	print("or")
+	print(var+" = (-"+str_b+" + i√-Δ) / (2 * "+str(a)+")")
+	print_delta_neg_step("(-"+str_b, " - ", " + ", "i√-("+str(delta)+")) / (2 * "+str(a)+")")
+	delta *= -1
+	a2 = 2 * a
+	if a2 == int(a2) :
+		a2 = int(a2)
+	print_delta_neg_step("("+str(-b), " - ", " + ", "i√"+str(delta)+") / "+str(a2))
+	b *= -1
+	str_b = str(b) if b else ""
+	sign_1 = " - " if str_b else "-"
+	sign_2 = " + " if str_b else ""
+	str_a2 = " / "+str(a2) if a2 != 1 else ""
+	str_b += str_a2 if str_b else ""
+	str_delta = "i√"+str(delta)+str_a2
+	print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+	tmp = nb
+	a2_1 = a2
+	while (b != int(b) or a2_1 != int(a2_1)) and tmp :
+		b *= 10
+		a2_1 = float(format(a2_1 * 10, "."+str(tmp)+"f"))
+		tmp -= 1
+	b = int(b)
+	a2_1 = int(a2_1)
+	b1 = b
+	b2 = a2_1
+	if b and tmp != nb :
+		str_b = str(b) if b else ""
+		str_a2_1 = " / "+str(a2_1) if a2_1 != 1 else ""
+		str_b += str_a2_1 if str_b else ""
+		print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+	if a2_1 != 1 :
+		if a2_1 < 0 and a2_1 != -1 :
+			b *= -1
+			a2_1 *= -1
+			str_b = str(b) if b else ""
+			str_a2_1 = " / "+str(a2_1)
+			str_b += str_a2_1 if str_b else ""
+			print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+		res = b / a2_1
+		if res == int(res) :
+			str_b = str(int(res)) if res else ""
+			print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+		else :
+			f_s, f_l = primes(b)
+			d_s, d_l = primes(a2_1)
+			d_s, cp_l = primes(a2_1)
+			if d_s < 0 :
+				f_s *= -1
+				d_s *= -1
+			delete = []
+			copy_1 = []
+			copy_2 = []
+			for i in f_l :
+				if i in cp_l :
+					delete.append(i)
+					cp_l.remove(i)
+					copy_1.append(i)
+					copy_2.append(i)
+			if a2_1 != -1 and int(abs(b)) != 1 :
+				str_b = print_delta_neg_reduce_1(f_s, f_l, d_l, str_delta, sign_1, sign_2, copy_1, copy_2)
+				b1 = f_s if not f_l else f_l[0] * f_s
+				b2 = 1 if not d_l else d_l[0]
+			for i in delete :
+				f_l.remove(i)
+				d_l.remove(i)
+			if delete :
+				str_b = print_delta_neg_reduce_1(f_s, f_l, d_l, str_delta, sign_1, sign_2, copy_1, copy_2)
+				b1 = f_s if not f_l else f_l[0] * f_s
+				b2 = 1 if not d_l else d_l[0]
+			if (f_l != [1] and (f_l[1:] or d_l[1:])) or (a2_1 < 0 and a2_1 != -1) :
+				f = f_s
+				for i in f_l :
+					f *= i
+				d = 1
+				for i in d_l :
+					d *= i
+				str_b = str(f)+" / "+str(d) if d != 1 else str(f)
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				b1 = f
+				b2 = d
+	sq = sqrt(delta)
+	if sq != int(sq) :
+		delta_n, delta_d = float_to_fraction(delta, nb)
+		sqrt_n = sqrt(delta_n)
+		sqrt_d = sqrt(delta_d)
+		if delta_d != 1 :
+			print_delta_neg_step(str_b, sign_1, sign_2, "i√("+str(delta_n)+" / "+str(delta_d)+")"+str_a2)
+			str_delta = "√"+str(delta_n)+" / √"+str(delta_d)
+			print_delta_neg_step(str_b, sign_1, sign_2, "i"+str_delta+str_a2)
+			if sqrt_n == int(sqrt_n) and sqrt_d == int(sqrt_d) :
+				sqrt_n = int(sqrt_n)
+				sqrt_d = int(sqrt_d)
+				str_delta = "i * "+str(sqrt_n)+" / "+str(sqrt_d)+str_a2
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				if str_a2 :
+					str_delta = "i * "+str(sqrt_n)+" / ("+str(sqrt_d)+" * "+str(a2)+")"
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+					a2 *= sqrt_d
+					if a2 == int(a2) :
+						a2 = int(a2)
+					str_delta = "i * "+str(sqrt_n)+" / "+str(a2)
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				else :
+					a2 = sqrt_d
+				f = sqrt_n
+				n = 1
+				d = a2
+			elif sqrt_n == int(sqrt_n) :
+				sqrt_n = int(sqrt_n)
+				print_delta_neg_step(str_b, sign_1, sign_2, "i * "+str(sqrt_n)+" / √"+str(delta_d)+str_a2)
+				str_a2 = "" if a2 == 1 else "-" if a2 == -1 else str(a2)
+				if a2 != 1 :
+					print_delta_neg_step(str_b, sign_1, sign_2, "i * "+str(sqrt_n)+" / (√"+str(delta_d)+" * "+str(a2)+")")
+					print_delta_neg_step(str_b, sign_1, sign_2, "i * "+str(sqrt_n)+" / "+str_a2+"√"+str(delta_d))
+				str_sqrt_n = "" if sqrt_n == 1 else " * -" if sqrt_n == -1 else " * "+str(sqrt_n)
+				if int(abs(a2)) != 1 :
+					print_delta_neg_step(str_b, sign_1, sign_2, "i"+str_sqrt_n+"√"+str(delta_d)+" / ("+str(a2)+" * "+str(delta_d)+")")
+				a2 *= delta_d
+				if a2 == int(a2) :
+					a2 = int(a2)
+				str_a2 = " / "+str(a2)
+				str_delta = "i"+str_sqrt_n+"√"+str(delta_d)+str_a2
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				if a2 == 1 :
+					str_a2 = ""
+					str_delta = "i"+str_sqrt_n+"√"+str(delta_d)+str_a2
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				f, d, n, l = root(delta_d, nb)
+				if l :
+					str_delta = "i"+str_sqrt_n+"√("+str(l[0] ** 2)
+					for r in l[1:] :
+						str_delta += " * "+str(r ** 2)
+					str_delta = str_delta+" * "+str(n)+")"+str_a2 if l else ""
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+					rt = 1
+					for r in l :
+						rt *= r ** 2
+					if l[1:] :
+						print_delta_neg_step(str_b, sign_1, sign_2, "i"+str_sqrt_n+"√("+str(rt)+" * "+str(n)+")"+str_a2)
+					print_delta_neg_step(str_b, sign_1, sign_2, "i"+str_sqrt_n+"√"+str(rt)+"√"+str(n)+str_a2)
+					print_delta_neg_step(str_b, sign_1, sign_2, "i"+str_sqrt_n+" * "+str(int(sqrt(rt)))+"√"+str(n)+str_a2)
+					sqrt_n = int(sqrt_n * sqrt(rt))
+					str_sqrt_n = "" if sqrt_n == 1 else " * -" if sqrt_n == -1 else " * "+str(sqrt_n)
+					delta_d = n
+					str_delta = "i"+str_sqrt_n+"√"+str(n)+str_a2
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				f = sqrt_n
+				n = delta_d
+				d = a2
+			elif sqrt_d == int(sqrt_d) :
+				sqrt_d = int(sqrt_d)
+				str_delta = "i√"+str(delta_n)+" / "+str(sqrt_d)+str_a2
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				if a2 != 1 :
+					str_delta = "i√"+str(delta_n)+" / ("+str(sqrt_d)+" * "+str(a2)+")"
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				a2 *= sqrt_d
+				delta_d = sqrt_d
+			else :
+				print_delta_neg_step(str_b, sign_1, sign_2, "i√"+str(delta_n)+"√"+str(delta_d)+" / "+str(delta_d)+str_a2)
+				print_delta_neg_step(str_b, sign_1, sign_2, "i√("+str(delta_n)+" * "+str(delta_d)+") / "+str(delta_d)+str_a2)
+				delta_n *= delta_d
+				str_delta = "i√"+str(delta_n)+" / ("+str(delta_d)+" * "+str(a2)+")"
+				if a2 != 1 :
+					print_delta_neg_step(str_b, sign_1, sign_2, "i√"+str(delta_n)+" / "+str(delta_d)+str_a2)
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				a2 *= delta_d
+		if a2 == int(a2) :
+			a2 = int(a2)
+		if sqrt_n != int(sqrt_n) :
+			str_a2 = " / "+str(a2)
+			f_bis = 1
+			str_delta = "i√"+str(delta_n)+str_a2
+			if sqrt_d != 1 and a2 != sqrt_d :
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+			if a2 == 1 :
+				str_a2 = ""
+				str_delta = "i√"+str(delta_n)+str_a2
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+			f, d, n, l = root(delta_n, nb)
+			if l :
+				str_delta = "i√("+str(l[0] ** 2)
+				for r in l[1:] :
+					str_delta += " * "+str(r ** 2)
+				str_delta += " * "+str(n)+")"+str_a2 if l else ""
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				rt = 1
+				for r in l :
+					rt *= r ** 2
+				if l[1:] :
+					str_delta = "i√("+str(rt)+" * "+str(n)+")"+str_a2
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				str_delta = "i√"+str(rt)+"√"+str(n)+str_a2
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+				f_bis = int(sqrt(rt))
+				delta_n = n
+				str_delta = "i * "+str(f)+"√"+str(n)+str_a2
+				t1_s, t1_l = primes(f)
+				t2_s, t2_l = primes(d)
+				if '-' in str_a2 or len(t1_l) != 1 or len(t2_l) != 1 :
+					print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+			f = f_bis
+			n = delta_n
+			d = a2
+	else :
+		sq = int(sq)
+		str_delta = "i * "+str(sq)+str_a2
+		print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+		f = sq
+		n = 1
+		d = a2
+	if d < 0 :
+		f *= -1
+		d *= -1
+		str_f = "" if f == 1 and n != 1 else " * -" if f == -1 and n != 1 else " * "+str(f)
+		str_n = "√"+str(n) if n != 1 else ""
+		str_delta = "i"+str_f+str_n+" / "+str(d)
+		t1_s, t1_l = primes(f)
+		t2_s, t2_l = primes(d)
+		if (d != 1 or str_n) and (len(t1_l) != 1 or len(t2_l) != 1) :
+			print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+		if d == 1 :
+			str_delta = "i"+str_f+str_n
+			print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+	if f != 1 and d != 1 :
+		tmp = nb
+		while (f != int(f) or d != int(d)) and tmp :
+			f *= 10
+			d = float(format(d * 10, "."+str(tmp)+"f"))
+			tmp -= 1
+		f = int(f)
+		d = int(d)
+		if tmp != nb :
+			str_d = " / "+str(d) if d != 1 else ""
+			str_delta = "i * "+str(f)+str_d
+			print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+		f_s, f_l = primes(f)
+		d_s, d_l = primes(d)
+		cp_s, cp_l = primes(d)
+		if d_s < 0 :
+			f_s *= -1
+		delete = []
+		copy_1 = []
+		copy_2 = []
+		for i in f_l :
+			if i in cp_l :
+				delete.append(i)
+				cp_l.remove(i)
+				copy_1.append(i)
+				copy_2.append(i)
+		str_delta = print_delta_neg_reduce_2(n, f_s, f_l, d_l, str_b, sign_1, sign_2, copy_1, copy_2)
+		for i in delete :
+			f_l.remove(i)
+			d_l.remove(i)
+		if delete :
+			str_delta = print_delta_neg_reduce_2(n, f_s, f_l, d_l, str_b, sign_1, sign_2, copy_1, copy_2)
+		if f_l[1:] or d_l[1:] :
+			f = f_s
+			for i in f_l :
+				f *= i
+			str_f = " * "+str(f) if int(abs(f)) != 1 or n == 1 else " * -" if f == -1 else ""
+			str_n = "√"+str(n) if n != 1 else ""
+			d = 1
+			for i in d_l :
+				d *= i
+			str_d = " / "+str(d) if d != 1 else ""
+			str_delta = "i"+str_f+str_n+str_d
+			print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+		else :
+			f = f_s if not f_l else f_l[0] * f_s
+			d = 1 if not d_l else d_l[0]
+			str_f = " * "+str(f) if int(abs(f)) != 1 or n == 1 else " * -" if f == -1 else ""
+			str_n = "√"+str(n) if n != 1 else ""
+			str_d = " / "+str(d) if d != 1 else ""
+			str_delta = "i"+str_f+str_n+str_d
+			if d_s < 0 and f_l :
+				print_delta_neg_step(str_b, sign_1, sign_2, str_delta)
+	f = int(abs(f))
+	res_1 = b1 / b2
+	res_2 = f * sqrt(n) / d
+	if res_1 == int(res_1) :
+		res_1 = int(res_1)
+	if res_2 == int(res_2) :
+		res_2 = int(res_2)
+	res_1 = str(res_1) if res_1 else ""
+	res_2 = "i * "+str(res_2) if res_1 else str(res_2)+"i"
+	equal1 = len(res_1) < 14 + int('-' in res_1)
+	equal2 = len(res_2) < 14
+	equal = " = " if equal1 and equal2 else " ≈ "
+	if '-' in str_delta :
+		str_delta = str_delta.replace("-", "")
+		if "i * √" in str_delta :
+			str_delta = str_delta.replace(" * ", "")
+		print_delta_neg_step(str_b, sign_2, sign_1, str_delta)
+		print("\033[0m")
+		print(var+" = "+str_b+sign_2+str_delta+" \033[33mor\033[0m "+var+" = "+str_b+sign_1+str_delta)
+		print()
+		if b2 != 1 or n != 1 or d != 1 :
+			if equal1 != equal2 :
+				if equal1 :
+					str_b = res_1
+				else :
+					str_delta = res_2
+			print(var+equal+res_1+sign_2+res_2+" \033[33mor\033[0m "+var+equal+res_1+sign_1+res_2)
+			print()
+		if equal == " = " :
+			return res_1+sign_2+res_2, res_1+sign_1+res_2, 1, 0
+		return str_b+sign_2+str_delta, str_b+sign_1+str_delta, 1, 0
+	print("\033[0m")
+	print(var+" = "+str_b+sign_1+str_delta+" \033[33mor\033[0m "+var+" = "+str_b+sign_2+str_delta)
+	print()
+	if b2 != 1 or n != 1 or d != 1 :
+		if equal1 != equal2 :
+			if equal1 :
+				str_b = res_1
+			else :
+				str_delta = res_2
+		print(var+equal+res_1+sign_1+res_2+" \033[33mor\033[0m "+var+equal+res_1+sign_2+res_2)
+		print()
+	if equal == " = " :
+		return res_1+sign_1+res_2, res_1+sign_2+res_2, 0, 1
+	return str_b+sign_1+str_delta, str_b+sign_2+str_delta, 0, 1
+
+def	print_fraction(var, n, d, delta):
+	str_d = "" if d == 1 else "-" if d == -1 else str(d)
+	string = str(n)
+	if not delta and (d != 1 or n) :
+		print(str_d+var+" = "+string)
+	if d == 1 and n == int(n) :
+		return string, 0, n, 1
+	if d != 1 :
+		string = str(n)+" / "+str(d)
+		print(var+" = "+string)
+		if d < 0 :
+			n *= -1
+			d *= -1
+			string = str(n)+" / "+str(d)
+			print(var+" = "+string)
+			if d == 1 :
+				string = str(n)
+				print(var+" = "+string)
+				if n == int(n) :
+					return string, 0, n, 1
+	nb = 16
+	while (n != int(n) or d != int(d)) and nb :
+		n *= 10
+		d *= 10
+		nb -= 1
+	n = int(n)
+	d = int(d)
+	if nb != 16 :
+		string = str(n)+" / "+str(d)
+		print(var+" = "+string)
+		if d == 1 :
+			string = str(n)
+			print(var+" = "+string)
+			return string, 0, n, 1
+	res = n / d
+	if res != int(res) :
+		n_s, d_l = primes(d)
+		n_s, cp_l = primes(d)
+		n_s, n_l = primes(n)
+		delete = []
+		cp1 = []
+		cp2 = []
+		for i in n_l :
+			if i in cp_l :
+				cp_l.remove(i)
+				delete.append(i)
+				cp1.append(i)
+				cp2.append(i)
+		if not delete and ((len(n_l) <= 1 and len(d_l) <= 1) or int(abs(n)) == 1 or d == 1) :
+			return string, 1, n, d
+		if n_l[0] in cp1 :
+			cp1.remove(n_l[0])
+			str_n = "-" if n_s < 0 else ""
+			str_n += "\033[35m"+str(n_l[0])+"\033[32m"
+		else :
+			str_n = str(n_s * n_l[0])
+		for i in n_l[1:] :
+			if i in cp1 :
+				cp1.remove(i)
+				str_n += " * \033[35m"+str(i)+"\033[32m"
+			else :
+				str_n += " * "+str(i)
+		str_d = "(" if d_l[1:] else ""
+		if d_l[0] in cp2 :
+			cp2.remove(d_l[0])
+			str_d += "\033[35m"+str(d_l[0])+"\033[32m"
+		else :
+			str_d += str(d_l[0])
+		for i in d_l[1:] :
+			if i in cp2 :
+				cp2.remove(i)
+				str_d += " * \033[35m"+str(i)+"\033[32m"
+			else :
+				str_d += " * "+str(i)
+		if d_l[1:] :
+			str_d += ")"
+		print(var+" = "+str_n+" / "+str_d)
+		if delete :
+			for i in delete :
+				n_l.remove(i)
+				d_l.remove(i)
+			if not n_l :
+				n_l.append(1)
+			if not d_l :
+				d_l.append(1)
+			str_n = str(n_s * n_l[0])
+			for i in n_l[1:] :
+				str_n += " * "+str(i)
+			str_d = "(" if d_l[1:] else ""
+			str_d += str(d_l[0])
+			for i in d_l[1:] :
+				str_d += " * "+str(i)
+			if d_l[1:] :
+				str_d += ")"
+			if n_l[1:] or d_l[1:] :
+				print(var+" = "+str_n+" / "+str_d)
+		n = n_s
+		for i in n_l :
+			n *= i
+		d = 1
+		for i in d_l :
+			d *= i
+		string = str(n)+" / "+str(d)
+		print(var+" = "+string)
+		return string, 1, n, d
+	else :
+		string = str(int(res))
+		n = res
+		d = 1
+		print(var+" = "+string)
+		return string, 0, n, d
+
+def	print_delta_null(var, a, b):
+	print("\033[32m")
+	str_b = "("+str(b)+")" if b < 0 else str(b)
+	print(var+" = -"+str_b+" / (2 * "+str(a)+")")
+	a2 = 2 * a
+	if a2 == int(a2) :
+		a2 = int(a2)
+	string, round, n, d = print_fraction(var, -b, a2, True)
+	print("\033[0m")
+	print(var+" = "+string)
+	print()
+	if round :
+		str_round = str(n / d)
+		equal = " = " if len(str_round) < 14 + int('-' in str_round) else " ≈ "
+		print(var+equal+str_round)
+		print()
+		if equal == " = " :
+			return str_round
+	return string
+
+def	print_delta_pos_step(var, str_n4, str_d4, str_1, str_2):
+	print()
+	print(var+" = "+str_n4+str_1+str_d4)
+	print("or")
+	print(var+" = "+str_n4+str_2+str_d4)
+
+def	print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2):
+	print(var+" = "+str_b+sign_1+str_delta+str_a2)
+	print("or")
+	print(var+" = "+str_b+sign_2+str_delta+str_a2)
+	print()
+
+def	print_delta_pos_step_3(var, str_f1, str_f2, str_d1, str_d2):
+	print(var+" = "+str_f1+str_d1)
+	print("or")
+	print(var+" = "+str_f2+str_d2)
+	print()
+
+def	print_delta_pos_step_4(var, s1, s2):
+	print(var+" = "+s1)
+	print("or")
+	print(var+" = "+s2)
+	print()
+
+def	print_delta_pos_result(var, str1, str2, result_1, result_2):
+	print("\033[0m")
+	print(var+" = "+str1+" \033[33mor\033[0m "+var+" = "+str2)
+	print()
+	print(var+" ≈ "+str(result_1)+" \033[33mor\033[0m "+var+" ≈ "+str(result_2))
+	print()
+
+def	print_delta_pos_fract1(sign, f_l, d_l, copy_1, copy_2):
+	if not f_l :
+		str_fract = "0"
+	elif f_l[0] != 1 and f_l[0] in copy_1 :
+		copy_1.remove(f_l[0])
+		str_fract = "-" if sign < 0 else ""
+		str_fract += "\033[35m"+str(f_l[0])+"\033[32m"
+	else :
+		str_fract = str(sign * f_l[0])
+	for i in f_l[1:] :
+		if i != 1 and i in copy_1 :
+			copy_1.remove(i)
+			str_fract += " * \033[35m"+str(i)+"\033[32m"
+		else :
+			str_fract += " * "+str(i)
+	if f_l and d_l and (d_l[0] != 1 or d_l[1:]) :
+		str_fract += " / (" if d_l[1:] else " / "
+		if d_l[0] != 1 and d_l[0] in copy_2 :
+			copy_2.remove(d_l[0])
+			str_fract += "\033[35m"+str(d_l[0])+"\033[32m"
+		else :
+			str_fract += str(d_l[0])
+		for i in d_l[1:] :
+			if i != 1 and i in copy_2 :
+				copy_2.remove(i)
+				str_fract += " * \033[35m"+str(i)+"\033[32m"
+			else :
+				str_fract += " * "+str(i)
+		if d_l[1:] :
+			str_fract += ")"
+	return str_fract
+
+def	print_delta_pos_fract1_bis1(sign, f_l):
+	str_fract = ""
+	if f_l and f_l != 1 :
+		str_fract = str(sign * f_l[0])
+	for i in f_l[1:] :
+		str_fract += " * "+str(i)
+	return str_fract
+
+def	print_delta_pos_fract1_bis2(sign, d_l):
+	str_fract = ""
+	if d_l and (d_l[0] != 1 or d_l[1:]) :
+		str_fract += " / (" if d_l[1:] else " / "
+		str_fract += str(d_l[0])
+		for i in d_l[1:] :
+			str_fract += " * "+str(i)
+		if d_l[1:] :
+			str_fract += ")"
+	return str_fract
+
+def	print_delta_pos_fract1_bis(sign, f_l, d_l, cp1, cp2, delete):
+	str_f = ""
+	if f_l :
+		if f_l[0] in cp1 :
+			cp1.remove(f_l[0])
+			if sign < 0 :
+				str_f += "-"
+			str_f += "\033[36m"+str(f_l[0])+"\033[32m"
+		else :
+			str_f += str(sign * f_l[0])
+		for i in f_l[1:] :
+			if i in cp1 :
+				cp1.remove(i)
+				str_f += " * \033[36m"+str(i)+"\033[32m"
+			else :
+				str_f += " * "+str(i)
+	str_d = ""
+	if d_l and (d_l[0] != 1 or d_l[1:]) :
+		if d_l[1:] :
+			str_d += "("
+		if d_l[0] in cp2 :
+			cp2.remove(d_l[0])
+			str_d += "\033[36m"+str(d_l[0])+"\033[32m"
+		else :
+			str_d += str(d_l[0])
+		for i in d_l[1:] :
+			if i in cp2 :
+				cp2.remove(i)
+				str_d += " * \033[36m"+str(i)+"\033[32m"
+			else :
+				str_d += " * "+str(i)
+		if d_l[1:] :
+			str_d += ")"
+	fact = []
+	for i in delete :
+		f_l.remove(i)
+		d_l.remove(i)
+		fact.append(i)
+	return str_f, str_d, fact, f_l, d_l
+
+def	print_delta_pos_fract2(sign, f_l, d_l):
+	if not f_l :
+		str_fract = "0"
+	else :
+		str_fract = str(sign * f_l[0])
+		for i in f_l[1:] :
+			str_fract += " * "+str(i)
+		if d_l and (d_l[0] != 1 or d_l[1:]) :
+			str_fract += " / (" if d_l[1:] else " / "
+			str_fract += str(d_l[0])
+			for i in d_l[1:] :
+				str_fract += " * "+str(i)
+			if d_l[1:] :
+				str_fract += ")"
+	return str_fract
+
+def	print_delta_pos_fract_part1(f, d, tmp):
+	while (f != int(f) or d != int(d)) and tmp :
+		f *= 10
+		d *= 10
+		tmp -= 1
+	f = int(f)
+	d = int(d)
+	return f, d, tmp
+
+def	print_delta_pos_fract_part2(f, d):
+	f_s, f_l = primes(f)
+	d_s, d_l = primes(d)
+	d_s, cp_l = primes(d)
+	if d_s < 0 :
+		f_s *= -1
+		d_s *= -1
+	delete = []
+	copy_1 = []
+	copy_2 = []
+	for i in f_l :
+		if i in cp_l :
+			delete.append(i)
+			cp_l.remove(i)
+			copy_1.append(i)
+			copy_2.append(i)
+	return print_delta_pos_fract1(f_s, f_l, d_l, copy_1, copy_2), f_s, f_l, d_l, delete
+
+def	print_delta_pos_fract_part2_bis(f, d):
+	f_s, d_l = primes(d)
+	f_s, cp_l = primes(d)
+	f_s, f_l = primes(f)
+	delete = []
+	copy_1 = []
+	copy_2 = []
+	for i in f_l :
+		if i in cp_l :
+			delete.append(i)
+			cp_l.remove(i)
+			copy_1.append(i)
+			copy_2.append(i)
+	return print_delta_pos_fract1_bis(f_s, f_l, d_l, copy_1, copy_2, delete), f_s
+
+def	print_delta_pos_fract_part3(f_s, f_l, d_l, delete):
+	tmp = bool(f_l)
+	for i in delete :
+		f_l.remove(i)
+		d_l.remove(i)
+	if not d_l :
+		d_l = [1]
+	if not tmp :
+		d_l = []
+	elif not f_l :
+		f_l = [1]
+	return print_delta_pos_fract2(f_s, f_l, d_l), f_l, d_l
+
+def	print_delta_pos_fract_part4(sign, f_l, d_l):
+	f = 0 if not f_l else sign * f_l[0]
+	for i in f_l[1:] :
+		f *= i
+	d = 1 if not d_l else d_l[0]
+	for i in d_l[1:] :
+		d *= i
+	return str(f)+" / "+str(d) if f and d != 1 else str(f), f, d
+
+def	print_delta_pos_fract_part5_1(fact, b_s, b_l, cp):
+	str_b = ""
+	if fact :
+		if fact[1:] :
+			str_b += "("
+		if fact[0] in cp :
+			cp.remove(fact[0])
+			str_b += "\033[35m"+str(fact[0])+"\033[32m"
+		else :
+			str_b += str(fact[0])
+		for i in fact[1:] :
+			if i in cp :
+				cp.remove(i)
+				str_b += " * \033[35m"+str(i)+"\033[32m"
+			else :
+				str_b += " * "+str(i)
+		if fact[1:] :
+			str_b += ")"
+		str_b += "("
+	if not b_l :
+		str_b += str(b_s)
+	else :
+		str_b += str(b_s * b_l[0])
+		for i in b_l[1:] :
+			str_b += " * "+str(i)
+	return str_b
+
+def	print_delta_pos_fract_part5_2(f_l, delta):
+	str_delta = ""
+	if f_l :
+		if f_l[1:] :
+			str_delta += "("
+		str_delta += str(f_l[0])
+		for i in f_l[1:] :
+			str_delta += " * "+str(i)
+		if f_l[1:] :
+			str_delta += ")"
+	str_delta += "√"+str(delta)
+	return str_delta
+
+def	print_delta_pos_fract_part5_3(a2_s, a2_l, cp):
+	if a2_s < 0 and not a2_l :
+		a2_l = [1]
+	str_a2 = " / "
+	if a2_l :
+		if a2_l[1:] :
+			str_a2 += "("
+		if a2_l[0] in cp :
+			cp.remove(a2_l[0])
+			str_a2 += "-\033[35m"+str(a2_l[0])+"\033[32m" if a2_s < 0 else "\033[35m"+str(a2_l[0])+"\033[32m"
+		else :
+			str_a2 += str(a2_s * a2_l[0])
+		for i in a2_l[1:] :
+			if i in cp :
+				cp.remove(i)
+				str_a2 += " * \033[35m"+str(i)+"\033[32m"
+			else :
+				str_a2 += " * "+str(i)
+		if a2_l[1:] :
+			str_a2 += ")"
+	return str_a2
+
+def	print_delta_pos_fract_part5(fact, b_s, b_l, f_l, delta, a2_s, a2_l, cp_l):
+	delete = []
+	copy_1 = []
+	copy_2 = []
+	for i in fact :
+		if i in cp_l :
+			delete.append(i)
+			cp_l.remove(i)
+			copy_1.append(i)
+			copy_2.append(i)
+	str_b = print_delta_pos_fract_part5_1(fact, b_s, b_l, copy_1)
+	if a2_l == [1] :
+		a2_l = []
+	if not fact and a2_l :
+		str_b = "("+str_b
+	str_delta = print_delta_pos_fract_part5_2(f_l, delta)
+	if fact or a2_l :
+		str_delta += ")"
+	str_a2 = print_delta_pos_fract_part5_3(a2_s, a2_l, copy_2) if a2_l or a2_s < 0 else ""
+	for i in delete :
+		fact.remove(i)
+		a2_l.remove(i)
+	return str_b, str_delta, str_a2, fact, a2_l, delete
+
+def	print_delta_pos_fract_part6_1(fact, b_s, b_l):
+	str_b = ""
+	if fact :
+		if fact[1:] :
+			str_b += "("
+		str_b += str(fact[0])
+		for i in fact[1:] :
+			str_b += " * "+str(i)
+		if fact[1:] :
+			str_b += ")"
+		str_b += "("
+	if not b_l :
+		str_b += str(b_s)
+	else :
+		str_b += str(b_s * b_l[0])
+		for i in b_l[1:] :
+			str_b += " * "+str(i)
+	return str_b
+
+def	print_delta_pos_fract_part6_3(a2_s, a2_l):
+	str_a2 = " / "
+	if a2_l :
+		if a2_l[1:] :
+			str_a2 += "("
+		str_a2 += str(a2_s * a2_l[0])
+		for i in a2_l[1:] :
+			str_a2 += " * "+str(i)
+		if a2_l[1:] :
+			str_a2 += ")"
+	return str_a2
+
+def	print_delta_pos_fract_part6(fact, b_s, b_l, f_l, delta, a2_s, a2_l):
+	str_b = print_delta_pos_fract_part6_1(fact, b_s, b_l)
+	if not fact and a2_l :
+		str_b = "("+str_b
+	str_delta = print_delta_pos_fract_part5_2(f_l, delta)
+	if fact or a2_l :
+		str_delta += ")"
+	str_a2 = print_delta_pos_fract_part6_3(a2_s, a2_l) if a2_l else ""
+	return str_b, str_delta, str_a2
+
+def	print_delta_pos_fract_part7(fact, b_s, b_l, f_l, delta, a2_s, a2_l):
+	fct = 1
+	for i in fact :
+		fct *= i
+	b = b_s
+	for i in b_l :
+		b *= i
+	f = 1
+	for i in f_l :
+		f *= i
+	a2 = a2_s
+	for i in a2_l :
+		a2 *= i
+	str_b = ""
+	if fct != 1 :
+		str_b += str(fct) if int(abs(fct)) != 1 else "-" if fct == -1 else ""
+	str_b += "("+str(b) if fct != 1 or a2_l else str(b)
+	str_delta = ""
+	if f != 1 :
+		str_delta += str(f)
+	str_delta += "√"+str(delta)+")" if fct != 1 or a2_l else "√"+str(delta)
+	str_a2 = " / "+str(a2) if a2_l else ""
+	return fct, b, f, a2, str_b, str_delta, str_a2
+
+def	print_delta_pos_fract_part8_1(fact, b, str_delta, a2):
+	str_fact = str(fact) if int(abs(fact)) != 1 else "-" if fact == -1 else ""
+	str_b = str(b)
+	str_a2 = " / "+str(a2) if a2 != 1 else ""
+	str_1 = str_b+" + "+str_delta
+	str_2 = str_b+" - "+str_delta
+	if str_fact or str_a2 :
+		str_1 = "("+str_1+")"
+		str_2 = "("+str_2+")"
+	str_1 = str_fact+str_1+str_a2
+	str_2 = str_fact+str_2+str_a2
+	print_delta_pos_step_4(var, str_1, str_2)
+	return str_1, str_2
+
+def	print_delta_pos_fract_part8_2(fact, b, str_delta, a2):
+	str_fact1 = str(-fact) if int(abs(-fact)) != 1 else "-" if -fact == -1 else ""
+	str_fact2 = str(fact) if int(abs(fact)) != 1 else "-" if fact == -1 else ""
+	str_b = str(b) if b else ""
+	str_a2 = " / "+str(a2) if a2 != 1 else ""
+	sign1 = " - " if str_b else ""
+	sign2 = " + " if str_b else ""
+	str_1 = str_delta+sign1+str_b
+	if fact == -1 and not str_a2 :
+		str_fact2 = ""
+		str_b = str(-b) if b else ""
+		sign2 = sign1
+	str_2 = str_b+sign2+str_delta
+	if str_b :
+		if str_fact1 or str_a2 :
+			str_1 = "("+str_1+")"
+		if str_fact2 or str_a2 :
+			str_2 = "("+str_2+")"
+	str_1 = str_fact1+str_1+str_a2
+	str_2 = str_fact2+str_2+str_a2
+	print_delta_pos_step_4(var, str_1, str_2)
+	return str_1, str_2
+
+def	print_delta_pos_fract_part8_3(fact, b, str_delta, a2):
+	str_fact1 = str(-fact) if int(abs(-fact)) != 1 else "-" if -fact == -1 else ""
+	str_fact2 = str(fact) if int(abs(fact)) != 1 else "-" if fact == -1 else ""
+	str_b = str(b) if b else ""
+	str_a2 = " / "+str(a2) if a2 != 1 else ""
+	sign1 = " + " if str_b else ""
+	sign2 = " - " if str_b else ""
+	str_2 = str_delta+sign2+str_b
+	if fact == 1 and not str_a2 :
+		str_fact1 = ""
+		str_b = str(-b) if b else ""
+		sign1 = " - " if str_b else "-"
+	str_1 = str_b+sign1+str_delta
+	if str_b :
+		if str_fact1 or str_a2 :
+			str_1 = "("+str_1+")"
+		if str_fact2 or str_a2 :
+			str_2 = "("+str_2+")"
+	str_1 = str_fact1+str_1+str_a2
+	str_2 = str_fact2+str_2+str_a2
+	print_delta_pos_step_4(var, str_1, str_2)
+	return str_1, str_2
+
+def	print_delta_pos(var, a, b, delta, nb):
+	print("\033[32m")
+	str_b = "(-("+str(b)+")" if b < 0 else "(-"+str(b)
+	sign_1 = " - "
+	sign_2 = " + "
+	str_a2 = " / (2 * "+str(a)+")"
+	print_delta_pos_step_2(var, str_b, sign_1, sign_2, "√Δ)", str_a2)
+	str_delta = "√"+str(delta)+")"
+	print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+	sq = sqrt(delta)
+	if sq == int(sq) :
+		str_delta = str(int(sq))+")"
+	b *= -1
+	str_b = "("+str(b)
+	a2 = 2 * a
+	if a2 == int(a2) :
+		a2 = int(a2)
+	if not b :
+		str_b = ""
+		sign_1 = "-"
+		sign_2 = ""
+		str_delta = str_delta[:-1]
+	str_a2 = " / "+str(a2)
+	print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+	if a2 == 1 :
+		str_a2 = ""
+		str_b = str_b[1:]
+		if b :
+			str_delta = str_delta[:-1]
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+	if sq == int(sq) :
+		f1 = b - sq
+		if f1 == int(f1) :
+			f1 = int(f1)
+		str_f1 = str(f1)
+		f2 = b + sq
+		if f2 == int(f2) :
+			f2 = int(f2)
+		str_f2 = str(f2)
+		str_d1 = str_a2
+		str_d2 = str_a2
+		if b :
+			print_delta_pos_step_3(var, str_f1, str_f2, str_d1, str_d2)
+		if str_f1 == "0" :
+			str_d1 = ""
+		if str_f2 == "0" :
+			str_d2 = ""
+		res1 = f1 / a2
+		res2 = f2 / a2
+		if (str_f1 == "0" and res2 != int(res2)) or (str_f2 == "0" and res1 != int(res1)) :
+			print_delta_pos_step_3(var, str_f1, str_f2, str_d1, str_d2)
+		f1, d1, tmp1 = print_delta_pos_fract_part1(f1, a2, nb)
+		f2, d2, tmp2 = print_delta_pos_fract_part1(f2, a2, nb)
+		str_f1 = str(f1)
+		str_f2 = str(f2)
+		str_d1 = " / "+str(d1) if d1 != 1 and f1 else ""
+		str_d2 = " / "+str(d2) if d2 != 1 and f2 else ""
+		if tmp1 != nb or tmp2 != nb :
+			print_delta_pos_step_3(var, str_f1, str_f2, str_d1, str_d2)
+		if d1 < 0 or d2 < 0 :
+			if d1 < 0 :
+				f1 *= -1
+				d1 *= -1
+				str_f1 = str(f1)
+				str_d1 = " / "+str(d1) if d1 != 1 and f1 else ""
+			if d2 < 0 :
+				f2 *= -1
+				d2 *= -1
+				str_f2 = str(f2)
+				str_d2 = " / "+str(d2) if d2 != 1 and f2 else ""
+			print_delta_pos_step_3(var, str_f1, str_f2, str_d1, str_d2)
+		res1 = f1 / d1
+		res2 = f2 / d2
+		if res1 == int(res1) :
+			f1 = int(res1)
+			d1 = 1
+		if res2 == int(res2) :
+			f2 = int(res2)
+			d2 = 1
+		str_fract1, f1_s, f1_l, d1_l, delete1 = print_delta_pos_fract_part2(f1, d1)
+		str_fract2, f2_s, f2_l, d2_l, delete2 = print_delta_pos_fract_part2(f2, d2)
+		if (d1 != 1 or d2 != 1) and (str_fract1 != str_f1+str_d1 or str_fract2 != str_f2+str_d2) :
+			print_delta_pos_step_3(var, str_fract1, str_fract2, "", "")
+		str_fract1, f1_l, d1_l = print_delta_pos_fract_part3(f1_s, f1_l, d1_l, delete1)
+		str_fract2, f2_l, d2_l = print_delta_pos_fract_part3(f2_s, f2_l, d2_l, delete2)
+		if delete1 or delete2 :
+			print_delta_pos_step_3(var, str_fract1, str_fract2, "", "")
+		if len(f1_l) > 1 or len(d1_l) > 1 or len(f2_l) > 1 or len(d2_l) > 1 :
+			str_fract1, f1, d1 = print_delta_pos_fract_part4(f1_s, f1_l, d1_l)
+			str_fract2, f2, d2 = print_delta_pos_fract_part4(f2_s, f2_l, d2_l)
+			print_delta_pos_step_3(var, str_fract1, str_fract2, "", "")
+		fract1 = f1 / d1
+		fract2 = f2 / d2
+		if fract1 == int(fract1) :
+			fract1 = int(fract1)
+		if fract2 == int(fract2) :
+			fract2 = int(fract2)
+		str_1 = str(fract1)
+		str_2 = str(fract2)
+		print("\033[0m"+var+" = "+str_fract1+" \033[33mor\033[0m "+var+" = "+str_fract2)
+		print()
+		equal1 = " = " if len(str_1) < 14 + int('-' in str_1) else " ≈ "
+		equal2 = " = " if len(str_2) < 14 + int('-' in str_2) else " ≈ "
+		if (f1 and d1 != 1) or (f2 and d2 != 1) :
+			print(var+equal1+str_1+" \033[33mor\033[0m "+var+equal2+str_2)
+			print()
+			if equal1 == " = " and equal2 == " = " :
+				return str_1, str_2, fract1, fract2
+			elif equal1 == " = " :
+				return str_1, str_fract2, fract1, fract2
+			elif equal2 == " = " :
+				return str_fract1, str_2, fract1, fract2
+		return str_fract1, str_fract2, fract1, fract2
+	f_delta = 1
+	str_f_delta = ""
+	if delta != int(delta) :
+		delta, d, nb = print_delta_pos_fract_part1(delta, 1, nb)
+		str_f = str(delta)
+		str_d = str(d)
+		str_delta = "√("+str_f+" / "+str_d+"))" if b and str_a2 else "√("+str_f+" / "+str_d+")"
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		str_delta = "√"+str_f+" / √"+str_d+")" if b and str_a2 else "√"+str_f+" / √"+str_d
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		sq2 = sqrt(d)
+		if sq2 == int(sq2) :
+			d = int(sq2)
+			str_d = str(d)
+		else :
+			str_delta = "√"+str_f+"√"+str_d+" / "+str_d+")" if b and str_a2 else "√"+str_f+"√"+str_d+" / "+str_d
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+			str_delta = "√("+str_f+" * "+str_d+") / "+str_d+")" if b and str_a2 else "√("+str_f+" * "+str_d+") / "+str_d
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+			delta *= d
+			str_f = str(delta)
+		str_delta = "√"+str(delta)+" / "+str_d+")" if b and str_a2 else "√"+str(delta)+" / "+str_d
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if b :
+			if b != int(b) :
+				tmp, b_d, tmp = print_delta_pos_fract_part1(b, 1, len(str(b)) - str(b).find('.') - 1)
+				if b_d > d :
+					f_delta = b_d / d
+					if f_delta == int(f_delta) :
+						f_delta = int(f_delta)
+					str_f_delta = str(f_delta)
+					d = b_d
+					str_d = str(d)
+			b *= d
+			if b == int(b) :
+				b = int(b)
+			str_b = "" if not b else "("+str(b)+" / "+str_d if str_a2 else str(b)+" / "+str_d
+			str_delta = str_f_delta+"√"+str(delta)+" / "+str_d+")" if str_a2 else str_f_delta+"√"+str(delta)+" / "+str_d
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+			str_b = "("+str(b) if b else str(b)
+			str_delta = str_f_delta+"√"+str_f+") / "+str_d if b else str_f_delta+"√"+str_f+" / "+str_d
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if str_a2 :
+			str_delta = str_f_delta+"√"+str_f+")" if b else str_f_delta+"√"+str_f
+			str_a2 = " / ("+str_d+" * "+str(a2)+")"
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		tmp = str(a2)
+		tmp = len(tmp) - tmp.find('.')
+		a2 *= d
+		if a2 != int(a2) :
+			a2 = float(str(a2)[:str(a2).find('.') + tmp])
+		if a2 == int(a2) :
+			a2 = int(a2)
+		str_a2 = " / "+str(a2)
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if a2 == 1 :
+			str_a2 = ""
+			str_b = str(b)
+			str_delta = str_f_delta+"√"+str(delta)
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+	f, d, n, l = root(delta, nb)
+	if l :
+		str_delta = str_f_delta+"√("+str(l[0] ** 2)
+		for i in l[1:] :
+			str_delta += " * "+str(i ** 2)
+		str_delta += " * "+str(n)+"))" if b and str_a2 else " * "+str(n)+")"
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if l[1:] :
+			str_delta = str_f_delta+"√("+str(f ** 2)+" * "+str(n)+"))" if b and str_a2 else str_f_delta+"√("+str(f ** 2)+" * "+str(n)+")"
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		str_delta = str_f_delta+"√"+str(f ** 2)+"√"+str(n)+")" if b and str_a2 else str_f_delta+"√"+str(f ** 2)+"√"+str(n)
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if str_f_delta and f != 1 and str_a2 :
+			str_delta = str_f_delta+" * "+str(f)+"√"+str(n)+")" if b and str_a2 else str_f_delta+" * "+str(f)+"√"+str(n)
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		f *= f_delta
+		delta = n
+		str_delta = str(f)+"√"+str(delta)+")" if b and str_a2 else str(f)+"√"+str(delta)
+		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+	if b :
+		(str_b, str_delta, fact, b_l, f_l), b_s = print_delta_pos_fract_part2_bis(b, f)
+		str_delta += "√"+str(delta)
+		if str_a2 :
+			str_b = "("+str_b
+			str_delta += ")"
+		if int(abs(f)) != 1 :
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		a2_s, a2_l = primes(a2)
+		a2_s, cp_l = primes(a2)
+		str_b, str_delta, str_a2, fact, a2_l, delete = print_delta_pos_fract_part5(fact, b_s, b_l, f_l, delta, a2_s, a2_l, cp_l)
+		if int(abs(f)) != 1 :
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if delete :
+			str_b, str_delta, str_a2 = print_delta_pos_fract_part6(fact, b_s, b_l, f_l, delta, a2_s, a2_l)
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		fact, b, f, a2, str_b_tmp, str_delta_tmp, str_a2_tmp = print_delta_pos_fract_part7(fact, b_s, b_l, f_l, delta, a2_s, a2_l)
+		if (delete or a2_s < 0) and (str_b_tmp != str_b or str_delta_tmp != str_delta or str_a2_tmp != str_a2) :
+			str_b = str_b_tmp
+			str_delta = str_delta_tmp
+			str_a2 = str_a2_tmp
+			if delete :
+				print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+			if a2 < 0 :
+				fact *= -1
+				a2 *= -1
+				str_b = "-"+str_b
+				str_a2 = str_a2.replace("-", "")
+				if a2 == 1 :
+					print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, " / 1")
+				print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+	else :
+		fact = 1
+	str_1 = str_b+sign_1+str_delta+str_a2
+	str_2 = str_b+sign_2+str_delta+str_a2
+	x = fact >= 0
+	y = b >= 0
+	str_delt = str(f)+"√"+str(delta) if f != 1 else "√"+str(delta)
+	if not x :
+		if not y :
+			str_1, str_2 = print_delta_pos_fract_part8_1(-fact, -b, str_delt, a2)
+		else :
+			str_1, str_2 = print_delta_pos_fract_part8_2(fact, b, str_delt, a2)
+	elif not y :
+		str_1, str_2 = print_delta_pos_fract_part8_3(fact, -b, str_delt, a2)
+	res1 = fact * (b - f * sqrt(delta)) / a2
+	res2 = fact * (b + f * sqrt(delta)) / a2
+	str_res1 = str(res1)
+	str_res2 = str(res2)
+	equal1 = " = " if len(str_res1) < 14 + int('-' in str_res1) else " ≈ "
+	equal2 = " = " if len(str_res2) < 14 + int('-' in str_res2) else " ≈ "
+	print("\033[0m"+var+" = "+str_1+" \033[33mor\033[0m "+var+" = "+str_2)
+	print()
+	print(var+equal1+str_res1+" \033[33mor\033[0m "+var+equal2+str_res2)
+	print()
+	if equal1 == " = " and equal2 == " = " :
+		return str_res1, str_res2, res1, res2
+	if equal1 == " = " :
+		return str_res1, str_2, res1, res2
+	if equal2 == " = " :
+		return str_1, str_res2, res1, res2
+	return str_1, str_2, res1, res2
+
+def	solve_1(b, c):
+	print()
+	if b != 1 or c :
+		print("\033[32mSteps :")
+	else :
+		print(var+" = 0")
+	str_b = str(b)
+	if c :
+		sign = " - " if c < 0 else " + "
+		abs_c = str(int(abs(c))) if c == int(c) else str(abs(c))
+		str_b = "" if b == 1 else "-" if b == -1 else str(b)
+		str_c = sign+abs_c if c else ""
+		print(str_b+var+str_c+" = 0")
+	round = 0
+	display = True
+	if b != 1 :
+		if c :
+			n = -c
+			d = b
+			res = n / d
+			if res == int(res) :
+				res = int(res)
+				print(str_b+var+" = "+str(-c))
+				print(var+" = "+str(-c)+" / "+str(b))
+				s = str(res)
+			else :
+				s, round, n, d = print_fraction(var, -c, b, False)
+				display = False
+		else :
+			print(str_b+var+" = "+str(-c))
+			print(var+" = "+str(-c)+" / "+str(b))
+			s = "0"
+	else :
+		s, round, n, d = print_fraction(var, -c, 1, False)
+		display = False
+	if b != 1 or c :
+		if display :
+			print(var+" = "+s)
+		print("\033[0m")
+		print(var+" = "+s)
+	if round :
+		print()
+		tmp = str(n / d)
+		equal = " ≈ " if len(tmp) >= 14 + int('-' in tmp) else " = "
+		print(var+equal+str(n / d))
+		if equal == " = " :
+			s = tmp
+	print()
+	return s
+
+def	solve_2(var, a, b, c):
+	delta = b ** 2 - 4 * a * c
+	nb_a = len(str(a)) - str(a).find('.') - 1 if '.' in str(a) else 0
+	if nb_a >= 14 + int(a < 0) :
+		nb_a = 14 + int(a < 0)
+	nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
+	if nb_b >= 14 + int(b < 0) :
+		nb_b = 14 + int(b < 0)
+	nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
+	if nb_c >= 14 + int(c < 0) :
+		nb_c = 14 + int(c < 0)
+	if nb_a or nb_b or nb_c :
+		nb = 2 * nb_b if 2 * nb_b >= nb_a + nb_c else nb_a + nb_c
+		if nb >= 14 :
+			nb = 14
+		delta = float(format(delta, "."+str(nb)+"f"))
+		nb = 0 if not '.' in str(delta) else len(str(delta)) - str(delta).find('.') - 1
+		if nb >= 14 :
+			nb = 14
+	else :
+		nb = 0
+	if delta == int(delta) :
+		delta = int(delta)
+	print()
+	if b < 0 :
+		print("\033[32mΔ = ("+str(b)+")^2 - 4 * "+str(a)+" * "+str(c)+"\033[0m")
+	else :
+		print("\033[32mΔ = "+str(b)+"^2 - 4 * "+str(a)+" * "+str(c)+"\033[0m")
+	print("Δ = "+str(delta))
+	if delta < 0 :
+		print("Discriminant is strictly negative, there are 2 complex solutions :")
+		result1, result2, r1, r2 = print_delta_neg(var, a, b, delta, nb)
+		if r1 < r2 :
+			print("S = {"+result1+", "+result2+"}")
+		else :
+			print("S = {"+result2+", "+result1+"}")
+	elif not delta :
+		print("Discriminant is null, there is 1 solution :")
+		result = print_delta_null(var, a, b)
+		print("S = {"+result+"}")
+	else :
+		print("Discriminant is strictly positive, there are 2 solutions :")
+		result1, result2, r1, r2 = print_delta_pos(var, a, b, delta, nb)
+		if r1 < r2 :
+			print("S = {"+result1+", "+result2+"}")
+		else :
+			print("S = {"+result2+", "+result1+"}")
+
+def	resolve(e, var):
+	if e[0][0] == int(e[0][0]) :
+		e[0][0] = int(e[0][0])
+	if e[1][0] == int(e[1][0]) :
+		e[1][0] = int(e[1][0])
+	if e[2][0] == int(e[2][0]) :
+		e[2][0] = int(e[2][0])
+	if not e[0][0] :
+		if not e[1][0] :
+			print("Equation polynomial degree : 0")
+			if not e[2][0] :
+				print("All numbers are solutions")
+				print()
+				print("S = ℝ")
+			else :
+				print("No solutions")
+				print()
+				print("S = ∅")
+		else :
+			print("Equation polynomial degree : 1")
+			print("S = {"+solve_1(e[1][0], e[2][0])+"}")
+	else :
+		print("Equation polynomial degree : 2")
+		solve_2(var, e[0][0], e[1][0], e[2][0])
+
+if len(sys.argv) > 2 :
+	error("Wrong number of arguments")
+elif len(sys.argv) < 2 :
+	print("Usage : Type an equation with the format a * X^n")
+	print("Example : 5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0 + -2.1Y^4.2 + 2,1 * Y^4.2 - 3X + 2")
+	print()
+	enter = input("Equation : ")
+	if not enter :
+		error("No input equation")
+else :
+	enter = sys.argv[1]
+parsing, part = regex(enter)
+left = parse(re.findall(part, parsing[0][0]))
+right = parse(re.findall(part, parsing[0][44]))
+print("\033[32mSteps :")
+print_step(left, right, 0, left)
+equation = order(reduct(reduct_part(left, right, 0, True), reduct_part(left, right, 1, True)))
+print("\033[0m")
+if not equation :
+	equation.append([0, None, 0])
+string = string_reduced(equation)
+print("Reduced form : \t", end="")
+print(string+" = 0")
+equation, var = verif(equation, string)
+for i in range(3) :
+	equation.append([0, var, i])
+equation = order(reduct_part(equation, [0, None, 0], 0, False))
+resolve(equation, var)
