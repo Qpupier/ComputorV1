@@ -8,12 +8,12 @@ def	error(err):
 	exit()
 
 def	regex(enter):
-	num = "(-?[0-9]+([.,][0-9]+)?)"
-	unk = "([a-zA-Z])(\^"+num+")?"
-	op = "( \* )"
-	part = "("+num+"("+op+"?"+unk+")?|"+unk+op+num+"|(-)?"+unk+")"
-	side = part+"( [-+] "+part+")*"
-	equation = "^("+side+") ?= ?("+side+")$"
+	num = r"(-?\d+([.,]\d+)?)"
+	unk = r"([A-Za-z])(\^"+num+r")?"
+	op = r"( \* )"
+	part = r"("+num+"("+op+"?"+unk+")?|"+unk+op+num+"|(-)?"+unk+")"
+	side = part+r"( [-+] "+part+r")*"
+	equation = r"^("+side+r") ?= ?("+side+r")$"
 	parsing = re.findall(equation, enter)
 	if not parsing :
 		error("The equation isn't good formatted.")
@@ -104,7 +104,7 @@ def	reduct_part(left, right, nb, dis):
 				if side[j] and (side[j][1] == side[i][1] or not side[j][1] or not side[i][1]) and side[j][2] == side[i][2] :
 					if side[j][0]:
 						n = max_float(nb_float(side[i][0]), nb_float(side[j][0]))
-						side[i][0] = float(format(side[i][0] + side[j][0], "."+str(n)+"f")) if nb else int(side[i][0] + side[j][0])
+						side[i][0] = float(format(side[i][0] + side[j][0], "."+str(n)+"f")) if n else int(side[i][0] + side[j][0])
 						side[j] = None
 						if dis :
 							print_step(left, right, nb, side)
@@ -1429,6 +1429,11 @@ def	print_delta_pos(var, a, b, delta, nb):
 		delta = n
 		str_delta = str(f)+"√"+str(delta)+")" if b and str_a2 else str(f)+"√"+str(delta)
 		print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
+		if a2 == -1 :
+			str_a2 = ""
+			sign_1 = ""
+			sign_2 = "-"
+			print_delta_pos_step_2(var, str_b, sign_1, sign_2, str_delta, str_a2)
 	if b :
 		(str_b, str_delta, fact, b_l, f_l), b_s = print_delta_pos_fract_part2_bis(b, f)
 		str_delta += "√"+str(delta)
