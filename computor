@@ -7,6 +7,16 @@ def	error(err):
 	print(err)
 	exit()
 
+def	ft_sqrt(nb, prec):
+	result = nb
+	while result and result * result > nb :
+		result -= 1
+	for i in range(1, prec + 1) :
+		result += 10 ** -(i - 1)
+		while result and result * result > nb :
+			result -= 10 ** -i
+	return result
+
 def	regex(enter):
 	num = r"(-?\d+([.,]\d+)?)"
 	unk = r"([A-Za-z])(\^"+num+r")?"
@@ -95,7 +105,7 @@ def	nb_float(n):
 def	max_float(n1, n2):
 	return n1 if n1 >= n2 else n2
 
-def	reduct_part(left, right, nb, dis):
+def	reduct_part(left, right, nb, dis, verbose):
 	side = left if not nb else right
 	size = len(side)
 	for i in range(size) :
@@ -106,14 +116,14 @@ def	reduct_part(left, right, nb, dis):
 						n = max_float(nb_float(side[i][0]), nb_float(side[j][0]))
 						side[i][0] = float(format(side[i][0] + side[j][0], "."+str(n)+"f")) if n else int(side[i][0] + side[j][0])
 						side[j] = None
-						if dis :
+						if dis and verbose :
 							print_step(left, right, nb, side)
 					side[j] = None
 	while None in side :
 		side.remove(None)
 	return side
 
-def	reduct(left, right):
+def	reduct(left, right, verbose):
 	size_l = len(left)
 	size_r = len(right)
 	for l in range(size_l) :
@@ -123,19 +133,21 @@ def	reduct(left, right):
 					if right[r][0] :
 						left[l][0] -= right[r][0]
 						right[r] = None
-						if left[l][0] :
+						if left[l][0] and verbose :
 							print_step(left, right, 0, left)
 					right[r] = None
 			if not left[l][0] :
 				left[l] = None
-				print_step(left, right, 0, left)
+				if verbose :
+					print_step(left, right, 0, left)
 	for r in range(size_r) :
 		if right[r] :
 			if right[r][0] :
 				right[r][0] *= -1
 				left.append(right[r])
 				right[r] = None
-				print_step(left, right, 0, left)
+				if verbose :
+					print_step(left, right, 0, left)
 	while None in left :
 		left.remove(None)
 	return left
@@ -363,6 +375,33 @@ def	print_delta_neg_reduce_2(n, f_s, f_l, d_l, str_b_1, sign_1, sign_2, cp1, cp2
 			str_delta += ")"
 	print_delta_neg_step(str_b_1, sign_1, sign_2, str_delta)
 	return str_delta
+
+def	delta_neg(a, b, delta, nb):
+	result_re = -b / (2 * a)
+	result_im1 = -ft_sqrt(delta, nb) / (2 * a)
+	result_im2 = ft_sqrt(delta, nb) / (2 * a)
+	str_result_re = arround_number_str(result_re, nb)
+	if str_result_re == "0" :
+		str_result_re = ""
+	str_result_im1 = arround_number_str(result_im1, nb)
+	str_result_im2 = arround_number_str(result_im2, nb)
+	if str_result_im1 == "0" :
+		str_result_im1 = ""
+	if str_result_im2 == "0" :
+		str_result_im2 = ""
+	sign1 = "" if '-' in str_result_im1 and not str_result_re else "-" if not str_result_re else " + " if '-' in str_result_im1 else " - "
+	sign2 = "-" if '-' in str_result_im1 and not str_result_re else "" if not str_result_re else " - " if '-' in str_result_im1 else " + "
+	if '-' in str_result_im1 :
+		result_im1 = str_result_im1[1:]
+	if '-' in str_result_im1 :
+		result_im1 = str_result_im1[1:]
+	str_result_i1 = "" if not str_result_im1 else "i" if str_result_im1 == "1" else "i * "+str_result_im1
+	str_result_i2 = "" if not str_result_im2 else "i" if str_result_im2 == "1" else "i * "+str_result_im2
+	if not str_result_i1 :
+		sign1 = ""
+	if not str_result_i2 :
+		sign2 = ""
+	return str_result_re+sign1+str_result_im1, str_result_re+sign2+str_result_im2, 0, 1
 
 def	print_delta_neg(var, a, b, delta, nb):
 	print("\033[32m")
@@ -692,38 +731,62 @@ def	print_delta_neg(var, a, b, delta, nb):
 		return res_1+sign_1+res_2, res_1+sign_2+res_2, 0, 1
 	return str_b+sign_1+str_delta, str_b+sign_2+str_delta, 0, 1
 
-def	print_fraction(var, n, d, delta):
+def	arround_number_str(number, nb):
+	result = str(float(format(number, "."+str(nb)+"f")))
+	size = len(result) - 1
+	while result[size] == '0' :
+		result = result[:size]
+		size -= 1
+	if result[size] == '.' :
+		result = result[:size]
+	if not float(result) :
+		result = "0"
+	return result
+
+def	print_fraction(var, n, d, delta, nb):
 	str_d = "" if d == 1 else "-" if d == -1 else str(d)
+	str_n = arround_number_str(n, nb)
+	str_d = arround_number_str(d, nb)
+	str_delta = arround_number_str(delta, nb)
+	n = float(str_n)
+	d = float(str_d)
+	delta = float(str_delta)
 	string = str(n)
 	if not delta and (d != 1 or n) :
 		print(str_d+var+" = "+string)
 	if d == 1 and n == int(n) :
 		return string, 0, n, 1
 	if d != 1 :
-		string = str(n)+" / "+str(d)
+		string = str_n+" / "+str_d
 		print(var+" = "+string)
 		if d < 0 :
 			n *= -1
+			str_n = arround_number_str(n, nb)
 			d *= -1
-			string = str(n)+" / "+str(d)
+			str_d = arround_number_str(d, nb)
+			string = str_n+" / "+str_d
 			print(var+" = "+string)
 			if d == 1 :
-				string = str(n)
+				string = str_n
 				print(var+" = "+string)
 				if n == int(n) :
 					return string, 0, n, 1
 	nb = 16
 	while (n != int(n) or d != int(d)) and nb :
 		n *= 10
+		str_n = arround_number_str(n, nb)
 		d *= 10
+		str_d = arround_number_str(d, nb)
 		nb -= 1
 	n = int(n)
+	str_n = arround_number_str(n, nb)
 	d = int(d)
+	str_d = arround_number_str(d, nb)
 	if nb != 16 :
-		string = str(n)+" / "+str(d)
+		string = str_n+" / "+str_d
 		print(var+" = "+string)
 		if d == 1 :
-			string = str(n)
+			string = str_n
 			print(var+" = "+string)
 			return string, 0, n, 1
 	res = n / d
@@ -794,7 +857,7 @@ def	print_fraction(var, n, d, delta):
 		d = 1
 		for i in d_l :
 			d *= i
-		string = str(n)+" / "+str(d)
+		string = str_n+" / "+str_d
 		print(var+" = "+string)
 		return string, 1, n, d
 	else :
@@ -804,14 +867,21 @@ def	print_fraction(var, n, d, delta):
 		print(var+" = "+string)
 		return string, 0, n, d
 
-def	print_delta_null(var, a, b):
+def	delta_null(a, b, nb):
+	return arround_number_str(-b / (2 * a), nb)
+
+def	print_delta_null(var, a, b, nb):
+	str_a = arround_number_str(a, nb)
+	str_b = arround_number_str(b, nb)
+	a = float(str_a)
+	b = float(str_b)
 	print("\033[32m")
-	str_b = "("+str(b)+")" if b < 0 else str(b)
-	print(var+" = -"+str_b+" / (2 * "+str(a)+")")
+	str_b = "("+str_b+")" if b < 0 else str_b
+	print(var+" = -"+str_b+" / (2 * "+str_a+")")
 	a2 = 2 * a
 	if a2 == int(a2) :
 		a2 = int(a2)
-	string, round, n, d = print_fraction(var, -b, a2, True)
+	string, round, n, d = print_fraction(var, -b, a2, True, nb)
 	print("\033[0m")
 	print(var+" = "+string)
 	print()
@@ -1237,7 +1307,13 @@ def	print_delta_pos_fract_part8_3(fact, b, str_delta, a2):
 	print_delta_pos_step_4(var, str_1, str_2)
 	return str_1, str_2
 
+def	delta_pos(a, b, delta, nb, verbose):
+	result1 = (-b - ft_sqrt(delta, nb)) / (2 * a)
+	result2 = (-b + ft_sqrt(delta, nb)) / (2 * a)
+	return arround_number_str(result1, nb), arround_number_str(result2, nb), result1, result2
+
 def	print_delta_pos(var, a, b, delta, nb):
+	str_res1, str_res2, tmp, tmp = delta_pos(a, b, delta, nb, verbose)
 	print("\033[32m")
 	str_b = "(-("+str(b)+")" if b < 0 else "(-"+str(b)
 	sign_1 = " - "
@@ -1353,7 +1429,7 @@ def	print_delta_pos(var, a, b, delta, nb):
 	f_delta = 1
 	str_f_delta = ""
 	if delta != int(delta) :
-		delta, d, nb = print_delta_pos_fract_part1(delta, 1, nb)
+		delta, d, tmp = print_delta_pos_fract_part1(delta, 1, nb)
 		str_f = str(delta)
 		str_d = str(d)
 		str_delta = "√("+str_f+" / "+str_d+"))" if b and str_a2 else "√("+str_f+" / "+str_d+")"
@@ -1479,10 +1555,8 @@ def	print_delta_pos(var, a, b, delta, nb):
 			str_1, str_2 = print_delta_pos_fract_part8_2(fact, b, str_delt, a2)
 	elif not y :
 		str_1, str_2 = print_delta_pos_fract_part8_3(fact, -b, str_delt, a2)
-	res1 = fact * (b - f * sqrt(delta)) / a2
-	res2 = fact * (b + f * sqrt(delta)) / a2
-	str_res1 = str(res1)
-	str_res2 = str(res2)
+	res1 = fact * (b - f * ft_sqrt(delta, nb)) / a2
+	res2 = fact * (b + f * ft_sqrt(delta, nb)) / a2
 	equal1 = " = " if len(str_res1) < 14 + int('-' in str_res1) else " ≈ "
 	equal2 = " = " if len(str_res2) < 14 + int('-' in str_res2) else " ≈ "
 	print("\033[0m"+var+" = "+str_1+" \033[33mor\033[0m "+var+" = "+str_2)
@@ -1497,7 +1571,7 @@ def	print_delta_pos(var, a, b, delta, nb):
 		return str_1, str_res2, res1, res2
 	return str_1, str_2, res1, res2
 
-def	solve_1(b, c):
+def	print_solve_1(b, c, nb):
 	print()
 	if b != 1 or c :
 		print("\033[32mSteps :")
@@ -1523,14 +1597,14 @@ def	solve_1(b, c):
 				print(var+" = "+str(-c)+" / "+str(b))
 				s = str(res)
 			else :
-				s, round, n, d = print_fraction(var, -c, b, False)
+				s, round, n, d = print_fraction(var, -c, b, False, nb)
 				display = False
 		else :
 			print(str_b+var+" = "+str(-c))
 			print(var+" = "+str(-c)+" / "+str(b))
 			s = "0"
 	else :
-		s, round, n, d = print_fraction(var, -c, 1, False)
+		s, round, n, d = print_fraction(var, -c, 1, False, nb)
 		display = False
 	if b != 1 or c :
 		if display :
@@ -1547,15 +1621,45 @@ def	solve_1(b, c):
 	print()
 	return s
 
-def	solve_2(var, a, b, c):
-	delta = b ** 2 - 4 * a * c
-	nb_a = len(str(a)) - str(a).find('.') - 1 if '.' in str(a) else 0
-	if nb_a >= 14 + int(a < 0) :
-		nb_a = 14 + int(a < 0)
+def	solve_1(b, c):
 	nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
+	test = re.findall(r"e-?([0-9]*)$", str(b))
+	if test :
+		nb_b += int(test[0])
 	if nb_b >= 14 + int(b < 0) :
 		nb_b = 14 + int(b < 0)
 	nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
+	test = re.findall(r"e-?([0-9]*)$", str(c))
+	if test :
+		nb_c += int(test[0])
+	if nb_c >= 14 + int(b < 0) :
+		nb_c = 14 + int(b < 0)
+	nb = nb_b + nb_c
+	if nb > 14 :
+		nb = 14
+	if verbose :
+		return print_solve_1(b, c, nb)
+	result = -c / b
+	return arround_number_str(result, nb)
+
+def	solve_2(var, a, b, c, verbose):
+	delta = b ** 2 - 4 * a * c
+	nb_a = len(str(a)) - str(a).find('.') - 1 if '.' in str(a) else 0
+	test = re.findall(r"e-?([0-9]*)$", str(a))
+	if test :
+		nb_a += int(test[0])
+	if nb_a >= 14 + int(a < 0) :
+		nb_a = 14 + int(a < 0)
+	nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
+	test = re.findall(r"e-?([0-9]*)$", str(b))
+	if test :
+		nb_b += int(test[0])
+	if nb_b >= 14 + int(b < 0) :
+		nb_b = 14 + int(b < 0)
+	nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
+	test = re.findall(r"e-?([0-9]*)$", str(c))
+	if test :
+		nb_c += int(test[0])
 	if nb_c >= 14 + int(c < 0) :
 		nb_c = 14 + int(c < 0)
 	if nb_a or nb_b or nb_c :
@@ -1571,25 +1675,35 @@ def	solve_2(var, a, b, c):
 	if delta == int(delta) :
 		delta = int(delta)
 	print()
-	if b < 0 :
-		print("\033[32mΔ = ("+str(b)+")^2 - 4 * "+str(a)+" * "+str(c)+"\033[0m")
-	else :
-		print("\033[32mΔ = "+str(b)+"^2 - 4 * "+str(a)+" * "+str(c)+"\033[0m")
+	if verbose :
+		if b < 0 :
+			print("\033[32mΔ = ("+str(b)+")^2 - 4 * "+str(a)+" * "+str(c)+"\033[0m")
+		else :
+			print("\033[32mΔ = "+str(b)+"^2 - 4 * "+str(a)+" * "+str(c)+"\033[0m")
 	print("Δ = "+str(delta))
 	if delta < 0 :
 		print("Discriminant is strictly negative, there are 2 complex solutions :")
-		result1, result2, r1, r2 = print_delta_neg(var, a, b, delta, nb)
+		if verbose :
+			result1, result2, r1, r2 = print_delta_neg(var, a, b, delta, nb)
+		else :
+			result1, result2, r1, r2 = delta_neg(a, b, delta, nb)
 		if r1 < r2 :
 			print("S = {"+result1+", "+result2+"}")
 		else :
 			print("S = {"+result2+", "+result1+"}")
 	elif not delta :
 		print("Discriminant is null, there is 1 solution :")
-		result = print_delta_null(var, a, b)
+		if verbose :
+			result = print_delta_null(var, a, b, nb)
+		else :
+			result = delta_null(a, b, nb)
 		print("S = {"+result+"}")
 	else :
 		print("Discriminant is strictly positive, there are 2 solutions :")
-		result1, result2, r1, r2 = print_delta_pos(var, a, b, delta, nb)
+		if verbose :
+			result1, result2, r1, r2 = print_delta_pos(var, a, b, delta, nb)
+		else :
+			result1, result2, r1, r2 = delta_pos(a, b, delta, nb, verbose)
 		if r1 < r2 :
 			print("S = {"+result1+", "+result2+"}")
 		else :
@@ -1618,9 +1732,9 @@ def	resolve(e, var):
 			print("S = {"+solve_1(e[1][0], e[2][0])+"}")
 	else :
 		print("Equation polynomial degree : 2")
-		solve_2(var, e[0][0], e[1][0], e[2][0])
+		solve_2(var, e[0][0], e[1][0], e[2][0], verbose)
 
-if len(sys.argv) > 2 :
+if len(sys.argv) > 3 :
 	error("Wrong number of arguments")
 elif len(sys.argv) < 2 :
 	print("Usage : Type an equation with the format a * X^n")
@@ -1631,13 +1745,21 @@ elif len(sys.argv) < 2 :
 		error("No input equation")
 else :
 	enter = sys.argv[1]
+verbose = False
+if len(sys.argv) == 3 :
+	if sys.argv[2] == "-v" or sys.argv[2] == "--verbose" :
+		verbose = True
+	else :
+		error("Invalid parameter")
 parsing, part = regex(enter)
 left = parse(re.findall(part, parsing[0][0]))
 right = parse(re.findall(part, parsing[0][44]))
-print("\033[32mSteps :")
-print_step(left, right, 0, left)
-equation = order(reduct(reduct_part(left, right, 0, True), reduct_part(left, right, 1, True)))
-print("\033[0m")
+if verbose :
+	print("\033[32mSteps :")
+	print_step(left, right, 0, left)
+equation = order(reduct(reduct_part(left, right, 0, True, verbose), reduct_part(left, right, 1, True, verbose), verbose))
+if verbose :
+	print("\033[0m")
 if not equation :
 	equation.append([0, None, 0])
 string = string_reduced(equation)
@@ -1646,5 +1768,5 @@ print(string+" = 0")
 equation, var = verif(equation, string)
 for i in range(3) :
 	equation.append([0, var, i])
-equation = order(reduct_part(equation, [0, None, 0], 0, False))
+equation = order(reduct_part(equation, [0, None, 0], 0, False, verbose))
 resolve(equation, var)
