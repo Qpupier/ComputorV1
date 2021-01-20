@@ -1641,6 +1641,7 @@ def	solve_1(b, c):
 		nb_c = 14 + int(c < 0)
 	nb = nb_b + nb_c
 	if nb > 14 :
+		print("\n\033[31mPrecision limited\033[0m")
 		nb = 14
 	if verbose :
 		return print_solve_1(b, c, nb)
@@ -1649,22 +1650,6 @@ def	solve_1(b, c):
 
 def	solve_2(var, a, b, c, verbose):
 	delta = b ** 2 - 4 * a * c
-	# nb_a = len(str(a)) - str(a).find('.') - 1 if '.' in str(a) else 0
-	# test = re.findall(r"e-?([0-9]*)$", str(a))
-	# if test :
-	# 	nb_a += int(test[0])
-	# if nb_a >= 14 + int(a < 0) :
-	# 	nb_a = 14 + int(a < 0)
-	# nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
-	# test = re.findall(r"e-?([0-9]*)$", str(b))
-	# if test :
-	# 	nb_b += int(test[0])
-	# if nb_b >= 14 + int(b < 0) :
-	# 	nb_b = 14 + int(b < 0)
-	# nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
-	# test = re.findall(r"e-?([0-9]*)$", str(c))
-	# if test :
-	# 	nb_c += int(test[0])
 	test = re.findall(r"e-?([0-9]*)$", str(a))
 	if test :
 		nb_a = len(str(a)) - len(test[0]) - 1 + int(test[0])
@@ -1688,11 +1673,13 @@ def	solve_2(var, a, b, c, verbose):
 		nb_c = 14 + int(c < 0)
 	if nb_a or nb_b or nb_c :
 		nb = 2 * nb_b if 2 * nb_b >= nb_a + nb_c else nb_a + nb_c
-		if nb >= 14 :
+		if nb > 14 :
+			print("\n\033[31mPrecision limited\033[0m")
 			nb = 14
 		delta = float(format(delta, "."+str(nb)+"f"))
 		nb = 0 if not '.' in str(delta) else len(str(delta)) - str(delta).find('.') - 1
-		if nb >= 14 :
+		if nb > 14 :
+			print("\n\033[31mPrecision limited\033[0m")
 			nb = 14
 	else :
 		nb = 0
