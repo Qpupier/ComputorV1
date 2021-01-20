@@ -7,11 +7,11 @@ def	error(err):
 	print(err)
 	exit()
 
-def	ft_sqrt(nb, prec):
+def	ft_sqrt(nb):
 	result = nb
 	while result and result * result > nb :
 		result -= 1
-	for i in range(1, prec + 1) :
+	for i in range(1, 15) :
 		result += 10 ** -(i - 1)
 		while result and result * result > nb :
 			result -= 10 ** -i
@@ -378,8 +378,9 @@ def	print_delta_neg_reduce_2(n, f_s, f_l, d_l, str_b_1, sign_1, sign_2, cp1, cp2
 
 def	delta_neg(a, b, delta, nb):
 	result_re = -b / (2 * a)
-	result_im1 = -ft_sqrt(delta, nb) / (2 * a)
-	result_im2 = ft_sqrt(delta, nb) / (2 * a)
+	result_im1 = -ft_sqrt(delta) / (2 * a)
+	result_im2 = ft_sqrt(delta) / (2 * a)
+	nb = 14
 	str_result_re = arround_number_str(result_re, nb)
 	if str_result_re == "0" :
 		str_result_re = ""
@@ -1308,8 +1309,9 @@ def	print_delta_pos_fract_part8_3(fact, b, str_delta, a2):
 	return str_1, str_2
 
 def	delta_pos(a, b, delta, nb, verbose):
-	result1 = (-b - ft_sqrt(delta, nb)) / (2 * a)
-	result2 = (-b + ft_sqrt(delta, nb)) / (2 * a)
+	result1 = (-b - ft_sqrt(delta)) / (2 * a)
+	result2 = (-b + ft_sqrt(delta)) / (2 * a)
+	nb = 14
 	return arround_number_str(result1, nb), arround_number_str(result2, nb), result1, result2
 
 def	print_delta_pos(var, a, b, delta, nb):
@@ -1555,8 +1557,9 @@ def	print_delta_pos(var, a, b, delta, nb):
 			str_1, str_2 = print_delta_pos_fract_part8_2(fact, b, str_delt, a2)
 	elif not y :
 		str_1, str_2 = print_delta_pos_fract_part8_3(fact, -b, str_delt, a2)
-	res1 = fact * (b - f * ft_sqrt(delta, nb)) / a2
-	res2 = fact * (b + f * ft_sqrt(delta, nb)) / a2
+	res1 = fact * (b - f * ft_sqrt(delta)) / a2
+	res2 = fact * (b + f * ft_sqrt(delta)) / a2
+	nb = 14
 	equal1 = " = " if len(str_res1) < 14 + int('-' in str_res1) else " ≈ "
 	equal2 = " = " if len(str_res2) < 14 + int('-' in str_res2) else " ≈ "
 	print("\033[0m"+var+" = "+str_1+" \033[33mor\033[0m "+var+" = "+str_2)
@@ -1622,18 +1625,20 @@ def	print_solve_1(b, c, nb):
 	return s
 
 def	solve_1(b, c):
-	nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
 	test = re.findall(r"e-?([0-9]*)$", str(b))
 	if test :
-		nb_b += int(test[0])
+		nb_b = len(str(b)) - len(test[0]) - 1 + int(test[0])
+	else :
+		nb_b = len(str(b))
 	if nb_b >= 14 + int(b < 0) :
 		nb_b = 14 + int(b < 0)
-	nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
 	test = re.findall(r"e-?([0-9]*)$", str(c))
 	if test :
-		nb_c += int(test[0])
-	if nb_c >= 14 + int(b < 0) :
-		nb_c = 14 + int(b < 0)
+		nb_c = len(str(c)) - len(test[0]) - 1 + int(test[0])
+	else :
+		nb_c = len(str(c))
+	if nb_c >= 14 + int(c < 0) :
+		nb_c = 14 + int(c < 0)
 	nb = nb_b + nb_c
 	if nb > 14 :
 		nb = 14
@@ -1644,22 +1649,41 @@ def	solve_1(b, c):
 
 def	solve_2(var, a, b, c, verbose):
 	delta = b ** 2 - 4 * a * c
-	nb_a = len(str(a)) - str(a).find('.') - 1 if '.' in str(a) else 0
+	# nb_a = len(str(a)) - str(a).find('.') - 1 if '.' in str(a) else 0
+	# test = re.findall(r"e-?([0-9]*)$", str(a))
+	# if test :
+	# 	nb_a += int(test[0])
+	# if nb_a >= 14 + int(a < 0) :
+	# 	nb_a = 14 + int(a < 0)
+	# nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
+	# test = re.findall(r"e-?([0-9]*)$", str(b))
+	# if test :
+	# 	nb_b += int(test[0])
+	# if nb_b >= 14 + int(b < 0) :
+	# 	nb_b = 14 + int(b < 0)
+	# nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
+	# test = re.findall(r"e-?([0-9]*)$", str(c))
+	# if test :
+	# 	nb_c += int(test[0])
 	test = re.findall(r"e-?([0-9]*)$", str(a))
 	if test :
-		nb_a += int(test[0])
+		nb_a = len(str(a)) - len(test[0]) - 1 + int(test[0])
+	else :
+		nb_a = len(str(a))
 	if nb_a >= 14 + int(a < 0) :
 		nb_a = 14 + int(a < 0)
-	nb_b = len(str(b)) - str(b).find('.') - 1 if '.' in str(b) else 0
 	test = re.findall(r"e-?([0-9]*)$", str(b))
 	if test :
-		nb_b += int(test[0])
+		nb_b = len(str(b)) - len(test[0]) - 1 + int(test[0])
+	else :
+		nb_b = len(str(b))
 	if nb_b >= 14 + int(b < 0) :
 		nb_b = 14 + int(b < 0)
-	nb_c = len(str(c)) - str(c).find('.') - 1 if '.' in str(c) else 0
 	test = re.findall(r"e-?([0-9]*)$", str(c))
 	if test :
-		nb_c += int(test[0])
+		nb_c = len(str(c)) - len(test[0]) - 1 + int(test[0])
+	else :
+		nb_c = len(str(c))
 	if nb_c >= 14 + int(c < 0) :
 		nb_c = 14 + int(c < 0)
 	if nb_a or nb_b or nb_c :
