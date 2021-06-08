@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 13:27:41 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 16:51:05 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:19:10 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ def	print_var(a, x, begin, precision) :
 		print(" + " + __utils__.ft_round(a, precision) + x, end="")
 
 def	print_part_x(part, precision) :
-	part = __computor__.clear_equation(part)
+	part = __computor__.clear_equation(part, precision)
 	if part :
 		begin = True
 		for var in part :
@@ -62,7 +62,7 @@ def	print_part_x(part, precision) :
 		print("0", end="")
 
 def	print_part_n_naturals(part, precision) :
-	part = __computor__.clear_equation(part)
+	part = __computor__.clear_equation(part, precision)
 	if part :
 		begin = True
 		for var in part :
@@ -93,7 +93,7 @@ def	print_part_n_naturals(part, precision) :
 		print("0", end="")
 
 def	print_part_n_second(part, precision) :
-	part = __computor__.clear_equation(part)
+	part = __computor__.clear_equation(part, precision)
 	if part :
 		begin = True
 		for var in part :

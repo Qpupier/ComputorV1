@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 16:52:49 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:24:13 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ import verbose as __verbose__
 import pre_reduce as __pre_reduce__
 import parsing as __parsing__
 import algo as __algo__
+import utils as __utils__
 
 def	error(err):
 	print(err)
@@ -74,9 +75,9 @@ def	parse_var(var) :
 		new[0] = "1"
 	elif new[0] == "-" :
 		new[0] = "-1"
+	if new[0].strip()[0] == '+' :
+		error("Invalid syntax (Coefficient)")
 	try :
-		if new[0].strip()[0] == '+' :
-			error("Invalid syntax (Coefficient)")
 		new[0] = float(new[0].strip())
 	except :
 		error("Invalid syntax (Coefficient)")
@@ -107,9 +108,12 @@ def	join_parts(part1, part2) :
 		part1.append(part2[i])
 	return part1
 
-def	clear_equation(eq) :
+def	clear_equation(eq, prec) :
 	for i in range(len(eq) - 1, -1, -1) :
-		if not eq[i][0] :
+		if __utils__.ft_round(eq[i][0], prec) == "0" :
+			eq[i][0] = 0
+	for i in range(len(eq) - 1, -1, -1) :
+		if not eq[i] or not eq[i][0] :
 			eq.pop(i)
 	for i in range(len(eq)) :
 		if eq[i][1] and not eq[i][1][1] :
@@ -142,16 +146,18 @@ def	equation(entry, v, s) :
 		error("Wrong number of equals")
 	entry = entry.replace(',', '.')
 	part = entry.split('=')
-	part1 = clear_equation(parse_part(part[0]))
-	part2 = clear_equation(parse_part(part[1]))
+	part1 = parse_part(part[0])
+	part2 = parse_part(part[1])
 	precision = check_precision(part1)
 	tmp = check_precision(part2)
 	if tmp > precision :
 		precision = tmp
+	part1 = clear_equation(part1, precision)
+	part2 = clear_equation(part2, precision)
 	if verbose :
 		print("\033[32mSteps :")
 		__verbose__.print_step(part1, part2, True, precision)
-	part = clear_equation(join_parts(part1, neg(part2)))
+	part = clear_equation(join_parts(part1, neg(part2)), precision)
 	precision = check_precision(part)
 	if verbose and part and part2 :
 		__verbose__.print_step(part, None, False, precision)

@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 16:00:51 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:12:55 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,4 +35,4 @@ def	ft_sqrt(nb, prec) :
 	while test * test < nb :
 		test += 1
 	test -= 1
-	return sqrt_loop(nb, prec - 1, str(test) + ".")
+	return sqrt_loop(nb, 11, str(test) + ".")

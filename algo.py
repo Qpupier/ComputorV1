@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 16:33:11 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:27:38 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ def	degree_1(var, a, b, solution) :
 	x = -b / a
 	s = __utils__.ft_round(x, 15)
 	if not solution :
+		print("Polynomial degree : 1")
 		print()
 		print(var + " = " + s)
 		print()
@@ -79,6 +80,8 @@ def	degree_1(var, a, b, solution) :
 def	resolve(var, a, b, c, p, verbose, solution) :
 	if a :
 		if verbose :
+			print("Polynomial degree : 2")
+			print()
 			print("Δ = " + __utils__.ft_round(b, p) + "^2 - 4 * " + __utils__.ft_round(a, p) + " * " + __utils__.ft_round(c, p))
 			print("  = " + __utils__.ft_round(b, p) + " * " + __utils__.ft_round(b, p) + " - 4 * " + __utils__.ft_round(a, p) + " * " + __utils__.ft_round(c, p))
 			print("  = " + __utils__.ft_round(b * b, p * 2) + " - " + __utils__.ft_round(4 * a, p) + " * " + __utils__.ft_round(c, p))
@@ -98,11 +101,15 @@ def	resolve(var, a, b, c, p, verbose, solution) :
 		degree_1(var, b, c, solution)
 	elif c :
 		if not solution :
+			print("Polynomial degree : 0")
+			print()
 			print("There are no solutions")
 			print()
 		print("\033[33;1mS = ∅\033[0m")
 	else :
 		if not solution :
+			print("Polynomial degree : 0")
+			print()
 			print("All numbers are solutions")
 			print()
 		print("\033[33;1mS = ℝ\033[0m")

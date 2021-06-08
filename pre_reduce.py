@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 10:34:50 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 15:26:30 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:19:15 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ def	pre_reduce(equation, v, p) :
 	precision = p
 	for i in range(len(equation)) :
 		equation = update_var(equation, i)
-	equation = __computor__.clear_equation(equation)
+	equation = __computor__.clear_equation(equation, precision)
 	return equation
 
 def	print_reduce(equation, precision, solution) :
