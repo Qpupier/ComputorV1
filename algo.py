@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 15:32:59 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 16:25:19 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,3 +86,15 @@ def	resolve(var, a, b, c, p, verbose, solution) :
 			delta_null(var, a, b, solution)
 		else :
 			delta_pos(var, a, b, delta, solution)
+	elif b :
+		print("Degree 1")
+	elif c :
+		if not solution :
+			print("There are no solutions")
+			print()
+		print("\033[33;1mS = ∅\033[0m")
+	else :
+		if not solution :
+			print("All numbers are solutions")
+			print()
+		print("\033[33;1mS = ℝ\033[0m")
