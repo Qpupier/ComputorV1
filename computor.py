@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/07 18:24:13 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 15:30:15 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,9 +134,10 @@ def	check_precision(part) :
 			precision = nb
 	return precision if precision <= 15 else 15
 
-def	equation(entry, v) :
-	global verbose, precision
+def	equation(entry, v, s) :
+	global verbose, precision, solution
 	verbose = v
+	solution = s
 	if entry.count('=') != 1 :
 		error("Wrong number of equals")
 	entry = entry.replace(',', '.')
@@ -159,7 +160,6 @@ def	equation(entry, v) :
 		print("\033[0m")
 	part = __parsing__.parsing(part, precision)
 	part, eq = __pre_reduce__.reduce(part)
-	__pre_reduce__.print_reduce(part, precision)
-	print()
-	__algo__.resolve(eq[3], eq[0], eq[1], eq[2], precision, verbose)
+	__pre_reduce__.print_reduce(part, precision, solution)
+	__algo__.resolve(eq[3], eq[0], eq[1], eq[2], precision, verbose, solution)
 	return part

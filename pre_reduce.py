@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 10:34:50 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/07 16:40:34 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 15:26:30 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ def	pre_reduce(equation, v, p) :
 	equation = __computor__.clear_equation(equation)
 	return equation
 
-def	print_reduce(equation, precision) :
-	print("Reduced form : 				", end="")
-	__verbose__.print_step(equation, None, True, precision)
+def	print_reduce(equation, precision, solution) :
+	if not solution :
+		print("Reduced form : 				", end="")
+		__verbose__.print_step(equation, None, True, precision)
 
 def	reduce(equation) :
 	new = [[0, [None, 2]], [0, [None, 1]], [0, None]]
