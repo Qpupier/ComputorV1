@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:24:13 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:52:09 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,5 +167,5 @@ def	equation(entry, v, s) :
 	part = __parsing__.parsing(part, precision, solution)
 	part, eq = __pre_reduce__.reduce(part)
 	__pre_reduce__.print_reduce(part, precision, solution)
-	__algo__.resolve(eq[3], eq[0], eq[1], eq[2], precision, verbose, solution)
+	__algo__.resolve(part, eq[3], eq[0], eq[1], eq[2], precision, verbose, solution)
 	return part

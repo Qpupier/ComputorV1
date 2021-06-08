@@ -6,11 +6,12 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:27:38 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:51:22 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
+import bonus as __bonus__
 
 def	delta_neg(var, a, b, delta, solution) :
 	if not solution :
@@ -77,7 +78,7 @@ def	degree_1(var, a, b, solution) :
 	print(s, end="")
 	print("}\033[0m")
 
-def	resolve(var, a, b, c, p, verbose, solution) :
+def	resolve(equation, var, a, b, c, p, verbose, solution) :
 	if a :
 		if verbose :
 			print("Polynomial degree : 2")
@@ -98,7 +99,10 @@ def	resolve(var, a, b, c, p, verbose, solution) :
 		else :
 			delta_pos(var, a, b, delta, solution)
 	elif b :
-		degree_1(var, b, c, solution)
+		if verbose :
+			__bonus__.degree_1_bonus(equation, var, p)
+		else :
+			degree_1(var, b, c, solution)
 	elif c :
 		if not solution :
 			print("Polynomial degree : 0")
