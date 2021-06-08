@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 16:25:19 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 16:33:11 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ def	delta_neg(var, a, b, delta, solution) :
 	print(s1, end=", ")
 	print(s2, end="")
 	print("}\033[0m")
-	return
 
 def	delta_null(var, a, b, solution) :
 	if not solution :
@@ -46,7 +45,6 @@ def	delta_null(var, a, b, solution) :
 	print("\033[33;1mS = {", end="")
 	print(s, end="")
 	print("}\033[0m")
-	return
 
 def	delta_pos(var, a, b, delta, solution) :
 	if not solution :
@@ -66,7 +64,17 @@ def	delta_pos(var, a, b, delta, solution) :
 	print(s1, end=", ")
 	print(s2, end="")
 	print("}\033[0m")
-	return
+
+def	degree_1(var, a, b, solution) :
+	x = -b / a
+	s = __utils__.ft_round(x, 15)
+	if not solution :
+		print()
+		print(var + " = " + s)
+		print()
+	print("\033[33;1mS = {", end="")
+	print(s, end="")
+	print("}\033[0m")
 
 def	resolve(var, a, b, c, p, verbose, solution) :
 	if a :
@@ -87,7 +95,7 @@ def	resolve(var, a, b, c, p, verbose, solution) :
 		else :
 			delta_pos(var, a, b, delta, solution)
 	elif b :
-		print("Degree 1")
+		degree_1(var, b, c, solution)
 	elif c :
 		if not solution :
 			print("There are no solutions")
