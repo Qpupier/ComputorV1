@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 13:27:41 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:19:10 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/08 19:33:21 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,9 +137,18 @@ def	error_n_naturals(equation, precision, solution) :
 	print(" = 0")
 	exit(1)
 
+def	polynomial_degree(equation) :
+	poly = 0
+	for each in equation :
+		if each[1] and each[1][1] > poly :
+			poly = each[1][1]
+	return int(poly)
+
 def	error_n_second(equation, precision, solution) :
 	__pre_reduce__.print_reduce(equation, precision, solution)
-	print("\033[31mError\033[0m (Powers are not strictly less than 3) : 	", end="")
+	if not solution :
+		print("Polynomial degree :", polynomial_degree(equation))
+	print("\033[31mError\033[0m (The polynomial degree is stricly greater than 2, I can't solve) : 	", end="")
 	print_part_n_second(equation, precision)
 	print(" = 0")
 	exit(1)
