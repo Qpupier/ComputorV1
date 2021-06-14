@@ -6,12 +6,13 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/11 18:20:43 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/14 16:54:14 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
-import bonus as __bonus__
+import bonus.degree_1 as __deg1__
+import bonus.degree_2_neg as __deg2_neg__
 
 def	delta_neg(var, a, b, delta, solution) :
 	if not solution :
@@ -20,7 +21,7 @@ def	delta_neg(var, a, b, delta, solution) :
 		print()
 	p = 15
 	x_r = -b / (2 * a)
-	x_i = __utils__.ft_sqrt(-delta, p) / (2 * a)
+	x_i = __utils__.ft_sqrt(-delta) / (2 * a)
 	s1 = __utils__.ft_round(x_r, p) + " - i * " + __utils__.ft_round(x_i, p)
 	s2 = __utils__.ft_round(x_r, p) + " + i * " + __utils__.ft_round(x_i, p)
 	if not solution :
@@ -92,15 +93,23 @@ def	resolve(equation, var, a, b, c, p, verbose, solution) :
 		p *= 2
 		if not solution :
 			print("Δ = " + __utils__.ft_round(delta, p * 2))
-		if delta < 0 :
-			delta_neg(var, a, b, delta, solution)
-		elif not delta :
-			delta_null(var, a, b, solution)
+		if verbose :
+			if delta < 0 :
+				__deg2_neg__.delta_neg(var, a, b, delta, solution)
+			elif not delta :
+				delta_null(var, a, b, solution)
+			else :
+				delta_pos(var, a, b, delta, solution)
 		else :
-			delta_pos(var, a, b, delta, solution)
+			if delta < 0 :
+				delta_neg(var, a, b, delta, solution)
+			elif not delta :
+				delta_null(var, a, b, solution)
+			else :
+				delta_pos(var, a, b, delta, solution)
 	elif b :
 		if verbose :
-			__bonus__.degree_1_bonus(equation, var, p)
+			__deg1__.degree_1_bonus(equation, var, p)
 		else :
 			degree_1(var, b, c, solution)
 	elif c :

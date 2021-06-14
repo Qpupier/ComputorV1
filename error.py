@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 13:27:41 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:33:21 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/14 16:59:12 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,14 +125,14 @@ def	print_part_n_second(part, precision) :
 
 def	error_var(equation, precision, solution) :
 	__pre_reduce__.print_reduce(equation, precision, solution)
-	print("\033[31mError\033[0m (Multiple variables) : 			", end="")
+	print("\033[31mError\033[0m (Multiple variables) : 							", end="")
 	print_part_x(equation, precision)
 	print(" = 0")
 	exit(1)
 
 def	error_n_naturals(equation, precision, solution) :
 	__pre_reduce__.print_reduce(equation, precision, solution)
-	print("\033[31mError\033[0m (Powers are not natural numbers) : 	", end="")
+	print("\033[31mError\033[0m (Powers are not natural numbers) : 					", end="")
 	print_part_n_naturals(equation, precision)
 	print(" = 0")
 	exit(1)
@@ -155,7 +155,7 @@ def	error_n_second(equation, precision, solution) :
 
 def	error_parsing(equation, precision, solution) :
 	__pre_reduce__.print_reduce(equation, precision, solution)
-	print("\033[31mError\033[0m : 					\033[31;1m", end="")
+	print("\033[31mError\033[0m : 									\033[31;1m", end="")
 	print_part_n_second(equation, precision)
 	print(" = 0\033[0m")
 	exit(1)

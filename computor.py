@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:52:09 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/14 17:00:40 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,10 @@ def	check_precision(part) :
 		nb = nb_prec(each[0])
 		if nb > precision :
 			precision = nb
+		if each[1] :
+			nb = nb_prec(each[1][1])
+			if nb > precision :
+				precision = nb
 	return precision if precision <= 15 else 15
 
 def	equation(entry, v, s) :
