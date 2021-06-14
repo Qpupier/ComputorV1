@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/11 16:52:16 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/11 18:12:19 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ def	primes(nb) :
 			return result
 		result.append(new)
 		nb /= new
-	return result
+	return [1] if not result else result
 
 def	reduce_fraction(first, second, result) :
 	tmp_a = []
@@ -89,18 +89,13 @@ def	irreducible(num, div) :
 		b *= i
 	return a, b
 
-def	fraction_delete(first, second, delete) :
-	copy = delete.copy()
-	for a in range(len(first)) :
+def	fraction_delete(frac, copy) :
+	for a in range(len(frac)) :
 		for tmp in range(len(copy)) :
-			if first[a] == copy[tmp] :
-				first.pop(a)
+			if frac[a] == copy[tmp] :
+				frac.pop(a)
 				copy.pop(tmp)
-	for b in range(len(second)) :
-		for tmp in range(len(delete)) :
-			if second[b] == delete[tmp] :
-				second.pop(b)
-				delete.pop(tmp)
+				return fraction_delete(frac, copy)
 
 def	degree_1_bonus(equation, var, p) :
 	print("Polynomial degree : 1")
@@ -111,11 +106,14 @@ def	degree_1_bonus(equation, var, p) :
 	equation.pop(2)
 	part2[0][0] *= -1
 	__verbose__.print_step(equation, part2, True, p)
-	if equation[1][0] != 1 :
+	result = __utils__.ft_round(part2[0][0], p)
+	if equation[1][0] != 1 and equation[1][0] != -1 :
 		print("<=>	" + var + " = " + __utils__.ft_round(part2[0][0], p) + " / " + __utils__.ft_round(equation[1][0], p))
 		div = __utils__.ft_round(part2[0][0] / equation[1][0], 15)
 		if div == int(float(div)) :
-			print("<=>	" + var + " = " + int(div))
+			result = str(int(div))
+			result = str(int(div))
+			print("<=>	" + var + " = " + result)
 		else :
 			num = part2[0][0]
 			div = equation[1][0]
@@ -137,12 +135,17 @@ def	degree_1_bonus(equation, var, p) :
 				print("<=>	" + var + " = ", end="")
 				print_fraction(primes_num, primes_div, delete)
 				print()
-				fraction_delete(primes_num, primes_div, delete)
+				fraction_delete(primes_num, delete.copy())
+				fraction_delete(primes_div, delete.copy())
 				print("<=>	" + var + " = ", end="")
 				print_fraction(primes_num, primes_div, None)
 				print()
-				num, div = irreducible(primes_num, primes_div)
-				print("<=>	" + var + " = " + str(num) + " / " + str(div))
+				if len(primes_num) > 1 or len(primes_div) > 1 :
+					num, div = irreducible(primes_num, primes_div)
+					print("<=>	" + var + " = " + str(num) + " / " + str(div))
+				else :
+					num = 1 if not primes_num else primes_num[0]
+					div = 1 if not primes_div else primes_div[0]
 			if div < 0 :
 				num *= -1
 				div *= -1
@@ -154,5 +157,9 @@ def	degree_1_bonus(equation, var, p) :
 				equal = " = "
 				result = round
 			print("\033[35m<=>	" + var + equal + __utils__.ft_round(num / div, 15) + "\033[0m")
+	elif equation[1][0] == -1 :
+		part2[0][0] *= -1
+		result = __utils__.ft_round(part2[0][0], p)
+		print("<=>	" + var + " = " + result)
 	print("\033[33;1m")
 	print("S = {" + result + "}\033[0m")

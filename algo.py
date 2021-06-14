@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:51:22 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/11 18:20:43 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,8 @@ def	delta_pos(var, a, b, delta, solution) :
 		print("Discriminant is positive, there are 2 solutions :")
 		print()
 	p = 15
-	x1 = (-b - __utils__.ft_sqrt(delta, p)) / (2 * a)
-	x2 = (-b + __utils__.ft_sqrt(delta, p)) / (2 * a)
+	x1 = (-b - __utils__.ft_sqrt(delta)) / (2 * a)
+	x2 = (-b + __utils__.ft_sqrt(delta)) / (2 * a)
 	s1 = __utils__.ft_round(x1, p)
 	s2 = __utils__.ft_round(x2, p)
 	if not solution :
