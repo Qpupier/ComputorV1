@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    bonus_utils.py                                     :+:      :+:    :+:    #
+#    utils.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 15:02:29 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/14 20:26:26 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,3 +95,6 @@ def	fraction_delete(frac, copy) :
 				frac.pop(a)
 				copy.pop(tmp)
 				return fraction_delete(frac, copy)
+
+def	reduce_sqrt(delta) :
+	return

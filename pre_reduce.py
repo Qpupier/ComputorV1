@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 10:34:50 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/08 19:30:22 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/14 17:09:10 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ def	pre_reduce(equation, v, p) :
 
 def	print_reduce(equation, precision, solution) :
 	if not solution :
-		print("Reduced form : 								", end="")
+		print("Reduced form (ax^2 + bx + c) : 						", end="")
 		__verbose__.print_step(equation, None, True, precision)
 
 def	reduce(equation) :

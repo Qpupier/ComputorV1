@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 16:54:14 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/14 19:23:04 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ def	resolve(equation, var, a, b, c, p, verbose, solution) :
 		if verbose :
 			print("Polynomial degree : 2")
 			print()
+			print("Δ = b^2 - 4ac")
 			print("Δ = " + __utils__.ft_round(b, p) + "^2 - 4 * " + __utils__.ft_round(a, p) + " * " + __utils__.ft_round(c, p))
 			print("  = " + __utils__.ft_round(b, p) + " * " + __utils__.ft_round(b, p) + " - 4 * " + __utils__.ft_round(a, p) + " * " + __utils__.ft_round(c, p))
 			print("  = " + __utils__.ft_round(b * b, p * 2) + " - " + __utils__.ft_round(4 * a, p) + " * " + __utils__.ft_round(c, p))
@@ -95,7 +96,7 @@ def	resolve(equation, var, a, b, c, p, verbose, solution) :
 			print("Δ = " + __utils__.ft_round(delta, p * 2))
 		if verbose :
 			if delta < 0 :
-				__deg2_neg__.delta_neg(var, a, b, delta, solution)
+				__deg2_neg__.delta_neg(var, a, b, delta, p)
 			elif not delta :
 				delta_null(var, a, b, solution)
 			else :
