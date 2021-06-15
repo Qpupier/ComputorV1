@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 16:04:15 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/15 20:07:32 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/15 20:47:23 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,17 +42,83 @@ def	delta_neg_notb_nota_discriminant_squares(var, squares, delta_num, delta_den)
 	print("<=>	" + var + "_1 = -√" + __utils__.ft_round(tmp, 15) + "√" + __utils__.ft_round(delta_num, 15) + " / " + __utils__.ft_round(delta_den, 0))
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = √" + __utils__.ft_round(tmp, 15) + "√" + __utils__.ft_round(delta_num, 15) + " / " + __utils__.ft_round(delta_den, 0))
-	squares = __utils__.ft_round(__utils__.ft_sqrt(tmp), 15)
+	squares = __utils__.ft_sqrt(tmp)
 	print()
-	print("<=>	" + var + "_1 = -" + squares + "√" + __utils__.ft_round(delta_num, 15) + " / " + __utils__.ft_round(delta_den, 0))
+	print("<=>	" + var + "_1 = -" + __utils__.ft_round(squares, 15) + "√" + __utils__.ft_round(delta_num, 15) + " / " + __utils__.ft_round(delta_den, 0))
 	print("	\33[33mor\033[32m")
-	print("	" + var + "_2 = " + squares + "√" + __utils__.ft_round(delta_num, 15) + " / " + __utils__.ft_round(delta_den, 0))
-	print("TODO NOW")
+	print("	" + var + "_2 = " + __utils__.ft_round(squares, 15) + "√" + __utils__.ft_round(delta_num, 15) + " / " + __utils__.ft_round(delta_den, 0))
+	primes_square = __bonus__.primes(squares)
+	primes_den = __bonus__.primes(delta_den)
+	delete = []
+	__bonus__.reduce_fraction(primes_square, primes_den, delete)
+	str_num = __bonus__.print_frac(primes_square, delete, True)
+	str_den = __bonus__.print_frac(primes_den, delete, False)
+	print()
+	print("<=>	" + var + "_1 = -" + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
+	__bonus__.fraction_delete(primes_square, delete.copy())
+	__bonus__.fraction_delete(primes_den, delete.copy())
+	str_num = __bonus__.print_frac(primes_square, [], True)
+	str_den = __bonus__.print_frac(primes_den, [], False)
+	if not str_den :
+		str_den = "1"
+	print()
+	print("<=>	" + var + "_1 = -" + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
+	num, den = __bonus__.irreducible(primes_square, primes_den)
+	str_num = __utils__.ft_round(num, 15) if num != 1 else ""
+	str_den = __utils__.ft_round(den, 15)
+	if len(primes_square) > 1 or len(primes_den) > 1 :
+		print()
+		print("<=>	" + var + "_1 = -" + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
+	if str_den == "1" :
+		print()
+		print("<=>	" + var + "_1 = -" + str_num + "√" + __utils__.ft_round(delta_num, 15))
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_num + "√" + __utils__.ft_round(delta_num, 15))
+		arround1 = __utils__.ft_round(-num * __utils__.ft_sqrt(delta_num), 15)
+		arround2 = __utils__.ft_round(num * __utils__.ft_sqrt(delta_num), 15)
+		print("\033[35m")
+		if len(arround1[arround1.find('.') + 1:]) < 11 :
+			print("<=>	" + var + "_1 = " + arround1)
+			str1 = arround1
+		else :
+			print("<=>	" + var + "_1 ≈ " + arround1)
+			str1 = "-" + str_num + "√" + __utils__.ft_round(delta_num, 15)
+		print("	\33[33mor\033[35m")
+		if len(arround2[arround2.find('.') + 1:]) < 11 :
+			print("	" + var + "_2 = " + arround2)
+			str2 = arround2
+		else :
+			print("	" + var + "_2 ≈ " + arround2)
+			str2 = str_num + "√" + __utils__.ft_round(delta_num, 15)
+		return str1, str2
+	arround1 = __utils__.ft_round(-num * __utils__.ft_sqrt(delta_num) / den, 15)
+	arround2 = __utils__.ft_round(num * __utils__.ft_sqrt(delta_num) / den, 15)
+	print("\033[35m")
+	if len(arround1[arround1.find('.') + 1:]) < 11 :
+		print("<=>	" + var + "_1 = " + arround1)
+		str1 = arround1
+	else :
+		print("<=>	" + var + "_1 ≈ " + arround1)
+		str1 = "-" + str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den
+	print("	\33[33mor\033[35m")
+	if len(arround2[arround2.find('.') + 1:]) < 11 :
+		print("	" + var + "_2 = " + arround2)
+		str2 = arround2
+	else :
+		print("	" + var + "_2 ≈ " + arround2)
+		str2 = str_num + "√" + __utils__.ft_round(delta_num, 15) + " / " + str_den
+	return str1, str2
 
 def	delta_neg_notb_nota_discriminant(var, delta) :
 	if delta == int(delta) :
 		delta = __bonus__.reduce_sqrt(delta)
-		print("TODO")
+		print("TODO NOW")
 		return
 	mult = __bonus__.irreducible_mult(delta, 1)
 	delta_num = int(delta * mult)
@@ -84,14 +150,14 @@ def	delta_neg_notb_nota_discriminant(var, delta) :
 	arround1 = __utils__.ft_round(-__utils__.ft_sqrt(delta_num) / delta_den, 15)
 	arround2 = __utils__.ft_round(__utils__.ft_sqrt(delta_num) / delta_den, 15)
 	print("\033[35m")
-	if len(arround1[arround1.find('.') + 1:]) < 15 :
+	if len(arround1[arround1.find('.') + 1:]) < 11 :
 		print("<=>	" + var + "_1 = " + arround1)
 		str1 = arround1
 	else :
 		print("<=>	" + var + "_1 ≈ " + arround1)
 		str1 = "-√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0)
 	print("	\33[33mor\033[35m")
-	if len(arround2[arround2.find('.') + 1:]) < 15 :
+	if len(arround2[arround2.find('.') + 1:]) < 11 :
 		print("	" + var + "_2 = " + arround2)
 		str2 = arround2
 	else :

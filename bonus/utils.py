@@ -6,11 +6,10 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/15 18:56:34 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/15 20:25:06 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-from typing import MutableMapping
 import utils as __utils__
 
 def	first_prime(nb, j) :
@@ -111,3 +110,21 @@ def	reduce_sqrt(delta) :
 	squares = []
 	delta = perfect_squares(delta, squares)
 	return squares, delta
+
+def	print_frac(prime, delete, top) :
+	copy = None if not delete else delete.copy()
+	result = ""
+	if not top and len(prime) > 1 :
+		result += "("
+	for i in range(len(prime)) :
+		if i :
+			result += " * "
+		if copy and prime[i] in copy :
+			result += "\033[34m"
+		result += str(prime[i])
+		if copy and prime[i] in copy :
+			result += "\033[32m"
+			copy.pop(copy.index(prime[i]))
+	if not top and len(prime) > 1 :
+		result += ")"
+	return result
