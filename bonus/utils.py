@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 20:26:26 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/15 18:56:34 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,5 +96,18 @@ def	fraction_delete(frac, copy) :
 				copy.pop(tmp)
 				return fraction_delete(frac, copy)
 
+def	perfect_squares(nb, result) :
+	if nb < 4 :
+		return int(nb)
+	first = int(__utils__.ft_sqrt(int(nb * 0.5)))
+	for i in range(first, 1, -1) :
+		square = i * i
+		if nb / square == int(nb / square) :
+			result.append(i)
+			return perfect_squares(nb / square, result)
+	return int(nb)
+
 def	reduce_sqrt(delta) :
-	return
+	squares = []
+	delta = perfect_squares(delta, squares)
+	return squares, delta

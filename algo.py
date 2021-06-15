@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 19:23:04 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/15 19:30:15 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ def	resolve(equation, var, a, b, c, p, verbose, solution) :
 			print("Δ = " + __utils__.ft_round(delta, p * 2))
 		if verbose :
 			if delta < 0 :
-				__deg2_neg__.delta_neg(var, a, b, delta, p)
+				print(__deg2_neg__.delta_neg(var, a, b, delta, p))
 			elif not delta :
 				delta_null(var, a, b, solution)
 			else :
