@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/15 20:25:06 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/17 09:01:46 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,11 +80,13 @@ def	print_fraction(num, div, delete) :
 
 def	irreducible(num, div) :
 	a = 1
-	for i in num :
-		a *= i
+	if num :
+		for i in num :
+			a *= i
 	b = 1
-	for i in div :
-		b *= i
+	if div :
+		for i in div :
+			b *= i
 	return a, b
 
 def	fraction_delete(frac, copy) :

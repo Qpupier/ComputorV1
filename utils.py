@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 20:20:31 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/17 09:59:25 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ def	ft_sqrt(nb) :
 	if test * test == nb :
 		return test
 	test -= 1
-	return sqrt_loop(nb, 11, str(test) + ".")
+	return sqrt_loop(nb, 14, str(test) + ".")
 
 def	ft_pow(nb, p) :
 	result = 1
