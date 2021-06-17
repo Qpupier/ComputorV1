@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/17 09:01:46 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/17 14:41:39 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,7 @@ def	irreducible_mult(num, div) :
 	l_d = str(div).find('.')
 	l_n = 0 if l_n == -1 else len(str(num)[(l_n + 1):])
 	l_d = 0 if l_d == -1 else len(str(div)[(l_d + 1):])
-	mult = __utils__.ft_pow(10, l_n if l_n >= l_d else l_d)
-	return mult
+	return __utils__.ft_pow(10, l_n if l_n >= l_d else l_d)
 
 def	print_fraction(num, div, delete) :
 	copy = None if not delete else delete.copy()
@@ -116,17 +115,42 @@ def	reduce_sqrt(delta) :
 def	print_frac(prime, delete, top) :
 	copy = None if not delete else delete.copy()
 	result = ""
-	if not top and len(prime) > 1 :
-		result += "("
-	for i in range(len(prime)) :
-		if i :
-			result += " * "
-		if copy and prime[i] in copy :
-			result += "\033[34m"
-		result += str(prime[i])
-		if copy and prime[i] in copy :
-			result += "\033[32m"
-			copy.pop(copy.index(prime[i]))
-	if not top and len(prime) > 1 :
-		result += ")"
+	if prime :
+		if not top and len(prime) > 1 :
+			result += "("
+		for i in range(len(prime)) :
+			if i :
+				result += " * "
+			if copy and prime[i] in copy :
+				result += "\033[34m"
+			result += str(prime[i])
+			if copy and prime[i] in copy :
+				result += "\033[32m"
+				copy.pop(copy.index(prime[i]))
+		if not top and len(prime) > 1 :
+			result += ")"
+	elif not top :
+		result = "1"
 	return result
+
+def	str_lst_sq(lst, delta) :
+	result = ""
+	if lst and delta :
+		if lst :
+			result += "("
+		for i in range(len(lst)) :
+			if i :
+				result += " * "
+			result += __utils__.ft_round(lst[i] * lst[i], 14)
+		if lst :
+			result += " * "
+		result += __utils__.ft_round(delta, 14)
+		if lst :
+			result += ")"
+	return result
+
+def	irreducible_sq(sq) :
+	nb = 1
+	for each in sq :
+		nb *= each * each
+	return [__utils__.ft_sqrt(nb)]

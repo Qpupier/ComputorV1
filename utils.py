@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/17 09:59:25 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/17 13:57:40 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,17 +17,18 @@ def	ft_round(n, p) :
 	return str(r)
 
 def	sqrt_loop(nb, prec, tmp) :
+	# print(nb, prec, tmp)
 	test = 0
-	new = float(tmp + str(test))
-	while new * new <= nb :
-		if new * new == nb :
+	new = tmp + str(test)
+	while float(new) * float(new) <= nb :
+		if float(new) * float(new) == nb :
 			return new
 		test += 1
-		new = float(tmp + str(test))
+		new = tmp + str(test)
 	test -= 1
-	new = float(tmp + str(test))
+	new = tmp + str(test)
 	if prec > 0 :
-		return sqrt_loop(nb, prec - 1, str(new))
+		return sqrt_loop(nb, prec - 1, new)
 	return new
 
 def	ft_sqrt(nb) :
@@ -37,7 +38,7 @@ def	ft_sqrt(nb) :
 	if test * test == nb :
 		return test
 	test -= 1
-	return sqrt_loop(nb, 14, str(test) + ".")
+	return float(sqrt_loop(nb, 15, str(test) + "."))
 
 def	ft_pow(nb, p) :
 	result = 1
