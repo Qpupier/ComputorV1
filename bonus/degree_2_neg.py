@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 16:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/18 17:50:49 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/26 15:25:22 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,28 +76,6 @@ def	delta_neg_notb_nota_discriminant_squares(var, squares, delta_num, delta_den)
 		print("<=>	" + var + "_1 = -" + str_num + "i√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
 		print("	\33[33mor\033[32m")
 		print("	" + var + "_2 = " + str_num + "i√" + __utils__.ft_round(delta_num, 15) + " / " + str_den)
-	if str_den == "1" :
-		print()
-		print("<=>	" + var + "_1 = -" + str_num + "i√" + __utils__.ft_round(delta_num, 15))
-		print("	\33[33mor\033[32m")
-		print("	" + var + "_2 = " + str_num + "i√" + __utils__.ft_round(delta_num, 15))
-		arround1 = __utils__.ft_round(-num * __utils__.ft_sqrt(delta_num), 15) + "i"
-		arround2 = __utils__.ft_round(num * __utils__.ft_sqrt(delta_num), 15) + "i"
-		print("\033[35m")
-		if len(arround1[arround1.find('.') + 1:]) < 15 :
-			print("<=>	" + var + "_1 = " + arround1)
-			str1 = arround1
-		else :
-			print("<=>	" + var + "_1 ≈ " + arround1)
-			str1 = "-" + str_num + "i√" + __utils__.ft_round(delta_num, 15)
-		print("	\33[33mor\033[35m")
-		if len(arround2[arround2.find('.') + 1:]) < 15 :
-			print("	" + var + "_2 = " + arround2)
-			str2 = arround2
-		else :
-			print("	" + var + "_2 ≈ " + arround2)
-			str2 = str_num + "i√" + __utils__.ft_round(delta_num, 15)
-		return str1, str2
 	arround1 = __utils__.ft_round(-num * __utils__.ft_sqrt(delta_num) / den, 15) + "i"
 	arround2 = __utils__.ft_round(num * __utils__.ft_sqrt(delta_num) / den, 15) + "i"
 	print("\033[35m")
@@ -177,7 +155,7 @@ def	delta_neg_notb_nota_discriminant_int(var, delta) :
 def	delta_neg_notb_nota_discriminant(var, delta) :
 	if delta == int(delta) :
 		return delta_neg_notb_nota_discriminant_int(var, delta)
-	mult = __bonus__.irreducible_mult(delta, 1)
+	mult = __bonus__.irreducible_mult(delta, 1, 15)
 	delta_num = int(delta * mult)
 	delta_den = int(mult)
 	print()
@@ -204,6 +182,8 @@ def	delta_neg_notb_nota_discriminant(var, delta) :
 	squares, delta_num = __bonus__.reduce_sqrt(delta_num)
 	if squares :
 		return delta_neg_notb_nota_discriminant_squares(var, squares, delta_num, delta_den)
+	str1 = "-i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0)
+	str2 = "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0)
 	arround1 = __utils__.ft_round(-__utils__.ft_sqrt(delta_num) / delta_den, 15) + "i"
 	arround2 = __utils__.ft_round(__utils__.ft_sqrt(delta_num) / delta_den, 15) + "i"
 	print("\033[35m")
@@ -212,14 +192,12 @@ def	delta_neg_notb_nota_discriminant(var, delta) :
 		str1 = arround1
 	else :
 		print("<=>	" + var + "_1 ≈ " + arround1)
-		str1 = "-i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0)
 	print("	\33[33mor\033[35m")
 	if len(arround2[arround2.find('.') + 1:]) < 15 :
 		print("	" + var + "_2 = " + arround2)
 		str2 = arround2
 	else :
 		print("	" + var + "_2 ≈ " + arround2)
-		str2 = "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0)
 	return str1, str2
 
 def	delta_neg_notb_nota(var, delta) :
@@ -243,7 +221,7 @@ def	delta_neg_notb_a_discriminant(var, a, delta, p) :
 	print("<=>	" + var + "_1 = -" + __utils__.ft_round(delta, 0) + "i / " + __utils__.ft_round(a, p))
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + __utils__.ft_round(delta, 0) + "i / " + __utils__.ft_round(a, p))
-	mult = __bonus__.irreducible_mult(delta, a)
+	mult = __bonus__.irreducible_mult(delta, a, p)
 	if mult > 1 :
 		delta = int(delta * mult)
 		a = int(a * mult)
@@ -272,43 +250,65 @@ def	delta_neg_notb_a_discriminant(var, a, delta, p) :
 		print("	" + var + "_2 = " + str_num + "i / " + str_den)
 		delta, a = __bonus__.irreducible(primes1, primes2)
 		if len(primes1) > 1 or len(primes2) > 1 :
+			str_delta = __utils__.ft_round(delta, 0)
+			if str_delta == "1" :
+				str_delta = ""
 			print()
-			print("<=>	" + var + "_1 = -" + __utils__.ft_round(delta, 0) + "i / " + __utils__.ft_round(a, 0))
+			print("<=>	" + var + "_1 = -" + str_delta + "i / " + __utils__.ft_round(a, 0))
 			print("	\33[33mor\033[32m")
-			print("	" + var + "_2 = " + __utils__.ft_round(delta, 0) + "i / " + __utils__.ft_round(a, 0))
+			print("	" + var + "_2 = " + str_delta + "i / " + __utils__.ft_round(a, 0))
 	if delta / a == int(delta / a) :
 		delta = int(delta / a)
-		if delta :
-			str1 = "-" + __utils__.ft_round(delta, 0) + "i"
-			str2 = __utils__.ft_round(delta, 0) + "i"
+		if delta == -1 :
+			str1 = "i"
+			str2 = "-i"
 			print()
 			print("<=>	" + var + "_1 = " + str1)
 			print("	\33[33mor\033[32m")
 			print("	" + var + "_2 = " + str2)
 			return str1, str2
-		print()
-		print("<=>	" + var + "_1 = 0")
-		print("	\33[33mor\033[32m")
-		print("	" + var + "_2 = 0")
-		return "0", None
-	str1 = __utils__.ft_round(-delta, 0) + "i / " + __utils__.ft_round(a, 0)
-	str2 = __utils__.ft_round(delta, 0) + "i / " + __utils__.ft_round(a, 0)
-	if a < 0 :
-		delta *= -1
-		a *= -1
-		str1 = __utils__.ft_round(-delta, 0) + "i / " + __utils__.ft_round(a, 0)
-		str2 = __utils__.ft_round(delta, 0) + "i / " + __utils__.ft_round(a, 0)
+		if delta == 1 :
+			str1 = "-i"
+			str2 = "i"
+			print()
+			print("<=>	" + var + "_1 = " + str1)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str2)
+			return str1, str2
+		str1 = "-" + __utils__.ft_round(delta, 0) + "i"
+		str2 = __utils__.ft_round(delta, 0) + "i"
 		print()
 		print("<=>	" + var + "_1 = " + str1)
 		print("	\33[33mor\033[32m")
 		print("	" + var + "_2 = " + str2)
-	if delta == -1 or delta == 1 :
-		if delta == 1 :
-			str1 = "-i / " + __utils__.ft_round(a, 0)
-			str2 = "i / " + __utils__.ft_round(a, 0)
-		else :
-			str1 = "i / " + __utils__.ft_round(a, 0)
-			str2 = "-i / " + __utils__.ft_round(a, 0)
+		return str1, str2
+	str_delta1 = __utils__.ft_round(-delta, 0)
+	if str_delta1 == "-1" :
+		str_delta1 = "-"
+	if str_delta1 == "1" :
+		str_delta1 = ""
+	str_delta2 = __utils__.ft_round(delta, 0)
+	if str_delta2 == "-1" :
+		str_delta2 = "-"
+	if str_delta2 == "1" :
+		str_delta2 = ""
+	str1 = str_delta1 + "i / " + __utils__.ft_round(a, 0)
+	str2 = str_delta2 + "i / " + __utils__.ft_round(a, 0)
+	if a < 0 :
+		delta *= -1
+		a *= -1
+		str_delta1 = __utils__.ft_round(-delta, 0)
+		if str_delta1 == "-1" :
+			str_delta1 = "-"
+		if str_delta1 == "1" :
+			str_delta1 = ""
+		str_delta2 = __utils__.ft_round(delta, 0)
+		if str_delta2 == "-1" :
+			str_delta2 = "-"
+		if str_delta2 == "1" :
+			str_delta2 = ""
+		str1 = str_delta1 + "i / " + __utils__.ft_round(a, 0)
+		str2 = str_delta2 + "i / " + __utils__.ft_round(a, 0)
 		print()
 		print("<=>	" + var + "_1 = " + str1)
 		print("	\33[33mor\033[32m")
@@ -332,7 +332,7 @@ def	delta_neg_notb_a_discriminant(var, a, delta, p) :
 	return str1, str2
 
 def delta_neg_notb_a_discriminant_float(var, a, delta, p) :
-	mult = __bonus__.irreducible_mult(delta, 1)
+	mult = __bonus__.irreducible_mult(delta, 1, p)
 	delta_num = int(delta * mult)
 	delta_den = int(mult)
 	print()
@@ -466,16 +466,15 @@ def delta_neg_notb_a_discriminant_float(var, a, delta, p) :
 				print("	" + var + "_2 ≈ " + arround2)
 			return str1, str2
 		if den < 0 :
-			den *= -1
-			str_den = __utils__.ft_round(den, 15)
+			str_den = __utils__.ft_round(-den, 15)
 			str1 = str_num + "i√" + __utils__.ft_round(delta, 0) + " / " + str_den
 			str2 = "-" + str_num + "i√" + __utils__.ft_round(delta, 0) + " / " + str_den
 			print()
 			print("<=>	" + var + "_1 = " + str1)
 			print("	\33[33mor\033[32m")
 			print("	" + var + "_2 = " + str2)
-			arround1 = __utils__.ft_round(num * __utils__.ft_sqrt(delta) / den, 15) + "i"
-			arround2 = __utils__.ft_round(-num * __utils__.ft_sqrt(delta) / den, 15) + "i"
+			arround1 = __utils__.ft_round(num * __utils__.ft_sqrt(delta) / -den, 15) + "i"
+			arround2 = __utils__.ft_round(-num * __utils__.ft_sqrt(delta) / -den, 15) + "i"
 		else :
 			str1 = "-" + str_num + "i√" + __utils__.ft_round(delta, 0) + " / " + str_den
 			str2 = str_num + "i√" + __utils__.ft_round(delta, 0) + " / " + str_den
@@ -811,7 +810,10 @@ def	delta_neg_notb(var, a, delta, p) :
 	return delta_neg_notb_a(var, a, delta, p)
 
 def	delta_neg_b(var, a, b, delta, p) :
+	# if a == 1 :
+		# return delta
 	print("TODO NOW")
+	return "", ""
 
 def	delta_neg(var, a, b, delta, p) :
 	print()

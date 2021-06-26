@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/17 14:41:39 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/06/26 14:28:44 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,12 +43,13 @@ def	reduce_fraction(first, second, result) :
 				tmp_b.append(b)
 				result.append(first[a])
 
-def	irreducible_mult(num, div) :
+def	irreducible_mult(num, div, p) :
 	l_n = str(num).find('.')
 	l_d = str(div).find('.')
 	l_n = 0 if l_n == -1 else len(str(num)[(l_n + 1):])
 	l_d = 0 if l_d == -1 else len(str(div)[(l_d + 1):])
-	return __utils__.ft_pow(10, l_n if l_n >= l_d else l_d)
+	mult = l_n if l_n >= l_d else l_d
+	return __utils__.ft_pow(10, p if mult > p else mult)
 
 def	print_fraction(num, div, delete) :
 	copy = None if not delete else delete.copy()
