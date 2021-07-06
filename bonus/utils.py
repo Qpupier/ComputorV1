@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/26 14:28:44 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/06 18:20:03 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -155,3 +155,12 @@ def	irreducible_sq(sq) :
 	for each in sq :
 		nb *= each * each
 	return [__utils__.ft_sqrt(nb)]
+
+def	print_squares(squares, delta) :
+	sq = "("
+	for each in squares :
+		if sq != "(" :
+			sq += " * "
+		sq += __utils__.ft_round(each * each, 15)
+	sq += " * " + __utils__.ft_round(delta, 15) + ")"
+	return sq

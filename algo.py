@@ -6,13 +6,13 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/18 18:51:47 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/06 18:17:04 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 import bonus.degree_1 as __deg1__
-import bonus.degree_2_neg as __deg2_neg__
+import bonus.degree2.neg.degree2_neg as __neg__
 
 def	delta_neg(var, a, b, delta, solution) :
 	if not solution :
@@ -96,7 +96,7 @@ def	resolve(equation, var, a, b, c, p, verbose, solution) :
 			print("Δ = " + __utils__.ft_round(delta, p * 2))
 		if verbose :
 			if delta < 0 :
-				s1, s2 = __deg2_neg__.delta_neg(var, a, b, delta, p)
+				s1, s2 = __neg__.delta_neg(var, a, b, delta, p)
 			elif not delta :
 				s1, s2 = delta_null(var, a, b, solution)
 			else :
