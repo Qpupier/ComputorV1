@@ -130,7 +130,7 @@ def	print_frac(prime, delete, top) :
 				copy.pop(copy.index(prime[i]))
 		if not top and len(prime) > 1 :
 			result += ")"
-	elif not top :
+	else :
 		result = "1"
 	return result
 
