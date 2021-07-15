@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/15 19:50:06 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/15 19:51:19 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -441,5 +441,5 @@ def	delta_neg_b_nota(var, b, delta, p) :
 def	delta_neg_b(var, a, b, delta, p) :
 	if a == 1 :
 		return delta_neg_b_nota(var, b, delta, p)
-	print("TODO")
+	print("TODO NOW")
 	return "", ""
