@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/15 18:38:13 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/15 19:50:06 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,7 +149,7 @@ def	delta_neg_b_nota_notsqrt(var, b, delta_sqrt, p) :
 		print("	" + var + "_2 ≈ " + arround + i2)
 	return str1, str2
 
-def	delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta_den, delta_den_sqrt) :
+def	delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta_den_sqrt) :
 	delta_num_sqrt = __utils__.ft_sqrt(delta_num)
 	if delta_num_sqrt == int(delta_num_sqrt) :
 		print()
@@ -276,6 +276,8 @@ def	delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta
 		__bonus__.fraction_delete(primes_square, delete.copy())
 		__bonus__.fraction_delete(primes_den, delete.copy())
 		str_num = __bonus__.print_frac(primes_square, [], True)
+		if str_num == "1" or str_num == "-1" :
+			str_num = str_num[:-1]
 		str_den = __bonus__.print_frac(primes_den, [], False)
 		if not str_den :
 			str_den = "1"
@@ -304,15 +306,20 @@ def	delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta
 		print("<=>	" + var + "_1 ≈ " + arround_b + " - " + arround_i)
 		print("	\33[33mor\033[35m")
 		print("<=>	" + var + "_2 ≈ " + arround_b + " + " + arround_i)
+		str_num_d = __utils__.ft_round(num_d, 0)
+		if num_d == 1 :
+			str_num_d = ""
+		elif num_d == -1 :
+			str_num_d = "-"
 		if len(arround_b[arround_b.find('.') + 1:]) < 14 :
-			str1 = arround_b + " - " + __utils__.ft_round(num_d, 0) + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
-			str2 = arround_b + " + " + __utils__.ft_round(num_d, 0) + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
+			str1 = arround_b + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
+			str2 = arround_b + " + " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
 		elif len(arround_i[arround_i.find('.') + 1:]) < 15 :
 			str1 = __utils__.ft_round(num, 0) + " / " + __utils__.ft_round(den, 0) + " - " + arround_i
 			str2 = __utils__.ft_round(num, 0) + " / " + __utils__.ft_round(den, 0) + " + " + arround_i
 		else :
-			str1 = __utils__.ft_round(num, 0) + " / " + __utils__.ft_round(den, 0) + " - " + __utils__.ft_round(num_d, 0) + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
-			str2 = __utils__.ft_round(num, 0) + " / " + __utils__.ft_round(den, 0) + " + " + __utils__.ft_round(num_d, 0) + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
+			str1 = __utils__.ft_round(num, 0) + " / " + __utils__.ft_round(den, 0) + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
+			str2 = __utils__.ft_round(num, 0) + " / " + __utils__.ft_round(den, 0) + " + " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(den_d, 0)
 	return str1, str2
 
 def	delta_neg_b_nota_sqrt(var, num, den, delta, p) :
@@ -360,16 +367,21 @@ def	delta_neg_b_nota_sqrt(var, num, den, delta, p) :
 		print("<=>	" + var + "_1 = " + str_b + " - i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den_sqrt, 0))
 		print("	\33[33mor\033[32m")
 		print("	" + var + "_2 = " + str_b + " + i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den_sqrt, 0))
-		return delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta_den, delta_den_sqrt)
-	# delta_den_sqrt = __utils__.ft_sqrt(delta_den)
-	# if delta_den_sqrt == int(delta_den_sqrt) :
-	# 	print()
-	# 	print("<=>	" + var + "_1 = " + str_b + " - i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den_sqrt, 0))
-	# 	print("	\33[33mor\033[32m")
-	# 	print("	" + var + "_2 = " + str_b + " + i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den_sqrt, 0))
-	# 	return delta_neg_b_nota_sqrt_deltaden()
-	print("TODO NOW")
-	return "", ""
+		return delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta_den_sqrt)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " - i√" + __utils__.ft_round(delta_num, 0) + "√" + __utils__.ft_round(delta_den, 0) + " / " + __utils__.ft_round(delta_den, 0))
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " + i√" + __utils__.ft_round(delta_num, 0) + "√" + __utils__.ft_round(delta_den, 0) + " / " + __utils__.ft_round(delta_den, 0))
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " - i√(" + __utils__.ft_round(delta_num, 0) + " * " + __utils__.ft_round(delta_den, 0) + ") / " + __utils__.ft_round(delta_den, 0))
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " + i√(" + __utils__.ft_round(delta_num, 0) + " * " + __utils__.ft_round(delta_den, 0) + ") / " + __utils__.ft_round(delta_den, 0))
+	delta_num *= delta_den
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " - i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0))
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " + i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0))
+	return delta_neg_b_nota_sqrt_deltaden(var, num, den, str_b, delta, delta_num, delta_den)
 
 def	delta_neg_b_nota(var, b, delta, p) :
 	str_b = __utils__.ft_round(b, p)
