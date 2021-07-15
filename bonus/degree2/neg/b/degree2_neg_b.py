@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/15 20:46:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/15 20:58:08 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -448,7 +448,7 @@ def	delta_neg_b_a_sqrt_aneg_bint_sqrtint(var, b, delta_sqrt, p) :
 	return str_b + " - " + str_sqrt_delta + "i", str_b + " + " + str_sqrt_delta + "i"
 
 def	delta_neg_b_a_sqrt_aneg_bint_notsqrtint(var, a, b, delta_sqrt, p) :
-	print("TODO")
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
 
 def	delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p) :
