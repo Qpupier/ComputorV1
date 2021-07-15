@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/15 20:13:01 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/15 20:45:22 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -438,14 +438,73 @@ def	delta_neg_b_nota(var, b, delta, p) :
 		den = 1
 	return delta_neg_b_nota_sqrt(var, num, den, delta, p)
 
-def	delta_neg_b_a_sqrt(var, a, b, delta, delta_sqrt, p) :
+def	delta_neg_b_a_sqrt_aneg_bint_sqrtint(var, b, delta_sqrt, p) :
+	str_b = __utils__.ft_round(b, p)
+	str_sqrt_delta = __utils__.ft_round(delta_sqrt, p)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + " + str_sqrt_delta + "i")
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - " + str_sqrt_delta + "i")
+	return str_b + " - " + str_sqrt_delta + "i", str_b + " + " + str_sqrt_delta + "i"
+
+def	delta_neg_b_a_sqrt_aneg_bint_notsqrtint(var, a, b, delta_sqrt, p) :
+	print("TODO")
+	return "", ""
+
+def	delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p) :
+	str_b = __utils__.ft_round(b, p)
+	str_a = __utils__.ft_round(a, p)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + " + __utils__.ft_round(delta_sqrt, p) + "i / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - " + __utils__.ft_round(delta_sqrt, p) + "i / " + str_a)
+	tmp_delta_sqrt = delta_sqrt / a
+	if tmp_delta_sqrt == int(tmp_delta_sqrt) :
+		delta_sqrt = tmp_delta_sqrt
+		return delta_neg_b_a_sqrt_aneg_bint_sqrtint(var, b, delta_sqrt, p)
+	return delta_neg_b_a_sqrt_aneg_bint_notsqrtint(var, a, b, delta_sqrt, p)
+
+def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
+	print("TODO")
+	return "", ""
+
+def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
+	str_b = __utils__.ft_round(b, p)
+	a *=  -1
+	str_a = __utils__.ft_round(a, p)
+	print()
+	print("<=>	" + var + "_1 = -(" + str_b + " - " + __utils__.ft_round(delta_sqrt, p) + "i) / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = -(" + str_b + " + " + __utils__.ft_round(delta_sqrt, p) + "i) / " + str_a)
+	b *= -1
+	str_b = __utils__.ft_round(b, p)
+	print()
+	print("<=>	" + var + "_1 = (" + str_b + " + " + __utils__.ft_round(delta_sqrt, p) + "i) / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = (" + str_b + " - " + __utils__.ft_round(delta_sqrt, p) + "i) / " + str_a)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " / " + str_a + " + " + __utils__.ft_round(delta_sqrt, p) + "i / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " / " + str_a + " - " + __utils__.ft_round(delta_sqrt, p) + "i / " + str_a)
+	tmp_b = b / a
+	if tmp_b == int(tmp_b) :
+		b = tmp_b
+		return delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p)
+	return delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p)
+
+def delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p) :
+	print("TODO")
+	return "", ""
+
+def	delta_neg_b_a_sqrt(var, a, b, delta_sqrt, p) :
 	str_b = __utils__.ft_round(b, p)
 	print()
 	print("<=>	" + var + "_1 = (" + str_b + " - " + __utils__.ft_round(delta_sqrt, p) + "i) / " + __utils__.ft_round(a, p))
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = (" + str_b + " + " + __utils__.ft_round(delta_sqrt, p) + "i) / " + __utils__.ft_round(a, p))
-	print("TODO NOW")
-	return "", ""
+	if a < 0 :
+		return delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p)
+	return delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p)
 
 def	delta_neg_b_a_notsqrt(var, a, b, delta, p) :
 	print("TODO")
@@ -454,7 +513,7 @@ def	delta_neg_b_a_notsqrt(var, a, b, delta, p) :
 def	delta_neg_b_a(var, a, b, delta, p) :
 	delta_sqrt = __utils__.ft_sqrt(delta)
 	if delta_sqrt == int(delta_sqrt) :
-		return delta_neg_b_a_sqrt(var, a, b, delta, delta_sqrt, p)
+		return delta_neg_b_a_sqrt(var, a, b, delta_sqrt, p)
 	return delta_neg_b_a_notsqrt(var, a, b, delta, p)
 
 def	delta_neg_b(var, a, b, delta, p) :
