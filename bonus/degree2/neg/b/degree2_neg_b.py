@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/16 11:10:18 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/16 11:10:54 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -500,8 +500,6 @@ def	delta_neg_b_a_sqrt_aneg_bint_notsqrtint(var, a, b, delta_sqrt, p) :
 		print("	\33[33mor\033[35m")
 		print("<=>	" + var + "_2 = " + str_b + " - " + arround_d)
 	return str2, str1
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
 
 def	delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p) :
 	str_b = __utils__.ft_round(b, p)
@@ -517,7 +515,7 @@ def	delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p) :
 	return delta_neg_b_a_sqrt_aneg_bint_notsqrtint(var, a, b, delta_sqrt, p)
 
 def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
-	print("TODO")
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
 
 def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
