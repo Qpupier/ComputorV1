@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/19 15:48:06 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 15:48:58 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -666,8 +666,6 @@ def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
 	if tmp_i == int(tmp_i) :
 		return delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a)
 	return delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a, p)
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
 
 def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
 	str_b = __utils__.ft_round(b, p)
@@ -692,6 +690,8 @@ def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
 		b = tmp_b
 		return delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p)
 	return delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p)
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
+	return "", ""
 
 def delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p) :
 	print("TODO")
