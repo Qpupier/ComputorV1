@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/16 11:10:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 14:07:03 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -514,9 +514,85 @@ def	delta_neg_b_a_sqrt_aneg_bint(var, a, b, delta_sqrt, p) :
 		return delta_neg_b_a_sqrt_aneg_bint_sqrtint(var, b, delta_sqrt, p)
 	return delta_neg_b_a_sqrt_aneg_bint_notsqrtint(var, a, b, delta_sqrt, p)
 
-def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
+def	delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, arround_b, delta_sqrt, a) :
+	i = delta_sqrt / a
+	str_i = __utils__.ft_round(i ,0) + "i"
+	if str_i == "1i" :
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " - " + str_i)
+		str_i = "i"
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - " + str_i)
+	str1 = str_b + " + " + str_i
+	str2 = str_b + " - " + str_i
+	print("\033[35m")
+	if len(arround_b[arround_b.find('.') + 1:]) < 14 :
+		print("<=>	" + var + "_1 = " + arround_b + " + " + str_i)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
+		str1 = arround_b + " + " + str_i
+		str2 = arround_b + " - " + str_i
+	else :
+		print("<=>	" + var + "_1 ≈ " + arround_b + " + " + str_i)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
+	return str2, str1
+
+def	delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, arround_b, delta_sqrt, a, p) :
 	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
+
+def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
+	mult = __bonus__.irreducible_mult(int(b), int(a), p)
+	a1 = a
+	str_b = __utils__.ft_round(b, 0)
+	str_a1 = __utils__.ft_round(a1, 0)
+	str_i = __utils__.ft_round(delta_sqrt, 0) + "i / " + __utils__.ft_round(a, 0)
+	if mult > 1 :
+		b = int(b * mult)
+		a1 = int(a1 * mult)
+		str_b = __utils__.ft_round(b, p)
+		str_a1 = __utils__.ft_round(a1, p)
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " / " + str_a1 + " + " + str_i)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " / " + str_a1 + " - " + str_i)
+	primes1 = __bonus__.primes(b)
+	primes2 = __bonus__.primes(a1)
+	delete = []
+	__bonus__.reduce_fraction(primes1, primes2, delete)
+	if delete :
+		str_num = __bonus__.print_frac(primes1, delete, True)
+		str_den = __bonus__.print_frac(primes2, delete, False)
+		print()
+		print("<=>	" + var + "_1 = " + str_num + " / " + str_den + " + " + str_i)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_num + " / " + str_den + " - " + str_i)
+		__bonus__.fraction_delete(primes1, delete.copy())
+		__bonus__.fraction_delete(primes2, delete.copy())
+		str_num = __bonus__.print_frac(primes1, None, True)
+		str_den = __bonus__.print_frac(primes2, None, False)
+		print()
+		print("<=>	" + var + "_1 = " + str_num + " / " + str_den + " + " + str_i)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_num + " / " + str_den + " - " + str_i)
+		b, a1 = __bonus__.irreducible(primes1, primes2)
+		str_b = __utils__.ft_round(b, 0)
+		str_a1 = __utils__.ft_round(a1, 0)
+		if len(primes1) > 1 or len(primes2) > 1 :
+			print()
+			print("<=>	" + var + "_1 = " + str_b + " / " + str_a1 + " + " + str_i)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str_b + " / " + str_a1 + " - " + str_i)
+	str_b += " / " + str_a1
+	tmp_i = delta_sqrt / a
+	# if tmp_i == int(tmp_i) :
+	return delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a)
+	return delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a, p)
 
 def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
 	str_b = __utils__.ft_round(b, p)
