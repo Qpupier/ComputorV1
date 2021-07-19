@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/19 14:10:40 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 14:11:32 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -590,8 +590,8 @@ def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
 			print("	" + var + "_2 = " + str_b + " / " + str_a1 + " - " + str_i)
 	str_b += " / " + str_a1
 	tmp_i = delta_sqrt / a
-	# if tmp_i == int(tmp_i) :
-	return delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a)
+	if tmp_i == int(tmp_i) :
+		return delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a)
 	return delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a, p)
 
 def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
