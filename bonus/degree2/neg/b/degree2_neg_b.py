@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/19 14:11:32 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 15:46:29 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -542,7 +542,82 @@ def	delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, arround_b, delta_sqrt, a) :
 		print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
 	return str2, str1
 
-def	delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, arround_b, delta_sqrt, a, p) :
+def	delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, arround_b, i, a, p) :
+	mult = __bonus__.irreducible_mult(int(i), int(a), p)
+	str_i = __utils__.ft_round(i, 0)
+	str_a = __utils__.ft_round(a, 0)
+	if mult > 1 or True:
+		i = int(i * mult)
+		a = int(a * mult)
+		str_i = __utils__.ft_round(i, p)
+		str_a = __utils__.ft_round(a, p)
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " + " + str_i + "i / " + str_a)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " - " + str_i + "i / " + str_a)
+	primes1 = __bonus__.primes(i)
+	primes2 = __bonus__.primes(a)
+	delete = []
+	__bonus__.reduce_fraction(primes1, primes2, delete)
+	if delete or True:
+		str_num = __bonus__.print_frac(primes1, delete, True)
+		str_den = __bonus__.print_frac(primes2, delete, False)
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " + " + str_num + "i / " + str_den)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " - " + str_num + "i / " + str_den)
+		__bonus__.fraction_delete(primes1, delete.copy())
+		__bonus__.fraction_delete(primes2, delete.copy())
+		str_num = __bonus__.print_frac(primes1, None, True)
+		str_den = __bonus__.print_frac(primes2, None, False)
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " + " + str_num + "i / " + str_den)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " - " + str_num + "i / " + str_den)
+		i, a = __bonus__.irreducible(primes1, primes2)
+		str_i = __utils__.ft_round(i, 0)
+		str_a = __utils__.ft_round(a, 0)
+		if len(primes1) > 1 or len(primes2) > 1 :
+			print()
+			print("<=>	" + var + "_1 = " + str_b + " + " + str_i + "i / " + str_a)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str_b + " - " + str_i + "i / " + str_a)
+	if str_i == "1" :
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " - " + str_i)
+		str_i = ""
+	str_i += "i / " + str_a
+	arround_i = __utils__.ft_round(i / a, p) + "i"
+	equal_b = len(arround_b[arround_b.find('.') + 1:]) < 14
+	equal_i = len(arround_i[arround_i.find('.') + 1:]) < 15
+	print("\033[35m")
+	if equal_b and equal_i :
+		str1 = arround_b + " + " + arround_i
+		str2 = arround_b + " - " + arround_i
+		print("<=>	" + var + "_1 = " + str1)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + str2)
+	elif equal_b :
+		str1 = arround_b + " + " + str_i
+		str2 = arround_b + " - " + str_i
+		print("<=>	" + var + "_1 ≈ " + str1)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + str2)
+	elif equal_i :
+		str1 = str_b + " + " + arround_i
+		str2 = str_b + " - " + arround_i
+		print("<=>	" + var + "_1 ≈ " + str1)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + str2)
+	else :
+		str1 = str_b + " + " + str_i
+		str2 = str_b + " - " + str_i
+		print("<=>	" + var + "_1 ≈ " + str1)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + str2)
+	return str2, str1
 	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
 
