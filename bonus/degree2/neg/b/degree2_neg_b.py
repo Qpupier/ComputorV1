@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/19 15:46:29 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 15:48:06 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -618,8 +618,6 @@ def	delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, arround_b, i, a, p) :
 		print("	\33[33mor\033[35m")
 		print("<=>	" + var + "_2 = " + str2)
 	return str2, str1
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
 
 def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
 	mult = __bonus__.irreducible_mult(int(b), int(a), p)
@@ -668,6 +666,8 @@ def	delta_neg_b_a_sqrt_aneg_notbint(var, a, b, delta_sqrt, p) :
 	if tmp_i == int(tmp_i) :
 		return delta_neg_b_a_sqrt_aneg_notbint_iint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a)
 	return delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, __utils__.ft_round(b / a1, 15), delta_sqrt, a, p)
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
+	return "", ""
 
 def	delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p) :
 	str_b = __utils__.ft_round(b, p)
