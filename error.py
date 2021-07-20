@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 13:27:41 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 16:59:12 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 18:48:38 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -124,14 +124,14 @@ def	print_part_n_second(part, precision) :
 		print("0", end="")
 
 def	error_var(equation, precision, solution) :
-	__pre_reduce__.print_reduce(equation, precision, solution)
+	__pre_reduce__.print_reduce(equation, precision, solution, False)
 	print("\033[31mError\033[0m (Multiple variables) : 							", end="")
 	print_part_x(equation, precision)
 	print(" = 0")
 	exit(1)
 
 def	error_n_naturals(equation, precision, solution) :
-	__pre_reduce__.print_reduce(equation, precision, solution)
+	__pre_reduce__.print_reduce(equation, precision, solution, False)
 	print("\033[31mError\033[0m (Powers are not natural numbers) : 					", end="")
 	print_part_n_naturals(equation, precision)
 	print(" = 0")
@@ -145,7 +145,7 @@ def	polynomial_degree(equation) :
 	return int(poly)
 
 def	error_n_second(equation, precision, solution) :
-	__pre_reduce__.print_reduce(equation, precision, solution)
+	__pre_reduce__.print_reduce(equation, precision, solution, False)
 	if not solution :
 		print("Polynomial degree :", polynomial_degree(equation))
 	print("\033[31mError\033[0m (The polynomial degree is stricly greater than 2, I can't solve) : 	", end="")
@@ -154,7 +154,7 @@ def	error_n_second(equation, precision, solution) :
 	exit(1)
 
 def	error_parsing(equation, precision, solution) :
-	__pre_reduce__.print_reduce(equation, precision, solution)
+	__pre_reduce__.print_reduce(equation, precision, solution, False)
 	print("\033[31mError\033[0m : 									\033[31;1m", end="")
 	print_part_n_second(equation, precision)
 	print(" = 0\033[0m")

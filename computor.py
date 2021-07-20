@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 17:00:40 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 18:48:47 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,6 +170,6 @@ def	equation(entry, v, s) :
 		print("\033[0m")
 	part = __parsing__.parsing(part, precision, solution)
 	part, eq = __pre_reduce__.reduce(part)
-	__pre_reduce__.print_reduce(part, precision, solution)
+	__pre_reduce__.print_reduce(part, precision, solution, True)
 	__algo__.resolve(part, eq[3], eq[0], eq[1], eq[2], precision, verbose, solution)
 	return part

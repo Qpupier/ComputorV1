@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 18:23:47 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/06 18:24:28 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/20 14:56:02 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,8 @@ def	delta_neg_notb_a_discriminant(var, a, delta, p) :
 		__bonus__.fraction_delete(primes1, delete.copy())
 		__bonus__.fraction_delete(primes2, delete.copy())
 		str_num = __bonus__.print_frac(primes1, None, True)
+		if str_num == "1" or str_num == "-1" :
+			str_num = str_num[:-1]
 		str_den = __bonus__.print_frac(primes2, None, False)
 		print()
 		print("<=>	" + var + "_1 = -" + str_num + "i / " + str_den)

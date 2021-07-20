@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 18:23:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/06 18:23:06 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/19 19:19:16 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ def	delta_neg_notb_nota_discriminant_squares(var, squares, delta_num, delta_den)
 	__bonus__.fraction_delete(primes_square, delete.copy())
 	__bonus__.fraction_delete(primes_den, delete.copy())
 	str_num = __bonus__.print_frac(primes_square, [], True)
+	if str_num == "1" :
+		str_num = ""
 	str_den = __bonus__.print_frac(primes_den, [], False)
 	if not str_den :
 		str_den = "1"
@@ -194,11 +196,11 @@ def	delta_neg_notb_nota_discriminant(var, delta) :
 def	delta_neg_notb_nota(var, delta) :
 	if __utils__.ft_sqrt(delta) == int(__utils__.ft_sqrt(delta)) :
 		delta = __utils__.ft_sqrt(delta)
+		str1 = __utils__.ft_round(-delta, 15) + "i"
+		str2 = __utils__.ft_round(delta, 15) + "i"
 		print()
-		print("<=>	" + var + "_1 = -" + __utils__.ft_round(delta, 15))
+		print("<=>	" + var + "_1 = " + str1)
 		print("	\33[33mor\033[32m")
-		print("	" + var + "_2 = " + __utils__.ft_round(delta, 15))
-		str1 = __utils__.ft_round(-delta, 15)
-		str2 = __utils__.ft_round(delta, 15)
+		print("	" + var + "_2 = " + str2)
 		return str1, str2
 	return delta_neg_notb_nota_discriminant(var, delta)
