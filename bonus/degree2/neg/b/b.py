@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/22 18:24:56 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/22 20:33:13 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1355,8 +1355,23 @@ def	delta_neg_b_a_notsqrt_aneg_not(var, b, delta, p) :
 				print("	\33[33mor\033[32m")
 				print("	" + var + "_2 = " + str_b + " - " + str_i)
 	if delta == int(delta) :
-		return delta_neg_b_a_notsqrt_aneg_not_delta(var, b / a1, str_b, delta, p)
+		return delta_neg_b_a_notsqrt_aneg_not_delta(var, b / a1, str_b, delta)
 	return delta_neg_b_a_notsqrt_aneg_not_notdelta(var, b / a1, str_b, delta, p)
+
+def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
+	b /= a
+	str_b = __utils__.ft_round(b, 0)
+	str_a = __utils__.ft_round(a, p)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + __utils__.ft_round(delta, p) + " / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + __utils__.ft_round(delta, p) + " / " + str_a)
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
+	return "", ""
+
+def	delta_neg_b_a_notsqrt_aneg_bnotint(var, a, b, delta, p) :
+	print("TODO")
+	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg(var, a, b, delta, p) :
 	str_b = __utils__.ft_round(b, p)
@@ -1374,23 +1389,14 @@ def	delta_neg_b_a_notsqrt_aneg(var, a, b, delta, p) :
 	print("	" + var + "_2 = (" + str_b + " - i√" + __utils__.ft_round(delta, p) + ") / " + str_a)
 	if a == 1 :
 		return delta_neg_b_a_notsqrt_aneg_not(var, b, delta, p)
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	print("TODO")
-	# arround_b = __utils__.ft_round(b / a1, p)
-	# str1 = str_b + " + " + str_i
-	# str2 = str_b + " - " + str_i
-	# print("\033[35m")
-	# if len(arround_b[arround_b.find('.') + 1:]) < 14 :
-	# 	print("<=>	" + var + "_1 = " + arround_b + " + " + str_i)
-	# 	print("	\33[33mor\033[35m")
-	# 	print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
-	# 	str1 = arround_b + " + " + str_i
-	# 	str2 = arround_b + " - " + str_i
-	# else :
-	# 	print("<=>	" + var + "_1 ≈ " + arround_b + " + " + str_i)
-	# 	print("	\33[33mor\033[35m")
-	# 	print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
-	return "", ""
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " / " + str_a + " + i√" + __utils__.ft_round(delta, p) + " / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " / " + str_a + " - i√" + __utils__.ft_round(delta, p) + " / " + str_a)
+	b_a1 = b / a
+	if b_a1 == int(b_a1) :
+		return delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p)
+	return delta_neg_b_a_notsqrt_aneg_bnotint(var, a, b, delta, p)
 
 def	delta_neg_b_a_notsqrt_apos(var, a, b, delta, p) :
 	print("TODO")
