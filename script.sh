@@ -16,9 +16,9 @@ else
 		./computor -v "$equation" > $output
 		if [[ $(diff $output $dir'/solutions/'$var'.txt') == "" ]]
 		then
-			echo -e $var" :	\033[32m[OK]\033[0m"
+			echo -e $var" :	\033[32m[OK]\033[0m	| $equation"
 		else
-			echo -e $var" :	\033[31m[KO]\033[0m"
+			echo -e $var" :	\033[31m[KO]	| $equation\033[0m"
 		fi
 	done
 fi
