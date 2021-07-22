@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/22 14:57:30 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/22 15:58:56 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1019,13 +1019,99 @@ def	delta_neg_b_a_sqrt(var, a, b, delta_sqrt, p) :
 		return delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p)
 	return delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p)
 
+def	delta_neg_b_a_notsqrt_aneg_not_delta(var, b, str_b, delta, p) :
+	print("TODO")
+	return "", ""
+
+def	delta_neg_b_a_notsqrt_aneg_not_notdelta(var, b, str_b, delta, p) :
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
+
+	mult = __bonus__.irreducible_mult(delta, 1, p)
+	delta_num = int(delta * mult)
+	delta_den = int(mult)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " - i√(" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0) + ")")
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " + i√(" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den, 0) + ")")
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " - i√" + __utils__.ft_round(delta_num, 0) + " / √" + __utils__.ft_round(delta_den, 0))
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " + i√" + __utils__.ft_round(delta_num, 0) + " / √" + __utils__.ft_round(delta_den, 0))
+	delta_den_sqrt = __utils__.ft_sqrt(delta_den)
+
+	
+	return "", ""
+
 def	delta_neg_b_a_notsqrt_aneg_not(var, b, delta, p) :
 	str_b = __utils__.ft_round(b, p)
 	print()
 	print("<=>	" + var + "_1 = " + str_b + " + i√" + __utils__.ft_round(delta, p))
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " - i√" + __utils__.ft_round(delta, p))
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
+	str_i = "i√" + __utils__.ft_round(delta, p)
+	a1 = 1
+	if b == int(b) :
+		str_b = __utils__.ft_round(b, 0)
+	else :
+		str_b = __utils__.ft_round(b, p)
+		mult = __bonus__.irreducible_mult(b, 1, p)
+		str_a1 = __utils__.ft_round(a1, 0)
+		if mult > 1 :
+			b = int(b * mult)
+			a1 = int(a1 * mult)
+			str_b = __utils__.ft_round(b, p) + " / " + __utils__.ft_round(a1, p)
+			print()
+			print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str_b + " - " + str_i)
+		primes1 = __bonus__.primes(b)
+		primes2 = __bonus__.primes(a1)
+		delete = []
+		__bonus__.reduce_fraction(primes1, primes2, delete)
+		if delete and delete != [1] :
+			str_num = __bonus__.print_frac(primes1, delete, True)
+			str_den = __bonus__.print_frac(primes2, delete, False)
+			str_b = str_num + " / " + str_den
+			print()
+			print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str_b + " - " + str_i)
+			__bonus__.fraction_delete(primes1, delete.copy())
+			__bonus__.fraction_delete(primes2, delete.copy())
+			str_num = __bonus__.print_frac(primes1, None, True)
+			str_den = __bonus__.print_frac(primes2, None, False)
+			str_b = str_num + " / " + str_den
+			print()
+			print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str_b + " - " + str_i)
+			b, a1 = __bonus__.irreducible(primes1, primes2)
+			str_b = __utils__.ft_round(b, 0)
+			str_a1 = __utils__.ft_round(a1, 0)
+			str_b += " / " + str_a1
+			if len(primes1) > 1 or len(primes2) > 1 :
+				print()
+				print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
+				print("	\33[33mor\033[32m")
+				print("	" + var + "_2 = " + str_b + " - " + str_i)
+	if delta == int(delta) :
+		return delta_neg_b_a_notsqrt_aneg_not_delta(var, b, str_b, delta, p)
+	return delta_neg_b_a_notsqrt_aneg_not_notdelta(var, b, str_b, delta, p)
+	# arround_b = __utils__.ft_round(b / a1, p)
+	# str1 = str_b + " + " + str_i
+	# str2 = str_b + " - " + str_i
+	# print("\033[35m")
+	# if len(arround_b[arround_b.find('.') + 1:]) < 14 :
+	# 	print("<=>	" + var + "_1 = " + arround_b + " + " + str_i)
+	# 	print("	\33[33mor\033[35m")
+	# 	print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
+	# 	str1 = arround_b + " + " + str_i
+	# 	str2 = arround_b + " - " + str_i
+	# else :
+	# 	print("<=>	" + var + "_1 ≈ " + arround_b + " + " + str_i)
+	# 	print("	\33[33mor\033[35m")
+	# 	print("<=>	" + var + "_2 = " + arround_b + " - " + str_i)
+	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg(var, a, b, delta, p) :
 	str_b = __utils__.ft_round(b, p)
