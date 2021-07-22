@@ -14,7 +14,7 @@ else
 	do
 		equation=$(sed $var'q;d' $file)
 		./computor -v "$equation" > $output
-		if [[ $(diff $output $dir'/solutions/'$var'.txt') == "" ]]
+		if [[ $(diff -N $output $dir'/solutions/'$var'.txt') == "" ]]
 		then
 			echo -e $var" :	\033[32m[OK]\033[0m	| $equation"
 		else

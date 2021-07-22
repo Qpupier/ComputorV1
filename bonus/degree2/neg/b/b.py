@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/22 16:43:47 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/22 18:23:35 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1020,8 +1020,80 @@ def	delta_neg_b_a_sqrt(var, a, b, delta_sqrt, p) :
 	return delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p)
 
 def	delta_neg_b_a_notsqrt_aneg_not_delta(var, b, str_b, delta, p) :
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
+	delta_num = delta
+	squares, delta_num = __bonus__.reduce_sqrt(delta_num)
+	if not squares :
+		arround_b = __utils__.ft_round(b, 14)
+		arround_i = __utils__.ft_round(__utils__.ft_sqrt(delta), 14) + "i"
+		print("\033[35m")
+		if len(arround_b[arround_b.find('.') + 1:]) < 14 and len(arround_i[arround_i.find('.') + 1:]) < 15:
+			print("<=>	" + var + "_1 = " + arround_b + " + " + arround_i)
+			print("	\33[33mor\033[35m")
+			print("<=>	" + var + "_2 = " + arround_b + " - " + arround_i)
+			str1 = arround_b + " + " + arround_i
+			str2 = arround_b + " - " + arround_i
+		else :
+			print("<=>	" + var + "_1 ≈ " + arround_b + " + " + arround_i)
+			print("	\33[33mor\033[35m")
+			print("<=>	" + var + "_2 ≈ " + arround_b + " - " + arround_i)
+			if len(arround_b[arround_b.find('.') + 1:]) < 14 :
+				str1 = arround_b + " + i√" + __utils__.ft_round(delta_num, 0)
+				str2 = arround_b + " - i√" + __utils__.ft_round(delta_num, 0)
+			elif len(arround_i[arround_i.find('.') + 1:]) < 15 :
+				str1 = str_b + " + " + arround_i
+				str2 = str_b + " - " + arround_i
+			else :
+				str1 = str_b + " + i√" + __utils__.ft_round(delta_num, 0)
+				str2 = str_b + " - i√" + __utils__.ft_round(delta_num, 0)
+		return str2, str1
+	sq = __bonus__.print_squares(squares, delta_num)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + sq)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + sq)
+	if len(squares) > 1 :
+		tmp = 1
+		for each in squares :
+			tmp *= each * each
+		print()
+		print("<=>	" + var + "_1 = " + str_b + " + i√(" + __utils__.ft_round(tmp, 0) + " * " + __utils__.ft_round(delta_num, 0) + ")")
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str_b + " - i√(" + __utils__.ft_round(tmp, 0) + " * " + __utils__.ft_round(delta_num, 0) + ")")
+	else :
+		tmp = squares[0] * squares[0]
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + __utils__.ft_round(tmp, 0) + "√" + __utils__.ft_round(delta_num, 0))
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + __utils__.ft_round(tmp, 0) + "√" + __utils__.ft_round(delta_num, 0))
+	squares = __utils__.ft_sqrt(tmp)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + " + __utils__.ft_round(squares, 0) + "i√" + __utils__.ft_round(delta_num, 0))
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - " + __utils__.ft_round(squares, 0) + "i√" + __utils__.ft_round(delta_num, 0))
+	arround_b = __utils__.ft_round(b, 14)
+	arround_i = __utils__.ft_round(__utils__.ft_sqrt(delta), 14) + "i"
+	print("\033[35m")
+	if len(arround_b[arround_b.find('.') + 1:]) < 14 and len(arround_i[arround_i.find('.') + 1:]) < 15:
+		print("<=>	" + var + "_1 = " + arround_b + " + " + arround_i)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 = " + arround_b + " - " + arround_i)
+		str1 = arround_b + " + " + arround_i
+		str2 = arround_b + " - " + arround_i
+	else :
+		print("<=>	" + var + "_1 ≈ " + arround_b + " + " + arround_i)
+		print("	\33[33mor\033[35m")
+		print("<=>	" + var + "_2 ≈ " + arround_b + " - " + arround_i)
+		str_num = __utils__.ft_round(squares, 0)
+		if len(arround_b[arround_b.find('.') + 1:]) < 14 :
+			str1 = arround_b + " + " + str_num + "i√" + __utils__.ft_round(delta_num, 0)
+			str2 = arround_b + " - " + str_num + "i√" + __utils__.ft_round(delta_num, 0)
+		elif len(arround_i[arround_i.find('.') + 1:]) < 15 :
+			str1 = str_b + " + " + arround_i
+			str2 = str_b + " - " + arround_i
+		else :
+			str1 = str_b + " + " + str_num + "i√" + __utils__.ft_round(delta_num, 0)
+			str2 = str_b + " - " + str_num + "i√" + __utils__.ft_round(delta_num, 0)
+	return str2, str1
 
 def	delta_neg_b_a_notsqrt_aneg_not_notdelta_deltaden(var, b, str_b, delta, delta_num, delta_den_sqrt) :
 	delta_num_sqrt = __utils__.ft_sqrt(delta_num)
@@ -1302,6 +1374,7 @@ def	delta_neg_b_a_notsqrt_aneg(var, a, b, delta, p) :
 	print("	" + var + "_2 = (" + str_b + " - i√" + __utils__.ft_round(delta, p) + ") / " + str_a)
 	if a == 1 :
 		return delta_neg_b_a_notsqrt_aneg_not(var, b, delta, p)
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	print("TODO")
 	# arround_b = __utils__.ft_round(b / a1, p)
 	# str1 = str_b + " + " + str_i
