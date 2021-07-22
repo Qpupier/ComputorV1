@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/22 16:17:59 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/22 16:20:13 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1020,7 +1020,6 @@ def	delta_neg_b_a_sqrt(var, a, b, delta_sqrt, p) :
 	return delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p)
 
 def	delta_neg_b_a_notsqrt_aneg_not_delta(var, b, str_b, delta, p) :
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	print("TODO")
 	return "", ""
 
@@ -1198,7 +1197,6 @@ def	delta_neg_b_a_notsqrt_aneg_not_notdelta_deltaden(var, b, str_b, delta, delta
 	return str2, str1
 
 def	delta_neg_b_a_notsqrt_aneg_not_notdelta(var, b, str_b, delta, p) :
-
 	mult = __bonus__.irreducible_mult(delta, 1, p)
 	delta_num = int(delta * mult)
 	delta_den = int(mult)
@@ -1217,8 +1215,7 @@ def	delta_neg_b_a_notsqrt_aneg_not_notdelta(var, b, str_b, delta, p) :
 		print("	\33[33mor\033[32m")
 		print("	" + var + "_2 = " + str_b + " - i√" + __utils__.ft_round(delta_num, 0) + " / " + __utils__.ft_round(delta_den_sqrt, 0))
 		return delta_neg_b_a_notsqrt_aneg_not_notdelta_deltaden(var, b, str_b, delta, delta_num, delta_den_sqrt)
-
-	
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg_not(var, b, delta, p) :
