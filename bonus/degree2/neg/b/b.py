@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/22 18:23:35 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/22 18:24:56 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1019,7 +1019,7 @@ def	delta_neg_b_a_sqrt(var, a, b, delta_sqrt, p) :
 		return delta_neg_b_a_sqrt_aneg(var, a, b, delta_sqrt, p)
 	return delta_neg_b_a_sqrt_apos(var, a, b, delta_sqrt, p)
 
-def	delta_neg_b_a_notsqrt_aneg_not_delta(var, b, str_b, delta, p) :
+def	delta_neg_b_a_notsqrt_aneg_not_delta(var, b, str_b, delta) :
 	delta_num = delta
 	squares, delta_num = __bonus__.reduce_sqrt(delta_num)
 	if not squares :
