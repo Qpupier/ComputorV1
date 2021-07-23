@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/23 16:59:37 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/23 17:01:47 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1583,11 +1583,9 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, b, str_b, delta, p) :
 		str1 = str_b + " + " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 		str2 = str_b + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str2, str1
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, delta, p) :
-	print("TODO")
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
