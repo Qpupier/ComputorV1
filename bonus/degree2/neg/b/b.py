@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/23 18:46:10 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/23 18:46:54 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1623,7 +1623,6 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, de
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p)
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 
 def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p) :
 	str_a = __utils__.ft_round(a, p)
@@ -1649,6 +1648,7 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p) :
 	if sqrt_delta_den == int(sqrt_delta_den) :
 		return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p)
 	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p)
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 
 def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
 	b /= a
