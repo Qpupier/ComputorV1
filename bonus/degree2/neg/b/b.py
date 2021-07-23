@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/23 17:01:47 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/23 18:33:04 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1358,7 +1358,7 @@ def	delta_neg_b_a_notsqrt_aneg_not(var, b, delta, p) :
 		return delta_neg_b_a_notsqrt_aneg_not_delta(var, b / a1, str_b, delta)
 	return delta_neg_b_a_notsqrt_aneg_not_notdelta(var, b / a1, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, b, str_b, delta, p) :
+def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p) :
 	squares, delta_num = __bonus__.reduce_sqrt(delta)
 	a2 = a
 	str_a2 = __utils__.ft_round(a2, 0)
@@ -1518,10 +1518,6 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, b, str_b, delta, p) :
 	primes_square = __bonus__.primes(squares)
 	primes_den = __bonus__.primes(a2)
 	if len(primes_square) > 1 or len(primes_den) > 1 :
-		print()
-		print("<=>	" + var + "_1 = " + str_b + " + " + __utils__.ft_round(squares, 0) + "i√" + str_delta_num + " / " + str_a2)
-		print("	\33[33mor\033[32m")
-		print("	" + var + "_2 = " + str_b + " - " + __utils__.ft_round(squares, 0) + "i√" + str_delta_num + " / " + str_a2)
 		num_d = squares
 		den_d = a2
 		delete = []
@@ -1563,7 +1559,9 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, b, str_b, delta, p) :
 		num_d = squares
 		den_d = a2
 	str_num_d = __utils__.ft_round(num_d, 0)
-	str_den = __utils__.ft_round(den_d, 0)
+	str_den = " / " + __utils__.ft_round(den_d, 0)
+	if str_den == " / 1" :
+		str_den = ""
 	arround_i = __utils__.ft_round(num_d * __utils__.ft_sqrt(delta_num) / den_d, 14) + "i"
 	print("\033[35m")
 	if len(arround_i[arround_i.find('.') + 1:]) < 14 :
@@ -1584,9 +1582,52 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, b, str_b, delta, p) :
 		str2 = str_b + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str2, str1
 
-def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, delta, p) :
+def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p) :
+	str_delta = __utils__.ft_round(delta, 0)
+	str_a = __utils__.ft_round(a, p)
+	str_sqrt_delta_den = __utils__.ft_round(sqrt_delta_den, 0)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + str_delta + " / (" + str_a + " * " + str_sqrt_delta_den + ")")
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / (" + str_a + " * " + str_sqrt_delta_den + ")")
+	a *= sqrt_delta_den
+	str_a = __utils__.ft_round(a, p)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + str_delta + " / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
+	return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, 0)
 	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
+
+def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, p) :
+	print("TODO 37")
+	return "", ""
+
+def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p) :
+	str_a = __utils__.ft_round(a, p)
+	delta_den = 1
+	mult = __bonus__.irreducible_mult(delta, delta_den, p)
+	delta = int(delta * mult)
+	delta_den = int(delta_den * mult)
+	str_delta = __utils__.ft_round(delta, 0)
+	str_delta_den = __utils__.ft_round(delta_den, 0)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√(" + str_delta + " / " + str_delta_den + ") / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√(" + str_delta + " / " + str_delta_den + ") / " + str_a)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + str_delta + " / √" + str_delta_den + " / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / √" + str_delta_den + " / " + str_a)
+	print()
+	print("<=>	" + var + "_1 = " + str_b + " + i√" + str_delta + " / " + str_a + "√" + str_delta_den)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a + "√" + str_delta_den)
+	sqrt_delta_den = __utils__.ft_sqrt(delta_den)
+	if sqrt_delta_den == int(sqrt_delta_den) :
+		return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p)
+	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, p)
 
 def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
 	b /= a
@@ -1597,11 +1638,11 @@ def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " - i√" + __utils__.ft_round(delta, p) + " / " + str_a)
 	if delta == int(delta) :
-		return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, b, str_b, delta, p)
-	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, delta, p)
+		return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p)
+	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p)
 
 def	delta_neg_b_a_notsqrt_aneg_bnotint(var, a, b, delta, p) :
-	print("TODO")
+	print("TODO 35")
 	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg(var, a, b, delta, p) :
