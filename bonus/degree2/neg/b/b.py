@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/23 18:34:27 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/23 18:35:06 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1597,11 +1597,9 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, 0)
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, p) :
-	print("TODO 37")
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
 	return "", ""
 
 def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p) :
