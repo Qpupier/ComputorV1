@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/25 16:10:14 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/25 16:13:39 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1603,7 +1603,7 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p) :
 		str2 = str_b + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str2, str1
 
-def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p) :
+def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_a = __utils__.ft_round(a, p)
 	str_sqrt_delta_den = __utils__.ft_round(sqrt_delta_den, 0)
@@ -1619,7 +1619,7 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p) :
+def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_delta_den = __utils__.ft_round(delta_den, 0)
 	str_a = __utils__.ft_round(a, p)
@@ -1667,8 +1667,8 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p) :
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a + "√" + str_delta_den)
 	sqrt_delta_den = __utils__.ft_sqrt(delta_den)
 	if sqrt_delta_den == int(sqrt_delta_den) :
-		return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p)
-	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p)
+		return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p)
+	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p)
 
 def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
 	b /= a
@@ -1886,7 +1886,7 @@ def	delta_neg_b_a_notsqrt_aneg_bnotint_deltaint(var, a, b, str_b, delta, p) :
 	str2 = str_b + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str2, str1
 
-def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p) :
+def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_a = __utils__.ft_round(a, p)
 	str_sqrt_delta_den = __utils__.ft_round(sqrt_delta_den, 0)
@@ -1902,7 +1902,7 @@ def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_deltaden(var, a, b, str_b, de
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_aneg_bnotint_deltaint(var, a, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p) :
+def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_delta_den = __utils__.ft_round(delta_den, 0)
 	str_a = __utils__.ft_round(a, p)
@@ -2513,7 +2513,7 @@ def	delta_neg_b_a_notsqrt_apos_bint_deltaint(var, a, str_b, delta, p) :
 		str2 = str_b + " + " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str1, str2
 
-def	delta_neg_b_a_notsqrt_apos_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p) :
+def	delta_neg_b_a_notsqrt_apos_bint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_a = __utils__.ft_round(a, p)
 	str_sqrt_delta_den = __utils__.ft_round(sqrt_delta_den, 0)
@@ -2529,7 +2529,7 @@ def	delta_neg_b_a_notsqrt_apos_bint_deltanotint_deltaden(var, a, b, str_b, delta
 	print("	" + var + "_2 = " + str_b + " + i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_apos_bint_deltaint(var, a, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_apos_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p) :
+def	delta_neg_b_a_notsqrt_apos_bint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_delta_den = __utils__.ft_round(delta_den, 0)
 	str_a = __utils__.ft_round(a, p)
@@ -2577,7 +2577,7 @@ def	delta_neg_b_a_notsqrt_apos_bint_deltanotint(var, a, b, str_b, delta, p) :
 	print("	" + var + "_2 = " + str_b + " + i√" + str_delta + " / " + str_a + "√" + str_delta_den)
 	sqrt_delta_den = __utils__.ft_sqrt(delta_den)
 	if sqrt_delta_den == int(sqrt_delta_den) :
-		return delta_neg_b_a_notsqrt_apos_bint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p)
+		return delta_neg_b_a_notsqrt_apos_bint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p)
 	return delta_neg_b_a_notsqrt_apos_bint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p)
 
 def	delta_neg_b_a_notsqrt_apos_bint(var, a, b, delta, p) :
@@ -2796,7 +2796,7 @@ def	delta_neg_b_a_notsqrt_apos_bnotint_deltaint(var, a, b, str_b, delta, p) :
 	str2 = str_b + " + " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str1, str2
 
-def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p) :
+def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_a = __utils__.ft_round(a, p)
 	str_sqrt_delta_den = __utils__.ft_round(sqrt_delta_den, 0)
@@ -2812,7 +2812,7 @@ def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_deltaden(var, a, b, str_b, de
 	print("	" + var + "_2 = " + str_b + " + i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_apos_bnotint_deltaint(var, a, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p) :
+def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_delta_den = __utils__.ft_round(delta_den, 0)
 	str_a = __utils__.ft_round(a, p)
