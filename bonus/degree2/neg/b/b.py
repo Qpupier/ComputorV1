@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/25 16:08:33 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/25 16:09:00 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2924,13 +2924,13 @@ def	delta_neg_b_a_notsqrt_apos(var, a, b, delta, p) :
 	if b_a1 == int(b_a1) :
 		return delta_neg_b_a_notsqrt_apos_bint(var, a, b, delta, p)
 	return delta_neg_b_a_notsqrt_apos_bnotint(var, a, b, delta, p)
-	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
-	return "", ""
 
 def	delta_neg_b_a_notsqrt(var, a, b, delta, p) :
 	if a < 0 :
 		return delta_neg_b_a_notsqrt_aneg(var, a, b, delta, p)
 	return delta_neg_b_a_notsqrt_apos(var, a, b, delta, p)
+	print("TODO NOW") # Trouver dans quel cas on peut rentrer ici
+	return "", ""
 
 def	delta_neg_b_a(var, a, b, delta, p) :
 	delta_sqrt = __utils__.ft_sqrt(delta)
