@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/25 16:32:16 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/25 20:08:54 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,12 +122,9 @@ def	clear_equation(eq, prec) :
 
 def	nb_prec(number) :
 	prec = 0
-	# try :
 	while number != int(number) :
 		prec += 1
 		number *= 10
-	# except OverflowError :
-		# print("OK")
 	return prec
 
 def	check_precision(part) :

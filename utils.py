@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/17 13:57:40 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/25 19:57:48 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ def	ft_round(n, p) :
 	return str(r)
 
 def	sqrt_loop(nb, prec, tmp) :
-	# print(nb, prec, tmp)
 	test = 0
 	new = tmp + str(test)
 	while float(new) * float(new) <= nb :
