@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:04:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/25 16:45:26 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/25 20:14:11 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1645,7 +1645,7 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint_notdeltaden(var, a, str_b, delta
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p) :
+def	delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, str_b, delta, p) :
 	str_a = __utils__.ft_round(a, p)
 	delta_den = 1
 	mult = __bonus__.irreducible_mult(delta, delta_den, p)
@@ -1680,7 +1680,7 @@ def	delta_neg_b_a_notsqrt_aneg_bint(var, a, b, delta, p) :
 	print("	" + var + "_2 = " + str_b + " - i√" + __utils__.ft_round(delta, p) + " / " + str_a)
 	if delta == int(delta) :
 		return delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p)
-	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, b, str_b, delta, p)
+	return delta_neg_b_a_notsqrt_aneg_bint_deltanotint(var, a, str_b, delta, p)
 
 def	delta_neg_b_a_notsqrt_aneg_bnotint_deltaint(var, a, b, str_b, delta, p) :
 	squares, delta_num = __bonus__.reduce_sqrt(delta)
