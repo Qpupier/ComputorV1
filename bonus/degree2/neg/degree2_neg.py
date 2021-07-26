@@ -6,13 +6,13 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 18:13:16 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/20 16:26:25 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/26 14:09:31 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
-import bonus.degree2.neg.notb.degree2_neg_notb as __notb__
-import bonus.degree2.neg.b.b as __b__
+from bonus.degree2.neg import not_b as __not_b__
+from bonus.degree2.neg import b as __b__
 
 def	delta_neg(var, a, b, delta, p) :
 	print()
@@ -54,6 +54,6 @@ def	delta_neg(var, a, b, delta, p) :
 	if b :
 		result = __b__.delta_neg_b(var, a, b, delta, p)
 	else :
-		result = __notb__.delta_neg_notb(var, a, delta, p)
+		result = __not_b__.delta_neg_notb(var, a, delta, p)
 	print("\033[0m")
 	return result

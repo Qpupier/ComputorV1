@@ -1,19 +1,19 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    degree2_neg_notb.py                                :+:      :+:    :+:    #
+#    not_b.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 18:09:37 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/19 18:05:14 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/26 13:50:31 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 import bonus.utils as __bonus__
-import bonus.degree2.neg.notb.a as __a__
-import bonus.degree2.neg.notb.nota as __not_a__
+import bonus.degree2.neg._not_b.a as __a__
+import bonus.degree2.neg._not_b.nota as __not_a__
 
 def	delta_neg_notb(var, a, delta, p) :
 	print()
