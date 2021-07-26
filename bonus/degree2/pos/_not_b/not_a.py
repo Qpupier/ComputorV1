@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:22:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 19:38:18 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/26 19:40:47 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,4 +22,4 @@ def	delta_pos_notb_nota(var, delta, p) :
 	sqrt_delta = __utils__.ft_sqrt(delta)
 	if sqrt_delta == int(sqrt_delta) :
 		return __sqrt__.delta_pos_notb_nota_sqrt(var, sqrt_delta)
-	return __not_sqrt__.delta_pos_notb_nota_notsqrt(var, delta, sqrt_delta)
+	return __not_sqrt__.delta_pos_notb_nota_notsqrt(var, delta, sqrt_delta, p)

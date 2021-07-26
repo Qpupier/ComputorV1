@@ -1,18 +1,15 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    sqrt.py                                            :+:      :+:    :+:    #
+#    not_delta.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/07/26 19:35:26 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 19:40:10 by qpupier          ###   ########lyon.fr    #
+#    Created: 2021/07/26 19:49:43 by qpupier           #+#    #+#              #
+#    Updated: 2021/07/26 19:52:24 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-import utils as __utils__
-from bonus import utils as __bonus__
-
-def	delta_pos_notb_nota_sqrt(var, sqrt_delta) :
-	print("TODO")
+def delta_pos_notb_nota_notsqrt_notdelta(var, delta, delta_sqrt, p) :
+	print("TODO NOW")
 	return "", ""
