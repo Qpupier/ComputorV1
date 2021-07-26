@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:35:37 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 19:52:29 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/26 20:48:31 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ from bonus.degree2.pos._not_b._not_a._not_sqrt import delta as __delta__
 def	delta_pos_notb_nota_notsqrt(var, delta, sqrt_delta, p) :
 	if delta == int(delta) :
 		return __delta__.delta_pos_notb_nota_notsqrt_delta(var, delta, sqrt_delta)
-	return __not_delta__.delta_pos_notb_nota_notsqrt_notdelta(var, delta, sqrt_delta, p)
+	return __not_delta__.delta_pos_notb_nota_notsqrt_notdelta(var, delta, p)
 	squares, delta_num = __bonus__.reduce_sqrt(delta)
 	# a2 = a
 	# str_a2 = __utils__.ft_round(a2, 0)
