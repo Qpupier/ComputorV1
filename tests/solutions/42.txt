@@ -1,0 +1,33 @@
+[32mSteps :
+	2x^2 = -2 + 2
+<=>	2x^2 + 2 - 2 = 0
+<=>	2x^2 = 0
+[0m
+Reduced form (ax^2 + bx + c) : 	2x^2 = 0
+Polynomial degree : 2
+
+Δ = b^2 - 4ac
+Δ = 0^2 - 4 * 2 * 0
+  = 0 * 0 - 4 * 2 * 0
+  = 0 - 8 * 0
+  = 0 - 0
+
+Δ = 0
+
+Discriminant is null, there is 1 real solution :
+
+[32m
+Steps :
+
+	x = -b / 2a
+
+<=>	x = -0 / (2 * 2)
+
+<=>	x = 0 / (2 * 2)
+
+<=>	x = 0 / 4
+
+<=>	x = 0
+[0m
+[36;1m
+S = {0}[0m

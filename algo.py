@@ -6,13 +6,14 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:53:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/06 18:17:04 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/26 14:17:46 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 import bonus.degree_1 as __deg1__
-import bonus.degree2.neg.degree2_neg as __neg__
+from bonus.degree2.neg import degree2_neg as __neg__
+from bonus.degree2.null import degree2_null as __null__
 
 def	delta_neg(var, a, b, delta, solution) :
 	if not solution :
@@ -98,7 +99,7 @@ def	resolve(equation, var, a, b, c, p, verbose, solution) :
 			if delta < 0 :
 				s1, s2 = __neg__.delta_neg(var, a, b, delta, p)
 			elif not delta :
-				s1, s2 = delta_null(var, a, b, solution)
+				s1, s2 = __null__.delta_null(var, a, b, p)
 			else :
 				s1, s2 = delta_pos(var, a, b, delta, solution)
 			print("\033[36;1m")

@@ -1,0 +1,30 @@
+[32mSteps :
+	2x^2 + 4x = -2
+<=>	2x^2 + 4x + 2 = 0
+[0m
+Reduced form (ax^2 + bx + c) : 	2x^2 + 4x + 2 = 0
+Polynomial degree : 2
+
+Δ = b^2 - 4ac
+Δ = 4^2 - 4 * 2 * 2
+  = 4 * 4 - 4 * 2 * 2
+  = 16 - 8 * 2
+  = 16 - 16
+
+Δ = 0
+
+Discriminant is null, there is 1 real solution :
+
+[32m
+Steps :
+
+	x = -b / 2a
+
+<=>	x = -4 / (2 * 2)
+
+<=>	x = -4 / 4
+
+<=>	x = -1
+[0m
+[36;1m
+S = {-1}[0m
