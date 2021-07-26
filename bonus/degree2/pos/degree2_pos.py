@@ -6,12 +6,13 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 18:12:55 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 18:21:23 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/26 19:17:33 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
-from bonus import utils as __bonus__
+from bonus.degree2.pos import not_b as __not_b__
+from bonus.degree2.pos import b as __b__
 
 def	delta_pos(var, a, b, delta, p) :
 	print()
@@ -45,10 +46,9 @@ def	delta_pos(var, a, b, delta, p) :
 	print("<=>	" + var + "_1 = (" + str_b + " - √" + __utils__.ft_round(delta, p) + ") / " + __utils__.ft_round(a, p))
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = (" + str_b + " + √" + __utils__.ft_round(delta, p) + ") / " + __utils__.ft_round(a, p))
-	# if b :
-	# 	result = __b__.delta_neg_b(var, a, b, delta, p)
-	# else :
-	# 	result = __not_b__.delta_neg_notb(var, a, delta, p)
+	if b :
+		result = __b__.delta_pos_b(var, a, b, delta, p)
+	else :
+		result = __not_b__.delta_pos_notb(var, a, delta, p)
 	print("\033[0m")
-	# return result
-	return "", ""
+	return result
