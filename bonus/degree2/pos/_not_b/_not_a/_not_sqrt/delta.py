@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:48:49 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/27 16:37:39 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/27 16:39:35 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,5 +74,3 @@ def delta_pos_notb_nota_notsqrt_delta(var, delta, delta_sqrt) :
 		str1 = "-" + str_squares + "√" + __utils__.ft_round(delta_num, 0)
 		str2 = str_squares + "√" + __utils__.ft_round(delta_num, 0)
 	return str1, str2
-	print("TODO NOW")
-	return "", ""
