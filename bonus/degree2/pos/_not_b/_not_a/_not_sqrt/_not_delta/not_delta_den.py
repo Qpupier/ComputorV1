@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 20:42:01 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/27 15:47:12 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/27 16:52:28 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden(var, delta_num, delta_den) 
 		print("	" + var + "_2 = " + str_den + "√" + str_num)
 		arround = __utils__.ft_round(delta_den * __utils__.ft_sqrt(delta_num), 14)
 		print("\033[35m")
-		if len(arround[arround.find('.') + 1:]) < 15:
+		if len(arround[arround.find('.') + 1:]) < 14 :
 			print("<=>	" + var + "_1 = -" + arround)
 			print("	\33[33mor\033[35m")
 			print("<=>	" + var + "_2 = " + arround)
