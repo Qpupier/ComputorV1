@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 20:42:01 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/27 15:45:50 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/27 15:47:12 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,5 +163,3 @@ def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden(var, delta_num, delta_den) 
 		str1 = "-" + str_num_d + "√" + __utils__.ft_round(delta_num, 0) + str_den
 		str2 = str_num_d + "√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str1, str2
-	print("TODO NOW")
-	return "", ""
