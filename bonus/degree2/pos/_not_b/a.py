@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:27:48 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/29 18:35:30 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/29 18:36:23 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -393,5 +393,3 @@ def	delta_pos_notb_a(var, a, delta, p) :
 	if sqrt_delta == int(sqrt_delta) :
 		return delta_pos_notb_a_sqrt(var, sqrt_delta, a, p)
 	return delta_pos_notb_a_notsqrt(var, delta, a, p)
-	print("TODO NOW")
-	return "", ""

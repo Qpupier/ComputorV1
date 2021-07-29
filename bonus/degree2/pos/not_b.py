@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:15:56 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 19:31:08 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/29 18:36:41 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,3 +22,5 @@ def	delta_pos_notb(var, a, delta, p) :
 	if a == 1 :
 		return __not_a__.delta_pos_notb_nota(var, delta, p)
 	return __a__.delta_pos_notb_a(var, a, delta, p)
+	print("TODO NOW")
+	return "", ""
