@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:27:48 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/29 17:37:18 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/29 17:39:50 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,6 @@ def	delta_pos_notb_nota_notsqrt_notdelta_deltaden(var, delta_num, delta_den_sqrt
 	if not squares :
 		return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p)
 	return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_squares(var, delta_num, squares, a, p)
-	print("TODO NOW")
-	return "", ""
 
 def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p) :
 	if a == int(a) :
@@ -304,6 +302,8 @@ def	delta_pos_notb_a_notsqrt_notdelta(var, delta, a, p) :
 	if delta_den_sqrt == int(delta_den_sqrt) :
 		return delta_pos_notb_nota_notsqrt_notdelta_deltaden(var, delta_num, delta_den_sqrt, a, p)
 	return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden(var, delta_num, delta_den, a, p)
+	print("TODO NOW")
+	return "", ""
 
 def	delta_pos_notb_a_notsqrt_delta(var, delta, sqrt_delta, a) :
 	print("TODO")
