@@ -6,36 +6,12 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:27:48 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/29 17:39:50 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/29 17:43:21 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 from bonus import utils as __bonus__
-
-def	delta_pos_notb_nota_notsqrt_notdelta_deltaden(var, delta_num, delta_den_sqrt, a, p) :
-	str_num = __utils__.ft_round(delta_num, 0)
-	str_den = __utils__.ft_round(delta_den_sqrt, 0)
-	str_a = __utils__.ft_round(a, p)
-	print()
-	print("<=>	" + var + "_1 = -√" + str_num + " / " + str_den + " / " + str_a)
-	print("	\33[33mor\033[32m")
-	print("	" + var + "_2 = √" + str_num + " / " + str_den + " / " + str_a)
-	print()
-	print("<=>	" + var + "_1 = -√" + str_num + " / (" + str_den + " * " + str_a + ")")
-	print("	\33[33mor\033[32m")
-	print("	" + var + "_2 = √" + str_num + " / (" + str_den + " * " + str_a + ")")
-	a *= delta_den_sqrt
-	str_a = __utils__.ft_round(a, p)
-	print()
-	print("<=>	" + var + "_1 = -√" + str_num + " / " + str_a)
-	print("	\33[33mor\033[32m")
-	print("	" + var + "_2 = √" + str_num + " / " + str_a)
-	squares, delta_num = __bonus__.reduce_sqrt(delta_num)
-	str_num = __utils__.ft_round(delta_num, 0)
-	if not squares :
-		return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p)
-	return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_squares(var, delta_num, squares, a, p)
 
 def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p) :
 	if a == int(a) :
@@ -249,6 +225,30 @@ def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_squares(var, delta_num, squ
 		str2 = str_num_d + "√" + str_delta + str_den
 	return str1, str2
 
+def	delta_pos_notb_nota_notsqrt_notdelta_deltaden(var, delta_num, delta_den_sqrt, a, p) :
+	str_num = __utils__.ft_round(delta_num, 0)
+	str_den = __utils__.ft_round(delta_den_sqrt, 0)
+	str_a = __utils__.ft_round(a, p)
+	print()
+	print("<=>	" + var + "_1 = -√" + str_num + " / " + str_den + " / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = √" + str_num + " / " + str_den + " / " + str_a)
+	print()
+	print("<=>	" + var + "_1 = -√" + str_num + " / (" + str_den + " * " + str_a + ")")
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = √" + str_num + " / (" + str_den + " * " + str_a + ")")
+	a *= delta_den_sqrt
+	str_a = __utils__.ft_round(a, p)
+	print()
+	print("<=>	" + var + "_1 = -√" + str_num + " / " + str_a)
+	print("	\33[33mor\033[32m")
+	print("	" + var + "_2 = √" + str_num + " / " + str_a)
+	squares, delta_num = __bonus__.reduce_sqrt(delta_num)
+	str_num = __utils__.ft_round(delta_num, 0)
+	if not squares :
+		return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p)
+	return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_squares(var, delta_num, squares, a, p)
+
 def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden(var, delta_num, delta_den, a, p) :
 	str_num = __utils__.ft_round(delta_num, 0)
 	str_den = __utils__.ft_round(delta_den, 0)
@@ -302,11 +302,9 @@ def	delta_pos_notb_a_notsqrt_notdelta(var, delta, a, p) :
 	if delta_den_sqrt == int(delta_den_sqrt) :
 		return delta_pos_notb_nota_notsqrt_notdelta_deltaden(var, delta_num, delta_den_sqrt, a, p)
 	return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden(var, delta_num, delta_den, a, p)
-	print("TODO NOW")
-	return "", ""
 
 def	delta_pos_notb_a_notsqrt_delta(var, delta, sqrt_delta, a) :
-	print("TODO")
+	print("TODO NOW")
 	return "", ""
 
 def	delta_pos_notb_a_notsqrt(var, delta, sqrt_delta, a, p) :
