@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:27:48 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/29 17:23:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/29 17:25:20 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ import utils as __utils__
 from bonus import utils as __bonus__
 
 def	delta_pos_notb_nota_notsqrt_notdelta_deltaden(var, delta_num, delta_den_sqrt, a, p) :
-	print("TODO")
+	print("TODO NOW")
 	return "", ""
 
 def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p) :
@@ -262,8 +262,6 @@ def	delta_pos_notb_nota_notsqrt_notdelta_notdeltaden(var, delta_num, delta_den, 
 	if not squares :
 		return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_notsquares(var, delta_num, a, p)
 	return delta_pos_notb_nota_notsqrt_notdelta_notdeltaden_squares(var, delta_num, squares, a, p)
-	print("TODO NOW")
-	return "", ""
 
 def	delta_pos_notb_a_notsqrt_notdelta(var, delta, a, p) :
 	mult = __bonus__.irreducible_mult(delta, 1, p)
