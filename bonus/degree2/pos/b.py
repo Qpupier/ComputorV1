@@ -6,10 +6,10 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 19:11:56 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 19:56:09 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/29 18:38:38 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 def	delta_pos_b(var, a, b, delta, p) :
-	print("TODO")
+	print("TODO NOW")
 	return "", ""
