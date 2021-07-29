@@ -6,12 +6,12 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/25 19:57:48 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/27 18:59:11 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 def	ft_round(n, p) :
-	r = round(n, p)
+	r = round(n, p)# A REMPLACER !!!
 	if r == int(r) :
 		r = int(r)
 	return str(r)

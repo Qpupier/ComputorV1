@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 11:07:54 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/25 20:08:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/07/27 19:30:19 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,11 +121,7 @@ def	clear_equation(eq, prec) :
 	return eq
 
 def	nb_prec(number) :
-	prec = 0
-	while number != int(number) :
-		prec += 1
-		number *= 10
-	return prec
+	return len(str(number)[str(number).find('.') + 1:])
 
 def	check_precision(part) :
 	precision = 0
