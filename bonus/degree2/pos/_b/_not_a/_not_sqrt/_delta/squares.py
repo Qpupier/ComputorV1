@@ -6,12 +6,12 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 16:39:58 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/17 16:41:46 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/17 17:17:59 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 def	delta_pos_notb_nota_notsqrt_delta_squares(var, b, squares, delta_num, p) :
-	print("TODO")
+	print("TODO NOW")
 	# str_num = __utils__.ft_round(delta_num, 0)
 	# sq = __bonus__.print_squares(squares, delta_num)
 	# print()
