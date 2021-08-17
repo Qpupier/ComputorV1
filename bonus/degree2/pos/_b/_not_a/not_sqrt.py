@@ -6,10 +6,10 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 15:15:28 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/17 15:18:55 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/17 15:59:56 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-def	delta_pos_b_nota_notsqrt(var, delta, sqrt_delta, p) :
+def	delta_pos_b_nota_notsqrt(var, b, delta, sqrt_delta, p) :
 	print("TODO")
 	return "", ""
