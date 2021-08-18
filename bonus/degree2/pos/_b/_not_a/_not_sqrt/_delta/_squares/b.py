@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 17:37:53 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 11:33:19 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 11:35:48 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,4 +81,3 @@ def	delta_pos_notb_nota_notsqrt_delta_squares_b(var, b, k, delta_den) :
 		print("	\33[33mor\033[35m")
 		print("	" + var + "_2 ≈ " + arround2)
 	return str1, str2
-	print("TODO NOW")
