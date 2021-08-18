@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 16:26:35 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 11:42:29 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 12:19:57 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,3 +19,5 @@ def	delta_pos_notb_nota_notsqrt_delta(var, b, delta, sqrt_delta, p) :
 	if not squares :
 		return __not_squares__.delta_pos_notb_nota_notsqrt_delta_notsquares(var, b, delta, sqrt_delta, p)
 	return __squares__.delta_pos_notb_nota_notsqrt_delta_squares(var, b, squares, delta_num, p)
+	print("TODO NOW")
+	return "", ""
