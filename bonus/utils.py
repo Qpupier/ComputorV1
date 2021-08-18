@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/27 18:29:21 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 11:08:54 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,6 +129,27 @@ def	print_frac(prime, delete, top) :
 				result += "\033[32m"
 				copy.pop(copy.index(prime[i]))
 		if not top and len(prime) > 1 :
+			result += ")"
+	else :
+		result = "1"
+	return result
+
+def	print_fact(prime, delete, parentheses) :
+	copy = None if not delete else delete.copy()
+	result = ""
+	if prime :
+		if parentheses and len(prime) > 1 :
+			result += "("
+		for i in range(len(prime)) :
+			if i :
+				result += " * "
+			if copy and prime[i] in copy :
+				result += "\033[37m"
+			result += str(prime[i])
+			if copy and prime[i] in copy :
+				result += "\033[32m"
+				copy.pop(copy.index(prime[i]))
+		if parentheses and len(prime) > 1 :
 			result += ")"
 	else :
 		result = "1"

@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 16:39:58 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/17 17:43:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 11:22:18 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,5 +46,5 @@ def	delta_pos_notb_nota_notsqrt_delta_squares(var, b, squares, delta_num, p) :
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str2)
 	if b == int(b) :
-		return __b__.delta_pos_notb_nota_notsqrt_delta_squares_b(var, b, tmp, delta_num, str_squares, p)
-	return __not_b__.delta_pos_notb_nota_notsqrt_delta_squares_notb(var, b, tmp, delta_num, str_squares, p)
+		return __b__.delta_pos_notb_nota_notsqrt_delta_squares_b(var, b, squares, delta_num)
+	return __not_b__.delta_pos_notb_nota_notsqrt_delta_squares_notb(var, b, squares, delta_num, str_squares, p)
