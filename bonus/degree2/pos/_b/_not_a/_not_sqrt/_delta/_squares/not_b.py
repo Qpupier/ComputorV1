@@ -6,14 +6,14 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 17:37:42 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 12:18:55 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 12:24:08 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 from bonus import utils as __bonus__
 
-def	delta_pos_notb_nota_notsqrt_delta_squares_notb(var, b, k, delta_den, str_squares, p) :
+def	delta_pos_b_nota_notsqrt_delta_squares_notb(var, b, k, delta_den, str_squares, p) :
 	mult = __bonus__.irreducible_mult(b, 1, p)
 	num = int(__utils__.ft_round(b * mult, 0))
 	den = int(__utils__.ft_round(mult, 0))

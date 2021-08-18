@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 16:39:58 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 12:19:52 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 12:24:27 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ from bonus import utils as __bonus__
 from bonus.degree2.pos._b._not_a._not_sqrt._delta._squares import not_b as __not_b__
 from bonus.degree2.pos._b._not_a._not_sqrt._delta._squares import b as __b__
 
-def	delta_pos_notb_nota_notsqrt_delta_squares(var, b, squares, delta_num, p) :
+def	delta_pos_b_nota_notsqrt_delta_squares(var, b, squares, delta_num, p) :
 	str_b = __utils__.ft_round(b, p)
 	str_num = __utils__.ft_round(delta_num, 0)
 	sq = __bonus__.print_squares(squares, delta_num)
@@ -46,5 +46,5 @@ def	delta_pos_notb_nota_notsqrt_delta_squares(var, b, squares, delta_num, p) :
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str2)
 	if b == int(b) :
-		return __b__.delta_pos_notb_nota_notsqrt_delta_squares_b(var, b, squares, delta_num)
-	return __not_b__.delta_pos_notb_nota_notsqrt_delta_squares_notb(var, b, squares, delta_num, str_squares, p)
+		return __b__.delta_pos_b_nota_notsqrt_delta_squares_b(var, b, squares, delta_num)
+	return __not_b__.delta_pos_b_nota_notsqrt_delta_squares_notb(var, b, squares, delta_num, str_squares, p)

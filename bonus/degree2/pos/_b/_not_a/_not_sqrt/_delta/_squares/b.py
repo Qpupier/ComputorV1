@@ -6,14 +6,14 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 17:37:53 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 12:09:30 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 12:23:55 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 from bonus import utils as __bonus__
 
-def	delta_pos_notb_nota_notsqrt_delta_squares_b(var, b, k, delta_den) :
+def	delta_pos_b_nota_notsqrt_delta_squares_b(var, b, k, delta_den) :
 	primes1 = __bonus__.primes(b)
 	primes2 = __bonus__.primes(k)
 	delete = []

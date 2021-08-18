@@ -6,14 +6,14 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 16:40:01 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/17 17:16:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/18 12:22:05 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 import utils as __utils__
 from bonus import utils as __bonus__
 
-def	delta_pos_notb_nota_notsqrt_delta_notsquares(var, b, delta, sqrt_delta, p) :
+def	delta_pos_b_nota_notsqrt_delta_notsquares(var, b, delta, sqrt_delta, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	if b == int(b) :
 		str_b = __utils__.ft_round(b, 0)
