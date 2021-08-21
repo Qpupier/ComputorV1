@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 16:26:33 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 13:53:43 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/21 11:03:53 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ from bonus.degree2.pos._b._not_a._not_sqrt._not_delta import delta_den as __delt
 def	delta_pos_b_nota_notsqrt_notdelta(var, b, delta, p) :
 	str_b = __utils__.ft_round(b, p)
 	mult = __bonus__.irreducible_mult(delta, 1, p)
-	delta_num = int(delta * mult)
+	delta_num = int(__utils__.ft_round(delta * mult, 0))
 	delta_den = int(mult)
 	str_num = __utils__.ft_round(delta_num, 0)
 	str_den = __utils__.ft_round(delta_den, 0)
