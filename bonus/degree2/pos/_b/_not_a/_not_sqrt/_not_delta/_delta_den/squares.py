@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/18 14:03:46 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/21 16:38:08 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/21 17:53:53 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,9 +45,6 @@ def	delta_pos_b_nota_notsqrt_notdelta_delta_den_squares(var, b, squares, delta_n
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " + " + str_squares)
 	tmp = squares / delta_den
-	if tmp == int(tmp) :
-		print("TODO")
-		return "", ""
 	if b != int(b) :
 		mult = __bonus__.irreducible_mult(b, 1, p)
 		num = int(__utils__.ft_round(b * mult, 0))
@@ -61,5 +58,6 @@ def	delta_pos_b_nota_notsqrt_notdelta_delta_den_squares(var, b, squares, delta_n
 		if str_den == str_delta_den :
 			return __den__.delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_den(var, num, squares, delta_num, den)
 		return __not_den__.delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_notden(var, num, den, squares, delta_num, delta_den)
-	print("TODO")
+	return __not_den__.delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_notden(var, b, 1, squares, delta_num, delta_den)
+	print("TODO NOW")
 	return "", ""
