@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/21 16:11:33 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/21 17:06:30 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/21 17:36:25 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,10 +107,10 @@ def	delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_den(var, num, squares, d
 		print("	" + var + "_2 = " + str_fact + "(" + str_num + " + " + str_squares + str_delta + ") / " + str_den)
 		if len(primes1) > 1 or len(primes2) > 1 :
 			fact, den = __bonus__.irreducible(primes1, primes2)
-			str_fact = __bonus__.print_frac(primes1, None, True)
+			str_fact = __utils__.ft_round(fact, 0)
 			if str_fact == "1" :
 				str_fact = ""
-			str_den = __bonus__.print_frac(primes2, None, False)
+			str_den = __utils__.ft_round(den, 0)
 			print()
 			print("<=>	" + var + "_1 = " + str_fact + "(" + str_num + " - " + str_squares + str_delta + ") / " + str_den)
 			print("	\33[33mor\033[32m")
