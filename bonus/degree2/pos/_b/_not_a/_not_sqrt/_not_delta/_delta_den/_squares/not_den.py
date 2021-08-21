@@ -6,12 +6,12 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/21 16:11:23 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/21 17:38:33 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/21 19:02:59 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-from bonus.degree2.pos._b._not_a._not_sqrt._not_delta._delta_den._squares.den import delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_den
 import utils as __utils__
+from bonus.degree2.pos._b._not_a._not_sqrt._not_delta._delta_den._squares import den as __den__
 
 def	delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_notden(var, num, den, k, delta_num, delta_den) :
 	str_num = __utils__.ft_round(num, 0)
@@ -34,4 +34,4 @@ def	delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_notden(var, num, den, k,
 	print("<=>	" + var + "_1 = " + str_num + " / " + str_den + " - " + str_k + "√" + str_delta + " / " + str_den)
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_num + " / " + str_den + " + " + str_k + "√" + str_delta + " / " + str_den)
-	return delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_den(var, num, k, delta_num, den)
+	return __den__.delta_pos_b_nota_notsqrt_notdelta_delta_den_squares_den(var, num, k, delta_num, den)
