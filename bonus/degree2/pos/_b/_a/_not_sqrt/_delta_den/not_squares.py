@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/21 18:57:22 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/21 20:35:10 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/21 20:53:54 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,13 +75,50 @@ def	delta_pos_b_a_notsqrt_notdelta_delta_den_notsquares(var, b, delta, delta_den
 	print("	" + var + "_2 = " + str2)
 	arround1 = __utils__.ft_round((num - k * __utils__.ft_sqrt(delta)) / a, 14)
 	arround2 = __utils__.ft_round((num + k * __utils__.ft_sqrt(delta)) / a, 14)
-	k = 3
+	fact = 1
 	if k != 1 :
-		print("TODO NOW")
-		return "", ""
-	if '.' in __utils__.ft_round(a, p) :
-		mult = __bonus__.irreducible_mult(1, a, p)
-		fact = int(__utils__.ft_round(mult, 0))
+		primes1 = __bonus__.primes(num)
+		primes2 = __bonus__.primes(k)
+		delete = []
+		__bonus__.reduce_fraction(primes1, primes2, delete)
+		str_num = __bonus__.print_fact(primes1, delete, False)
+		str_k = __bonus__.print_fact(primes2, delete, False)
+		if delete :
+			print()
+			print("<=>	" + var + "_1 = (" + str_num + " - " + str_k + "√" + str_delta_num + ") / " + str_den)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = (" + str_num + " + " + str_k + "√" + str_delta_num + ") / " + str_den)
+			__bonus__.fraction_delete(primes1, delete.copy())
+			__bonus__.fraction_delete(primes2, delete.copy())
+			fact, fact = __bonus__.irreducible(None, delete)
+			str_fact = "\033[37m" + __utils__.ft_round(fact, 0) + "\033[32m"
+			num, k = __bonus__.irreducible(primes1, primes2)
+			if len(delete) > 1 or len(primes1) > 1 or len(primes2) > 1 :
+				str_num = " * " + __utils__.ft_round(num, 0)
+				str_k = " * " + __utils__.ft_round(k, 0)
+				if str_k == " * 1" :
+					str_k = ""
+				print()
+				print("<=>	" + var + "_1 = (" + str_fact + str_num + " - " + str_fact + str_k + "√" + str_delta_num + ") / " + str_den)
+				print("	\33[33mor\033[32m")
+				print("	" + var + "_2 = (" + str_fact + str_num + " + " + str_fact + str_k + "√" + str_delta_num + ") / " + str_den)
+			str_num = __utils__.ft_round(num, 0)
+			str_k = __utils__.ft_round(k, 0)
+			if str_k == "1" :
+				str_k = ""
+			print()
+			print("<=>	" + var + "_1 = " + str_fact + "(" + str_num + " - " + str_k + "√" + str_delta_num + ") / " + str_den)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str_fact + "(" + str_num + " + " + str_k + "√" + str_delta_num + ") / " + str_den)
+		else :
+			fact = 1
+			str_num = __utils__.ft_round(num, 0)
+			str_k = __utils__.ft_round(k, 0)
+			if str_k == "1" :
+				str_k = ""
+	if '.' in __utils__.ft_round(a, p) or fact != 1 :
+		mult = __bonus__.irreducible_mult(fact, a, p)
+		fact = int(__utils__.ft_round(fact * mult, 0))
 		a = int(__utils__.ft_round(a * mult, 0))
 		str_fact = __utils__.ft_round(fact, 0)
 		if str_fact == "1" :
