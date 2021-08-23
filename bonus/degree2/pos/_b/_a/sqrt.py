@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/21 18:12:21 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/23 19:49:57 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/23 19:50:28 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,5 +115,3 @@ def	delta_pos_b_a_sqrt(var, b, sqrt_delta, a, p) :
 		print("	\33[33mor\033[35m")
 		print("	" + var + "_2 ≈ " + arround2)
 	return str1, str2
-	print("TODO NOW")
-	return "", ""
