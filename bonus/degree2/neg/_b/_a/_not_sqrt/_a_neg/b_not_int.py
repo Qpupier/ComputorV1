@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 11:37:16 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 11:42:28 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 15:44:03 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -217,7 +217,7 @@ def	delta_neg_b_a_notsqrt_aneg_bnotint_deltaint(var, a, b, str_b, delta, p) :
 	str2 = str_b + " - " + str_num_d + "i√" + __utils__.ft_round(delta_num, 0) + str_den
 	return str2, str1
 
-def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_deltaden(var, a, str_b, delta, sqrt_delta_den, p) :
+def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_a = __utils__.ft_round(a, p)
 	str_sqrt_delta_den = __utils__.ft_round(sqrt_delta_den, 0)
@@ -231,7 +231,7 @@ def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_deltaden(var, a, str_b, delta
 	print("<=>	" + var + "_1 = " + str_b + " + i√" + str_delta + " / " + str_a)
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " - i√" + str_delta + " / " + str_a)
-	return delta_neg_b_a_notsqrt_aneg_bnotint_deltaint(var, a, str_b, delta, p)
+	return delta_neg_b_a_notsqrt_aneg_bnotint_deltaint(var, a, b, str_b, delta, p)
 
 def	delta_neg_b_a_notsqrt_aneg_bnotint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
