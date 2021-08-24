@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/21 18:12:21 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/23 19:50:28 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 16:35:44 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,4 +114,4 @@ def	delta_pos_b_a_sqrt(var, b, sqrt_delta, a, p) :
 		print("<=>	" + var + "_1 ≈ " + arround1)
 		print("	\33[33mor\033[35m")
 		print("	" + var + "_2 ≈ " + arround2)
-	return str1, str2
+	return (str1, str2) if a > 0 else (str2, str1)

@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 20:00:41 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/24 16:02:48 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 16:17:47 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,8 +167,12 @@ def	delta_pos_b_a_notsqrt_delta_notsquares(var, b, delta, a, p) :
 				str_fact = ""
 			num *= -1
 			str_num = __utils__.ft_round(num, 0)
-			str1 = str_fact + "(" + str_num + " + " + str_k + "√" + str_delta + ")" + str_a
-			str2 = str_fact + "(" + str_num + " - " + str_k + "√" + str_delta + ")" + str_a
+			if str_fact or str_a :
+				str1 = str_fact + "(" + str_num + " + " + str_k + "√" + str_delta + ")" + str_a
+				str2 = str_fact + "(" + str_num + " - " + str_k + "√" + str_delta + ")" + str_a
+			else :
+				str1 = str_num + " + " + str_k + "√" + str_delta
+				str2 = str_num + " - " + str_k + "√" + str_delta
 			print()
 			print("<=>	" + var + "_1 = " + str1)
 			print("	\33[33mor\033[32m")

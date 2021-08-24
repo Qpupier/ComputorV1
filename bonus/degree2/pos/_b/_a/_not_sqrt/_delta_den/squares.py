@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/21 18:57:14 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/23 19:16:27 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 16:20:05 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -238,6 +238,60 @@ def	delta_pos_b_a_notsqrt_notdelta_delta_den_squares(var, b, squares, delta, del
 		str2 = str_fact + "(" + str_num + " + " + str_k + "√" + str_delta + ") / " + str_a
 		arround1 = __utils__.ft_round(fact * (num - k * __utils__.ft_sqrt(delta)) / a, 14)
 		arround2 = __utils__.ft_round(fact * (num + k * __utils__.ft_sqrt(delta)) / a, 14)
+	if a < 0 :
+		fact *= -1
+		a *= -1
+		str_fact = __utils__.ft_round(fact, 0)
+		if str_fact == "1" :
+			str_fact = ""
+		elif str_fact == "-1" :
+			str_fact = "-"
+		str_a = " / " + __utils__.ft_round(a, 0)
+		str1 = str_fact + "(" + str_num + " - " + str_k + "√" + str_delta + ")" + str_a
+		str2 = str_fact + "(" + str_num + " + " + str_k + "√" + str_delta + ")" + str_a
+		print()
+		print("<=>	" + var + "_1 = " + str1)
+		print("	\33[33mor\033[32m")
+		print("	" + var + "_2 = " + str2)
+		if str_a == " / 1" :
+			str_a = ""
+			str1 = str_fact + "(" + str_num + " - " + str_k + "√" + str_delta + ")"
+			str2 = str_fact + "(" + str_num + " + " + str_k + "√" + str_delta + ")"
+			print()
+			print("<=>	" + var + "_1 = " + str1)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str2)
+		if fact < 0 :
+			fact *= -1
+			str_fact = __utils__.ft_round(fact, 0)
+			if str_fact == "1" :
+				str_fact = ""
+			num *= -1
+			str_num = __utils__.ft_round(num, 0)
+			if str_fact or str_a :
+				str1 = str_fact + "(" + str_num + " + " + str_k + "√" + str_delta + ")" + str_a
+				str2 = str_fact + "(" + str_num + " - " + str_k + "√" + str_delta + ")" + str_a
+			else :
+				str1 = str_num + " + " + str_k + "√" + str_delta
+				str2 = str_num + " - " + str_k + "√" + str_delta
+			print()
+			print("<=>	" + var + "_1 = " + str1)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str2)
+			arround1 = __utils__.ft_round(fact * (num + k * __utils__.ft_sqrt(delta)) / a, 14)
+			arround2 = __utils__.ft_round(fact * (num - k * __utils__.ft_sqrt(delta)) / a, 14)
+			print("\033[35m")
+			if len(arround1[arround1.find('.') + 1:]) < 13 :
+				print("<=>	" + var + "_1 = " + arround1)
+				print("	\33[33mor\033[35m")
+				print("	" + var + "_2 = " + arround2)
+				str1 = arround1
+				str2 = arround2
+			else :
+				print("<=>	" + var + "_1 ≈ " + arround1)
+				print("	\33[33mor\033[35m")
+				print("	" + var + "_2 ≈ " + arround2)
+			return str2, str1
 	print("\033[35m")
 	if len(arround1[arround1.find('.') + 1:]) < 13 :
 		print("<=>	" + var + "_1 = " + arround1)

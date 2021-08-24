@@ -11,7 +11,7 @@ Polynomial degree : 2
   = 17.8929 - 2 * 8.00145
   = 17.8929 - 16.0029
 
-Δ = 1.8900000000000041
+Δ = 1.89
 
 Discriminant is positive, there are 2 real solutions :
 

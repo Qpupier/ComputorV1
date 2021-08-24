@@ -11,7 +11,7 @@ Polynomial degree : 2
   = 22.09 - 2 * 7.0007
   = 22.09 - 14.0014
 
-Δ = 8.088600000000003
+Δ = 8.0886
 
 Discriminant is positive, there are 2 real solutions :
 

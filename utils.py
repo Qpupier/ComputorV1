@@ -6,15 +6,31 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/27 18:59:11 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 17:30:56 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 def	ft_round(n, p) :
-	r = round(n, p)# A REMPLACER !!!
-	if r == int(r) :
-		r = int(r)
-	return str(r)
+	if n == int(n) or not p :
+		return str(int(n))
+	n = str(n)
+	sign = int('-' in n)
+	size = n.find('.') + p + 1
+	if size >= 0 and size < len(n) and int(n[size]) >= 5 :
+		i = 1.0000000000001
+		tmp = p
+		while tmp > 0 :
+			i /= 10
+			tmp -= 1
+		if sign :
+			i *= -1
+		n = str(float(n) + i)
+	result = n if size < 0 or size >= len(n) else n[:size]
+	while len(result) and (result[-1] == '0' or result[-1] == '.') :
+		if result[-1] == '.' :
+			return result[:-1]
+		result = result[:-1]
+	return result
 
 def	sqrt_loop(nb, prec, tmp) :
 	test = 0

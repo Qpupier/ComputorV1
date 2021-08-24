@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 11:37:04 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 19:54:11 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 16:29:51 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ def	delta_neg_b_a_notsqrt_aneg_bint_deltaint(var, a, str_b, delta, p) :
 		if a2 == int(a2) :
 			arround_i = __utils__.ft_round(__utils__.ft_sqrt(delta) / a2, 14) + "i"
 			print("\033[35m")
-			if len(arround_i[arround_i.find('.') + 1:]) < 15:
+			if len(arround_i[arround_i.find('.') + 1:]) < 15 :
 				print("<=>	" + var + "_1 = " + str_b + " + " + arround_i)
 				print("	\33[33mor\033[35m")
 				print("<=>	" + var + "_2 = " + str_b + " - " + arround_i)
