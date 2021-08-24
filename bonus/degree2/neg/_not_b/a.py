@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 18:23:47 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/20 14:56:02 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/24 15:28:57 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,15 @@ def	delta_neg_notb_a_discriminant(var, a, delta, p) :
 			print("	\33[33mor\033[32m")
 			print("	" + var + "_2 = " + str2)
 			return str1, str2
+		if delta < 0 :
+			delta *= -1
+			str1 = __utils__.ft_round(delta, 0) + "i"
+			str2 = "-" + __utils__.ft_round(delta, 0) + "i"
+			print()
+			print("<=>	" + var + "_1 = " + str1)
+			print("	\33[33mor\033[32m")
+			print("	" + var + "_2 = " + str2)
+			return str2, str1
 		str1 = "-" + __utils__.ft_round(delta, 0) + "i"
 		str2 = __utils__.ft_round(delta, 0) + "i"
 		print()
