@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 17:58:11 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/25 10:10:39 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/08/25 11:25:21 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,20 +15,25 @@ def	ft_round(n, p) :
 		return str(int(n))
 	n = str(n)
 	size = n.find('.') + p + 1
-	if size >= 0 and size < len(n) and int(n[size]) >= 5 :
+	sign = int('-' in n)
+	if size >= sign and size < len(n) and int(n[size]) >= 5 :
 		i = 1.1
 		tmp = p
 		while tmp > 0 :
 			i /= 10
 			tmp -= 1
-		if '-' in n :
+		if sign :
 			i *= -1
 		n = str(float(n[:size]) + i)
-	result = n if size < 0 or size >= len(n) else n[:size]
+	result = n if size < sign or size >= len(n) else n[:size]
+	if 'e' in result :
+		result = "0"
 	while len(result) and (result[-1] == '0' or result[-1] == '.') :
 		if result[-1] == '.' :
 			return result[:-1]
 		result = result[:-1]
+	if not result or result == "-" :
+		result = "0"
 	return result
 
 def	sqrt_loop(nb, prec, tmp) :
