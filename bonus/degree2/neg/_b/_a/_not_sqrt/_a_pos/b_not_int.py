@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 11:51:09 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 11:57:31 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/09/13 13:43:20 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -233,7 +233,7 @@ def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_deltaden(var, a, b, str_b, de
 	print("	" + var + "_2 = " + str_b + " + i√" + str_delta + " / " + str_a)
 	return delta_neg_b_a_notsqrt_apos_bnotint_deltaint(var, a, b, str_b, delta, p)
 
-def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p) :
+def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p) :
 	str_delta = __utils__.ft_round(delta, 0)
 	str_delta_den = __utils__.ft_round(delta_den, 0)
 	str_a = __utils__.ft_round(a, p)
@@ -257,7 +257,7 @@ def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, str_b, de
 	print("<=>	" + var + "_1 = " + str_b + " - i√" + str_delta + " / " + str_a)
 	print("	\33[33mor\033[32m")
 	print("	" + var + "_2 = " + str_b + " + i√" + str_delta + " / " + str_a)
-	return delta_neg_b_a_notsqrt_apos_bnotint_deltaint(var, a, str_b, delta, p)
+	return delta_neg_b_a_notsqrt_apos_bnotint_deltaint(var, a, b, str_b, delta, p)
 
 def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint(var, a, b, str_b, delta, p) :
 	str_a = __utils__.ft_round(a, p)
@@ -282,7 +282,7 @@ def	delta_neg_b_a_notsqrt_apos_bnotint_deltanotint(var, a, b, str_b, delta, p) :
 	sqrt_delta_den = __utils__.ft_sqrt(delta_den)
 	if sqrt_delta_den == int(sqrt_delta_den) :
 		return delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_deltaden(var, a, b, str_b, delta, sqrt_delta_den, p)
-	return delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, str_b, delta, delta_den, p)
+	return delta_neg_b_a_notsqrt_apos_bnotint_deltanotint_notdeltaden(var, a, b, str_b, delta, delta_den, p)
 
 def	delta_neg_b_a_notsqrt_apos_bnotint(var, a, b, delta, p) :
 	mult = __bonus__.irreducible_mult(int(b), int(a), p)
