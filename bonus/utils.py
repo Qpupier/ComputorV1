@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/08 19:39:06 by qpupier           #+#    #+#              #
-#    Updated: 2021/08/18 11:08:54 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/09/21 14:58:26 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,20 +63,21 @@ def	print_fraction(num, div, delete) :
 		if copy and num[i] in copy :
 			print("\033[32m", end="")
 			copy.pop(copy.index(num[i]))
-	print(" / ", end="")
-	if len(div) > 1 :
-		print("(", end= "")
-	for i in range(len(div)) :
-		if i :
-			print(" * ", end="")
-		if copy2 and div[i] in copy2 :
-			print("\033[34m", end="")
-		print(div[i], end="")
-		if copy2 and div[i] in copy2 :
-			print("\033[32m", end="")
-			copy2.pop(copy2.index(div[i]))
-	if len(div) > 1 :
-		print(")", end= "")
+	if div :
+		print(" / ", end="")
+		if len(div) > 1 :
+			print("(", end= "")
+		for i in range(len(div)) :
+			if i :
+				print(" * ", end="")
+			if copy2 and div[i] in copy2 :
+				print("\033[34m", end="")
+			print(div[i], end="")
+			if copy2 and div[i] in copy2 :
+				print("\033[32m", end="")
+				copy2.pop(copy2.index(div[i]))
+		if len(div) > 1 :
+			print(")", end= "")
 
 def	irreducible(num, div) :
 	a = 1

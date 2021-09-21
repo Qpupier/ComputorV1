@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/26 12:06:15 by qpupier           #+#    #+#              #
-#    Updated: 2021/07/26 12:07:01 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/09/21 15:08:58 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,8 @@ def	delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, arround_b, i, a, p) :
 		__bonus__.fraction_delete(primes1, delete.copy())
 		__bonus__.fraction_delete(primes2, delete.copy())
 		str_num = __bonus__.print_frac(primes1, None, True)
+		if str_num == "1" :
+			str_num = ""
 		str_den = __bonus__.print_frac(primes2, None, False)
 		print()
 		print("<=>	" + var + "_1 = " + str_b + " + " + str_num + "i / " + str_den)
@@ -75,13 +77,15 @@ def	delta_neg_b_a_sqrt_aneg_notbint_inotint(var, str_b, arround_b, i, a, p) :
 		print("	" + var + "_2 = " + str_b + " - " + str_num + "i / " + str_den)
 		i, a = __bonus__.irreducible(primes1, primes2)
 		str_i = __utils__.ft_round(i, 0)
+		if str_i == "1" :
+			str_i = ""
 		str_a = __utils__.ft_round(a, 0)
 		if len(primes1) > 1 or len(primes2) > 1 :
 			print()
 			print("<=>	" + var + "_1 = " + str_b + " + " + str_i + "i / " + str_a)
 			print("	\33[33mor\033[32m")
 			print("	" + var + "_2 = " + str_b + " - " + str_i + "i / " + str_a)
-	if str_i == "1" :
+	if str_a == "1" :
 		print()
 		print("<=>	" + var + "_1 = " + str_b + " + " + str_i)
 		print("	\33[33mor\033[32m")

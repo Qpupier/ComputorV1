@@ -6,7 +6,7 @@
 #    By: qpupier <qpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 15:00:48 by qpupier           #+#    #+#              #
-#    Updated: 2021/06/14 16:03:19 by qpupier          ###   ########lyon.fr    #
+#    Updated: 2021/09/21 14:59:01 by qpupier          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ def	degree_1_bonus(equation, var, p) :
 				num = int(num)
 			if div == int(div) :
 				div = int(div)
-			mult = __bonus_utils__.irreducible_mult(num, div)
+			mult = __bonus_utils__.irreducible_mult(num, div, p)
 			if mult > 1 :
 				print("<=>	" + var + " = " + str(num) + " * " + str(mult) + " / (" + str(div) + " * " + str(mult) + ")")
 				num = int(__utils__.ft_round(int(num * mult), 0))
@@ -54,9 +54,10 @@ def	degree_1_bonus(equation, var, p) :
 				print()
 				__bonus_utils__.fraction_delete(primes_num, delete.copy())
 				__bonus_utils__.fraction_delete(primes_div, delete.copy())
-				print("<=>	" + var + " = ", end="")
-				__bonus_utils__.print_fraction(primes_num, primes_div, None)
-				print()
+				if primes_div :
+					print("<=>	" + var + " = ", end="")
+					__bonus_utils__.print_fraction(primes_num, primes_div, None)
+					print()
 				if len(primes_num) > 1 or len(primes_div) > 1 :
 					num, div = __bonus_utils__.irreducible(primes_num, primes_div)
 					print("<=>	" + var + " = " + str(num) + " / " + str(div))
